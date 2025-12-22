@@ -1,0 +1,17 @@
+#pragma once
+#include "Expression/Expression.h"
+#include "Function/FunctionRef.h"
+
+class FunctionCall : public Expression {
+public:
+	explicit FunctionCall(FunctionRef functionRef);
+	FunctionCall(FunctionRef functionRef, std::vector<std::unique_ptr<Expression>>&& args);
+
+	std::unique_ptr<Variable> evaluate() const override;
+
+	std::unique_ptr<Expression> cloneExpression() const override;
+
+private:
+	FunctionRef functionRef;
+	std::vector<std::unique_ptr<Expression>> args;
+};

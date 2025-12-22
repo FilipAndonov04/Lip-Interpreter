@@ -1,0 +1,17 @@
+#pragma once
+#include "Function/Function.h"
+
+class FunctionNode;
+
+class GraphFunction final : public Function {
+public:
+	GraphFunction(size_t argCount, std::unique_ptr<FunctionNode>&& graphRoot);
+
+	std::unique_ptr<Function> clone() const override;
+
+protected:
+	std::unique_ptr<Expression> callImpl(const std::vector<const Expression*>& args) const override;
+
+private:
+	std::unique_ptr<FunctionNode> graphRoot;
+};
