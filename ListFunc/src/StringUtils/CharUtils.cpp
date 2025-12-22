@@ -84,4 +84,8 @@ bool isDot(char ch) {
     return ch == '.';
 }
 
+int toInt(char ch) {
+    return ch - '0';
+}
+
 }

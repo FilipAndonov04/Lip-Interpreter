@@ -156,6 +156,7 @@
     <ClCompile Include="src\Interpreter\VariableDatabase.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\StringUtils\CharUtils.cpp" />
+    <ClCompile Include="src\StringUtils\StringUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\EmbeddedFuncs.h" />

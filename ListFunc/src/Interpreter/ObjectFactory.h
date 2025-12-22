@@ -12,14 +12,14 @@
 
 class ObjectFactory {
 public:
-	ObjectFactory(const std::vector<std::string>& tokens);
-	ObjectFactory(std::vector<std::string>&& tokens);
+	ObjectFactory(std::vector<std::string> tokens);
 
 	std::unique_ptr<Expression> createExpression();
 	std::unique_ptr<Variable> createVariable();
 	std::unique_ptr<Function> createFunction();
 
 private:
+public:
 	std::unique_ptr<RealNumber> createRealNumber();
 	std::unique_ptr<ConcreteList> createConcreteList();
 	std::unique_ptr<FunctionCall> createFunctionCall();
@@ -30,5 +30,8 @@ private:
 	std::unique_ptr<LiteralNode> createLiteralNode();
 	std::unique_ptr<CompositeNode> createCompositeNode();
 
+	void assertIndex() const;
+
 	std::vector<std::string> tokens;
+	size_t index = 0;
 };

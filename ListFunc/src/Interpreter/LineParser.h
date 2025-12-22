@@ -8,13 +8,12 @@ class LineParser {
 public:
 	LineParser(std::string_view line);
 
-	std::vector<std::string> tokenize();
+	std::vector<std::string> tokenize() const;
 
 private:
-	std::string parseWord();
-	std::string parseNumber();
-	std::string parseSign();
+	std::string parseWord(size_t& index) const;
+	std::string parseNumber(size_t& index) const;
+	std::string parseSign(size_t& index) const;
 
 	std::string_view line;
-	size_t index = 0;
 };

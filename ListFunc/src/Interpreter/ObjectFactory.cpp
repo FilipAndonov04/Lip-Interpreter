@@ -4,20 +4,27 @@
 #include "Function/Graph/GraphFunction.h"
 #include "Function/Graph/Node/FunctionNode.h"
 
+#include "StringUtils/StringUtils.h"
+#include "StringUtils/CharUtils.h"
+
 #include <stdexcept>
 
-ObjectFactory::ObjectFactory(const std::vector<std::string>& tokens) 
-    : tokens(tokens) {}
-
-ObjectFactory::ObjectFactory(std::vector<std::string>&& tokens) 
-    : tokens(tokens) {}
+ObjectFactory::ObjectFactory(std::vector<std::string> tokens) 
+    : tokens(std::move(tokens)) {}
 
 std::unique_ptr<Expression> ObjectFactory::createExpression() {
-    return std::unique_ptr<Expression>();
+    return createVariable();
 }
 
 std::unique_ptr<Variable> ObjectFactory::createVariable() {
-    throw std::runtime_error("invalid line");
+    assertIndex();
+
+    if (StringUtils::isDigit(tokens[index].front()) || StringUtils::isDash(tokens[index].front())) {
+        return createRealNumber();
+    } else if (tokens[index] == "[") {
+        return createConcreteList();
+    }
+    throw std::runtime_error("invalid token");
 }
 
 std::unique_ptr<Function> ObjectFactory::createFunction() {
@@ -29,11 +36,35 @@ std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
 }
 
 std::unique_ptr<RealNumber> ObjectFactory::createRealNumber() {
-    return RealNumber::of(-1);
+    double value = StringUtils::toDouble(tokens[index++]);
+    return RealNumber::of(value);
 }
 
 std::unique_ptr<ConcreteList> ObjectFactory::createConcreteList() {
-    return std::unique_ptr<ConcreteList>();
+    index++;
+
+    assertIndex();
+    if (tokens[index] == "]") {
+        index++;
+        return std::make_unique<ConcreteList>();
+    }
+
+    auto list = std::make_unique<ConcreteList>();
+    list->pushBack(Expression::evaluate(createExpression()));
+
+    while (true) {
+        assertIndex();
+
+        if (tokens[index] == "]") {
+            index++;
+            return list;
+        }
+
+        if (tokens[index++] != ",") {
+            throw std::runtime_error("invalid element in list");
+        }
+        list->pushBack(Expression::evaluate(createExpression()));
+    }
 }
 
 std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
@@ -54,4 +85,10 @@ std::unique_ptr<LiteralNode> ObjectFactory::createLiteralNode() {
 
 std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
     return std::unique_ptr<CompositeNode>();
+}
+
+void ObjectFactory::assertIndex() const {
+    if (index >= tokens.size()) {
+        throw std::runtime_error("there are no more tokens");
+    }
 }

@@ -29,7 +29,6 @@ public:
 	const Variable& front() const;
 	Variable& front();
 	
-
 	void pushFront(std::unique_ptr<Variable>&& element);
 	void popFront();
 	std::unique_ptr<Variable> popFrontAndGet();

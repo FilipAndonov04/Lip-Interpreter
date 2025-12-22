@@ -28,4 +28,6 @@ bool isDolarSign(char ch);
 bool isComma(char ch);
 bool isDot(char ch);
 
+int toInt(char ch);
+
 }

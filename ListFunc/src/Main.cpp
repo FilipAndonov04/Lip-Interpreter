@@ -10,6 +10,8 @@
 #include "Function/Graph/Node/Composite/CompositeNode.h"
 
 #include "Interpreter/VariableDatabase.h"
+#include "Interpreter/LineParser.h"
+#include "Interpreter/ObjectFactory.h"
 
 #include "EmbeddedFuncs.h"
 
@@ -23,39 +25,30 @@ std::vector<std::unique_ptr<Expression>> makeArgs(size_t size);
 
 std::unique_ptr<Function> createFactorialFunction(const VariableDatabase& database);
 
+void testRecursive();
+
 int main() {
-	VariableDatabase database;
-	
-	database.add("if", std::make_unique<WrapperFunction<If>>(3));
-	database.add("eq", std::make_unique<WrapperFunction<Equal>>(2));
-	database.add("mul", std::make_unique<WrapperFunction<Mul>>(2));
-	database.add("sub", std::make_unique<WrapperFunction<Sub>>(2));
-	database.add("prt", std::make_unique<WrapperFunction<PrintHello>>(0));
+	while (true) {
+		std::string line;
+		std::getline(std::cin, line);
 
-	auto printNode = std::make_unique<CompositeNode>(FunctionRef{"prt", 0, database});
+		LineParser parser(line);
+		auto tok = parser.tokenize();
 
-	std::vector<std::unique_ptr<FunctionNode>> argNodes{};
-	argNodes.push_back(LiteralNode::of(RealNumber::of(1)));
-	argNodes.push_back(printNode->clone());
-	argNodes.push_back(printNode->clone());
-	auto ifNode = std::make_unique<CompositeNode>(FunctionRef{"if", 3, database}, std::move(argNodes));
+		std::cout << "tokens: ";
+		for (auto& s : tok) {
+			std::cout << '"' << s << '"' << ' ';
+		}
+		std::cout << '\n';
 
-	ifNode->call(std::vector<const Expression*>{})->evaluate();
-
-	return 0;
-
-	database.add("fac", createFactorialFunction(database));
-
-	auto& f = database.getFunction("fac", 1);
-
-	auto argOwns = makeArgs(1);
-	std::vector<const Expression*> argRefs;
-	for (const auto& arg : argOwns) {
-		argRefs.push_back(arg.get());
+		ObjectFactory factory(std::move(tok));
+		try {
+			auto var = factory.createVariable();
+			print(*var);
+		} catch (const std::exception& e) {
+			std::cout << e.what() << '\n';
+		}
 	}
-
-	auto res = f(argRefs)->evaluate();
-	print(*res);
 }
 
 std::vector<std::unique_ptr<Expression>> makeArgs(size_t size) {
@@ -101,4 +94,27 @@ std::unique_ptr<Function> createFactorialFunction(const VariableDatabase& databa
 	auto ifNode = std::make_unique<CompositeNode>(FunctionRef{"if", 3, database}, std::move(children));
 
 	return std::make_unique<GraphFunction>(1, ifNode->clone());
+}
+
+void testRecursive() {
+	VariableDatabase database;
+
+	database.add("if", std::make_unique<WrapperFunction<If>>(3));
+	database.add("eq", std::make_unique<WrapperFunction<Equal>>(2));
+	database.add("mul", std::make_unique<WrapperFunction<Mul>>(2));
+	database.add("sub", std::make_unique<WrapperFunction<Sub>>(2));
+	database.add("prt", std::make_unique<WrapperFunction<PrintHello>>(0));
+
+	database.add("fac", createFactorialFunction(database));
+
+	auto& f = database.getFunction("fac", 1);
+
+	auto argOwns = makeArgs(1);
+	std::vector<const Expression*> argRefs;
+	for (const auto& arg : argOwns) {
+		argRefs.push_back(arg.get());
+	}
+
+	auto res = f(argRefs)->evaluate();
+	print(*res);
 }
