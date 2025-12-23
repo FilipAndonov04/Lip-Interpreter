@@ -36,7 +36,7 @@ void Interpreter::interpret(std::string_view line) {
             ObjectFactory factory(std::move(tokens), variableSet);
 
             auto expr = factory.createExpression();
-            auto res = Expression::evaluate(std::move(expr));
+            auto res = Expression::evaluate(expr->cloneExpression());
 
             std::cout << expr->toString() << " " << res->toString() << '\n';
         }

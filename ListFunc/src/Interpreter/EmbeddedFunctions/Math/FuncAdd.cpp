@@ -1,4 +1,5 @@
 #include "FuncAdd.h"
+#include "Expression/Variable/Number/Real/RealNumber.h"
 
 #include <stdexcept>
 
@@ -13,6 +14,5 @@ std::unique_ptr<Expression> FuncAdd::operator()(const std::vector<const Expressi
 
 	auto n1 = static_cast<const RealNumber*>(arg1.get());
 	auto n2 = static_cast<const RealNumber*>(arg2.get());
-
 	return RealNumber::of(n1->getValue() + n2->getValue());
 }

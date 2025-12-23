@@ -87,19 +87,43 @@
     <ClCompile Include="src\Expression\ExpressionType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\EmbeddedFunctions\FuncAdd.cpp">
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncAdd.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\EmbeddedFunctions\FuncSub.cpp">
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncSubtract.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\EmbeddedFunctions\FuncMul.cpp">
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncMultiply.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\EmbeddedFunctions\FuncEq.cpp">
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncEquals.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\EmbeddedFunctions\FuncIf.cpp">
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\ControlFlow\FuncIf.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncLessThan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Logical\FuncNot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Logical\FuncAnd.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Logical\FuncOr.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncDivide.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncMod.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncSqrt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncInt.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -176,22 +200,46 @@
     <ClInclude Include="src\StringUtils\CharUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\EmbeddedFunctions\FuncAdd.h">
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncAdd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Expression\ExpressionType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\EmbeddedFunctions\FuncSub.h">
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncSubtract.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\EmbeddedFunctions\FuncMul.h">
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncMultiply.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\EmbeddedFunctions\FuncEq.h">
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncEquals.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\EmbeddedFunctions\FuncIf.h">
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\ControlFlow\FuncIf.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncLessThan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Logical\FuncAnd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Logical\FuncOr.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Logical\FuncNot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncDivide.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncMod.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncSqrt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncInt.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

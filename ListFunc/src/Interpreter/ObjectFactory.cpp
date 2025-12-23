@@ -117,7 +117,9 @@ std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
 
     if (tokens[index] == "$") {
         return createArgumentNode();
-    } else if (StringUtils::isDigit(tokens[index].front()) || StringUtils::isDash(tokens[index].front())) {
+    } else if (StringUtils::isDigit(tokens[index].front()) || 
+               StringUtils::isDash(tokens[index].front()) || 
+               StringUtils::isOpenBracket(tokens[index].front())) {
         return createLiteralNode();
     }else if (StringUtils::isLetter(tokens[index].front())) {
         return createCompositeNode();
