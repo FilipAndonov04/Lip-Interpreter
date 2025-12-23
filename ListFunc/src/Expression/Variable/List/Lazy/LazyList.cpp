@@ -23,7 +23,8 @@ void LazyList::cacheElement(size_t index) const {
 
 	std::vector<const Expression*> args(1);
 	for (size_t lastIndex = cachedElements->length() - 1; lastIndex < index; lastIndex++) {
-		args[0] = cachedElements->at(lastIndex).get();
+		auto lastElem = cachedElements->at(lastIndex);
+		args[0] = lastElem.get();
 		cachedElements->pushBack(Expression::evaluate(step->call(args)));
 	}
 }

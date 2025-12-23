@@ -20,6 +20,4 @@ public:
 	ExpressionType type() const override;
 
 	std::unique_ptr<List> cloneList() const override;
-
-	std::string toString() const override;
 };

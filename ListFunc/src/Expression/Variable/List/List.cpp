@@ -19,6 +19,13 @@ std::string List::toString() const {
 
     for (size_t i = 0; i < length(); i++) {
         s.append(at(i)->toString()).append(i != length() - 1 ? ", " : "");
+
+        if (i + 1 == 15) {
+            if (i != length() - 1) {
+                s.append("...");
+            }
+            break;
+        }
     }
 
     s.append("]");

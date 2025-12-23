@@ -1,15 +1,15 @@
-#include "FuncEquals.h"
+#include "FuncEqual.h"
 #include "Expression/Variable/Number/Real/RealNumber.h"
 
 #include <stdexcept>
 
-std::unique_ptr<Expression> FuncEquals::operator()(const std::vector<const Expression*>& args) const {
+std::unique_ptr<Expression> FuncEqual::operator()(const std::vector<const Expression*>& args) const {
 	auto arg1 = args[0]->evaluate();
 	auto arg2 = args[1]->evaluate();
 
 	if (arg1->type() != ExpressionType::RealNumber ||
 		arg2->type() != ExpressionType::RealNumber) {
-		throw std::invalid_argument("equals takes 2 real numbers as arguments");
+		throw std::invalid_argument("equal takes 2 real numbers as arguments");
 	}
 
 	auto n1 = static_cast<const RealNumber*>(arg1.get());

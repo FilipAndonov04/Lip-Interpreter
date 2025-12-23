@@ -48,16 +48,3 @@ ExpressionType InfiniteList::type() const {
 std::unique_ptr<List> InfiniteList::cloneList() const {
     return std::make_unique<InfiniteList>(cachedElements->cloneList(), step->clone());
 }
-
-std::string InfiniteList::toString() const {
-    constexpr size_t ELEMENTS_TO_PRINT = 10;
-
-    std::string s("[");
-
-    for (size_t i = 0; i < ELEMENTS_TO_PRINT; i++) {
-        s.append(at(i)->toString()).append(i != ELEMENTS_TO_PRINT - 1 ? ", " : ", ...");
-    }
-
-    s.append("]");
-    return s;
-}

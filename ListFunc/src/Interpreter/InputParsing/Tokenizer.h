@@ -4,9 +4,9 @@
 #include <string_view>
 #include <vector>
 
-class LineParser {
+class Tokenizer {
 public:
-	LineParser(std::string_view line);
+	Tokenizer(std::string_view line);
 
 	std::vector<std::string> tokenize() const;
 

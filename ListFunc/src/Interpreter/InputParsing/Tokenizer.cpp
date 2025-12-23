@@ -1,12 +1,13 @@
-#include "LineParser.h"
+#include "Tokenizer.h"
+
 #include "StringUtils/CharUtils.h"
 
 #include <stdexcept>
 
-LineParser::LineParser(std::string_view line) 
+Tokenizer::Tokenizer(std::string_view line) 
     : line(line) {}
 
-std::vector<std::string> LineParser::tokenize() const {
+std::vector<std::string> Tokenizer::tokenize() const {
     size_t index = 0;
 
     std::vector<std::string> tokens;
@@ -30,7 +31,7 @@ std::vector<std::string> LineParser::tokenize() const {
     return tokens;
 }
 
-std::string LineParser::parseWord(size_t& index) const {
+std::string Tokenizer::parseWord(size_t& index) const {
     std::string word(1, line[index++]);
 
     while (index < line.length() && StringUtils::isDigitOrLetterOrUnderscore(line[index])) {
@@ -40,7 +41,7 @@ std::string LineParser::parseWord(size_t& index) const {
     return word;
 }
 
-std::string LineParser::parseNumber(size_t& index) const {
+std::string Tokenizer::parseNumber(size_t& index) const {
     std::string word(1, line[index++]);
 
     while (index < line.length() && StringUtils::isDigit(line[index])) {
@@ -59,6 +60,6 @@ std::string LineParser::parseNumber(size_t& index) const {
     return word;
 }
 
-std::string LineParser::parseSign(size_t& index) const {
+std::string Tokenizer::parseSign(size_t& index) const {
     return std::string(1, line[index++]);
 }

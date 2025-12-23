@@ -1,19 +1,45 @@
 #include "Interpreter/Interpreter.h"
 #include "Function/Wrapper/WrapperFunction.hpp"
 
+#include "Expression/Variable/Number/Real/RealNumber.h"
+#include "Expression/Variable/List/Concrete/ConcreteList.h"
+#include "Expression/FunctionCall/FunctionCall.h"
+#include "Function/Graph/GraphFunction.h"
+#include "Function/Graph/Node/Argument/ArgumentNode.h"
+#include "Function/Graph/Node/Literal/LiteralNode.h"
+#include "Function/Graph/Node/Composite/CompositeNode.h"
+
 #include "Interpreter/EmbeddedFunctions/Math/FuncAdd.h"
 #include "Interpreter/EmbeddedFunctions/Math/FuncSubtract.h"
 #include "Interpreter/EmbeddedFunctions/Math/FuncMultiply.h"
 #include "Interpreter/EmbeddedFunctions/Math/FuncDivide.h"
 #include "Interpreter/EmbeddedFunctions/Math/FuncMod.h"
 #include "Interpreter/EmbeddedFunctions/Math/FuncSqrt.h"
+
 #include "Interpreter/EmbeddedFunctions/Logical/FuncNot.h"
 #include "Interpreter/EmbeddedFunctions/Logical/FuncAnd.h"
 #include "Interpreter/EmbeddedFunctions/Logical/FuncOr.h"
+
+#include "Interpreter/EmbeddedFunctions/Comparison/FuncEqual.h"
 #include "Interpreter/EmbeddedFunctions/Comparison/FuncLessThan.h"
-#include "Interpreter/EmbeddedFunctions/Comparison/FuncEquals.h"
+#include "Interpreter/EmbeddedFunctions/Comparison/FuncNotEqual.h"
+#include "Interpreter/EmbeddedFunctions/Comparison/FuncLessOrEqual.h"
+#include "Interpreter/EmbeddedFunctions/Comparison/FuncGreaterThan.h"
+#include "Interpreter/EmbeddedFunctions/Comparison/FuncGreaterOrEqual.h"
+
 #include "Interpreter/EmbeddedFunctions/ControlFlow/FuncIf.h"
+
 #include "Interpreter/EmbeddedFunctions/Conversion/FuncInt.h"
+#include "Interpreter/EmbeddedFunctions/Conversion/FuncBool.h"
+
+#include "Interpreter/EmbeddedFunctions/InputOutput/FuncInput.h"
+#include "Interpreter/EmbeddedFunctions/InputOutput/FuncPrint.h"
+
+#include "Interpreter/EmbeddedFunctions/List/FuncHead.h"
+#include "Interpreter/EmbeddedFunctions/List/FuncTail.h"
+#include "Interpreter/EmbeddedFunctions/List/FuncLength.h"
+#include "Interpreter/EmbeddedFunctions/List/FuncConcat.h"
+#include "Interpreter/EmbeddedFunctions/List/FuncList.h"
 
 #include <iostream>
 #include <string>
@@ -27,20 +53,10 @@ struct Worker {
 	}
 };
 
-struct Eval {
-	std::unique_ptr<Expression> operator()(const std::vector<const Expression*>& args) const {
-		for (auto& arg : args) {
-			arg->evaluate();
-		}
-
-		return RealNumber::of(1);
-	}
-};
-
-static VariableSet setUpFunctions();
+static Interpreter setUpFunctions();
 
 int main() {
-	Interpreter inter(setUpFunctions());
+	Interpreter inter = setUpFunctions();
 	
 	{
 		std::ifstream ifs("functions.txt");
@@ -63,8 +79,9 @@ int main() {
 	}
 }
 
-VariableSet setUpFunctions() {
-	VariableSet varSet;
+Interpreter setUpFunctions() {
+	Interpreter inter;
+	VariableSet& varSet = inter.getVariableSet();
 
 	varSet.add("add", std::make_unique<WrapperFunction<FuncAdd>>(2));
 	varSet.add("sub", std::make_unique<WrapperFunction<FuncSubtract>>(2));
@@ -77,22 +94,30 @@ VariableSet setUpFunctions() {
 	varSet.add("and", std::make_unique<WrapperFunction<FuncAnd>>(2));
 	varSet.add("or", std::make_unique<WrapperFunction<FuncOr>>(2));
 
-	varSet.add("eq", std::make_unique<WrapperFunction<FuncEquals>>(2));
+	varSet.add("eq", std::make_unique<WrapperFunction<FuncEqual>>(2));
 	varSet.add("lt", std::make_unique<WrapperFunction<FuncLessThan>>(2));
+	varSet.add("ne", std::make_unique<WrapperFunction<FuncNotEqual>>(2));
+	varSet.add("le", std::make_unique<WrapperFunction<FuncLessOrEqual>>(2));
+	varSet.add("gt", std::make_unique<WrapperFunction<FuncGreaterThan>>(2));
+	varSet.add("ge", std::make_unique<WrapperFunction<FuncGreaterOrEqual>>(2));
 
 	varSet.add("if", std::make_unique<WrapperFunction<FuncIf>>(3));
 
 	varSet.add("int", std::make_unique<WrapperFunction<FuncInt>>(1));
+	varSet.add("bool", std::make_unique<WrapperFunction<FuncBool>>(1));
+
+	varSet.add("input", std::make_unique<WrapperFunction<FuncInput>>(0, FuncInput{varSet}));
+	varSet.add("print", std::make_unique<WrapperFunction<FuncPrint>>(1));
+
+	varSet.add("head", std::make_unique<WrapperFunction<FuncHead>>(1));
+	varSet.add("tail", std::make_unique<WrapperFunction<FuncTail>>(1));
+	varSet.add("len", std::make_unique<WrapperFunction<FuncLength>>(1));
+	varSet.add("concat", std::make_unique<WrapperFunction<FuncConcat>>(2));
+	varSet.add("list", std::make_unique<WrapperFunction<FuncList>>(3));
+	varSet.add("list", std::make_unique<WrapperFunction<FuncList>>(2));
+	varSet.add("list", std::make_unique<WrapperFunction<FuncList>>(1));
 
 	varSet.add("work", std::make_unique<WrapperFunction<Worker>>(0));
 
-	varSet.add("eval", std::make_unique<WrapperFunction<Eval>>(0));
-	varSet.add("eval", std::make_unique<WrapperFunction<Eval>>(1));
-	varSet.add("eval", std::make_unique<WrapperFunction<Eval>>(2));
-	varSet.add("eval", std::make_unique<WrapperFunction<Eval>>(3));
-	varSet.add("eval", std::make_unique<WrapperFunction<Eval>>(4));
-	varSet.add("eval", std::make_unique<WrapperFunction<Eval>>(5));
-	varSet.add("eval", std::make_unique<WrapperFunction<Eval>>(6));
-
-	return varSet;
+	return inter;
 }

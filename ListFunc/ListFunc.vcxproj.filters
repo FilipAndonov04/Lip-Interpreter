@@ -69,13 +69,13 @@
     <ClCompile Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\ObjectFactory.cpp">
+    <ClCompile Include="src\Interpreter\InputParsing\ObjectFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\StringUtils\CharUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\LineParser.cpp">
+    <ClCompile Include="src\Interpreter\InputParsing\Tokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\StringUtils\StringUtils.cpp">
@@ -96,7 +96,7 @@
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncMultiply.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncEquals.cpp">
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncEqual.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\ControlFlow\FuncIf.cpp">
@@ -124,6 +124,42 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncInt.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncBool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncNotEqual.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncLessOrEqual.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterThan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterOrEqual.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncTail.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncHead.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncConcat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncLength.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -188,10 +224,10 @@
     <ClInclude Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\LineParser.h">
+    <ClInclude Include="src\Interpreter\InputParsing\Tokenizer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\ObjectFactory.h">
+    <ClInclude Include="src\Interpreter\InputParsing\ObjectFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\StringUtils\StringUtils.h">
@@ -212,7 +248,7 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncMultiply.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncEquals.h">
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncEqual.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\ControlFlow\FuncIf.h">
@@ -240,6 +276,42 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncInt.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncBool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncNotEqual.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncLessOrEqual.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterThan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterOrEqual.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncLength.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncHead.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncTail.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncConcat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

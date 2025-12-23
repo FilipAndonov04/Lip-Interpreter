@@ -1,7 +1,5 @@
 #pragma once
 #include "Interpreter/VariableSet/VariableSet.h"
-#include "Interpreter/LineParser.h"
-#include "ObjectFactory.h"
 
 #include <string_view>
 
@@ -16,5 +14,8 @@ public:
 	VariableSet& getVariableSet();
 
 private:
+	void handleFunctionDefinition(std::vector<std::string>&& tokens);
+	void handleExpressionEvaluation(std::vector<std::string>&& tokens) const;
+
 	VariableSet variableSet;
 };
