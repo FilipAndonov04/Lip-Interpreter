@@ -9,8 +9,8 @@
 
 #include <stdexcept>
 
-ObjectFactory::ObjectFactory(std::vector<std::string> tokens, const VariableSet& variableSet)
-    : tokens(std::move(tokens)), variableSet(&variableSet) {}
+ObjectFactory::ObjectFactory(std::vector<std::string> tokens, const VariableSet& variableSet, size_t index)
+    : tokens(std::move(tokens)), variableSet(&variableSet), index(index) {}
 
 std::unique_ptr<Expression> ObjectFactory::createExpression() {
     assertIndex();
@@ -35,7 +35,8 @@ std::unique_ptr<Variable> ObjectFactory::createVariable() {
 }
 
 std::unique_ptr<Function> ObjectFactory::createFunction() {
-    return std::unique_ptr<Function>();
+    argIds.clear();
+    return createGraphFunction();
 }
 
 std::unique_ptr<RealNumber> ObjectFactory::createRealNumber() {
@@ -104,15 +105,32 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
 }
 
 std::unique_ptr<GraphFunction> ObjectFactory::createGraphFunction() {
-    return std::unique_ptr<GraphFunction>();
+    auto root = createFunctionNode();
+    if (!argIds.empty() && argIds.size() != *std::max_element(argIds.begin(), argIds.end())) {
+        throw std::invalid_argument("invalid argument count in function definition");
+    }
+    return std::make_unique<GraphFunction>(argIds.size(), std::move(root));
 }
 
 std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
-    throw std::runtime_error("invalid line");
+    assertIndex();
+
+    if (tokens[index] == "$") {
+        return createArgumentNode();
+    } else if (StringUtils::isDigit(tokens[index].front()) || StringUtils::isDash(tokens[index].front())) {
+        return createLiteralNode();
+    }else if (StringUtils::isLetter(tokens[index].front())) {
+        return createCompositeNode();
+    }
 }
 
 std::unique_ptr<ArgumentNode> ObjectFactory::createArgumentNode() {
-    return ArgumentNode::of(0);
+    index++;
+
+    assertIndex();
+    size_t id = StringUtils::toSizeType(tokens[index++]);
+    argIds.insert(id);
+    return ArgumentNode::of(id);
 }
 
 std::unique_ptr<LiteralNode> ObjectFactory::createLiteralNode() {
@@ -120,7 +138,36 @@ std::unique_ptr<LiteralNode> ObjectFactory::createLiteralNode() {
 }
 
 std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
-    return std::unique_ptr<CompositeNode>();
+    std::string functionName = std::move(tokens[index++]);
+
+    assertIndex();
+    if (tokens[index++] != "(") {
+        throw std::runtime_error("invalid token for function");
+    }
+
+    assertIndex();
+    if (tokens[index] == ")") {
+        index++;
+        return std::make_unique<CompositeNode>(FunctionRef{std::move(functionName), 0, *variableSet});
+    }
+
+    std::vector<std::unique_ptr<FunctionNode>> argNodes;
+    argNodes.push_back(createFunctionNode());
+
+    while (true) {
+        assertIndex();
+
+        if (tokens[index] == ")") {
+            index++;
+            return std::make_unique<CompositeNode>(FunctionRef{std::move(functionName),
+                                                  argNodes.size(), *variableSet}, std::move(argNodes));
+        }
+
+        if (tokens[index++] != ",") {
+            throw std::runtime_error("invalid token for function");
+        }
+        argNodes.push_back(createFunctionNode());
+    }
 }
 
 void ObjectFactory::assertIndex() const {

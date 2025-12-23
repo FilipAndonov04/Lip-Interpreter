@@ -1,1 +1,1 @@
-def fac=if(eq($1, 0), 1,fac( sub($1,1) ))
+fac = if(eq($1, 0), 1, mul($1, fac(sub($1, 1))))

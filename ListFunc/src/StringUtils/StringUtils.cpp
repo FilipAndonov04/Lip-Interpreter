@@ -7,7 +7,7 @@ namespace StringUtils {
 
 double toDouble(std::string_view s) {
     if (s.empty()) {
-        throw std::runtime_error("empty string");
+        throw std::invalid_argument("empty string");
     }
 
     if (isDash(s.front())) {
@@ -15,13 +15,13 @@ double toDouble(std::string_view s) {
     }
 
     size_t index = 0;
-    double d = 0.0;
+    double num = 0.0;
     while (index < s.length() && isDigit(s[index])) {
-        d = d * 10 + toInt(s[index++]);
+        num = num * 10 + toInt(s[index++]);
     }
 
     if (index == s.length()) {
-        return d;
+        return num;
     } else if (!isDot(s[index])) {
         throw std::invalid_argument("invalid character in number");
     }
@@ -30,13 +30,30 @@ double toDouble(std::string_view s) {
     double multiplier = 1.0;
     while (index < s.length() && isDigit(s[index])) {
         multiplier *= 0.1;
-        d += toInt(s[index++]) * multiplier;
+        num += toInt(s[index++]) * multiplier;
     }
 
     if (index != s.length()) {
         throw std::invalid_argument("invalid character in number");
     }
-    return d;
+    return num;
+}
+
+size_t toSizeType(std::string_view s) {
+    if (s.empty()) {
+        throw std::invalid_argument("empty string");
+    }
+
+    size_t index = 0;
+    size_t num = 0;
+    while (index < s.length() && isDigit(s[index])) {
+        num = num * 10 + toInt(s[index++]);
+    }
+
+    if (index != s.length()) {
+        throw std::invalid_argument("invalid character in number");
+    }
+    return num;
 }
 
 }

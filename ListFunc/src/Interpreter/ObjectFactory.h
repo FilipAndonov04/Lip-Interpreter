@@ -9,17 +9,17 @@
 
 #include <memory>
 #include <string>
+#include <unordered_set>
 
 class ObjectFactory {
 public:
-	ObjectFactory(std::vector<std::string> tokens, const VariableSet& variableSet);
+	ObjectFactory(std::vector<std::string> tokens, const VariableSet& variableSet, size_t index = 0);
 
 	std::unique_ptr<Expression> createExpression();
 	std::unique_ptr<Variable> createVariable();
 	std::unique_ptr<Function> createFunction();
 
 private:
-public:
 	std::unique_ptr<RealNumber> createRealNumber();
 	std::unique_ptr<ConcreteList> createConcreteList();
 	std::unique_ptr<FunctionCall> createFunctionCall();
@@ -33,6 +33,8 @@ public:
 	void assertIndex() const;
 
 	std::vector<std::string> tokens;
-	size_t index = 0;
+	size_t index;
 	const VariableSet* variableSet;
+
+	std::unordered_set<size_t> argIds;
 };

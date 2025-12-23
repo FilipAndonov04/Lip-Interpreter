@@ -32,6 +32,8 @@ int main() {
 	varSet.add("add", std::make_unique<WrapperFunction<Add>>(2));
 	varSet.add("sub", std::make_unique<WrapperFunction<Sub>>(2));
 	varSet.add("mul", std::make_unique<WrapperFunction<Mul>>(2));
+	varSet.add("if", std::make_unique<WrapperFunction<If>>(3));
+	varSet.add("eq", std::make_unique<WrapperFunction<Equal>>(2));
 
 	while (true) {
 		std::string line;
@@ -40,16 +42,35 @@ int main() {
 		LineParser parser(line);
 		auto tok = parser.tokenize();
 
+		if (tok.empty()) {
+			continue;
+		}
+
 		std::cout << "tokens: ";
 		for (auto& s : tok) {
 			std::cout << '"' << s << '"' << ' ';
 		}
 		std::cout << '\n';
 
+		std::string funcName = std::move(tok.front());
+
+		tok.erase(tok.begin());
+		tok.erase(tok.begin());
 		ObjectFactory factory(std::move(tok), varSet);
 		try {
-			auto expr = factory.createExpression();
-			print(*(expr->evaluate()));
+			auto func = factory.createFunction();
+			varSet.add(funcName, func->clone());
+
+			std::cout << "now input argCount: ";
+			size_t count;
+			std::cin >> count;
+			auto argOwns = makeArgs(count);
+			std::vector<const Expression*> argRefs;
+			for (const auto& arg : argOwns) {
+				argRefs.push_back(arg.get());
+			}
+
+			print(*Expression::evaluate(func->call(argRefs)));
 		} catch (const std::exception& e) {
 			std::cout << e.what() << '\n';
 		}

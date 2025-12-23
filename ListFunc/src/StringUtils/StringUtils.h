@@ -5,5 +5,6 @@
 namespace StringUtils {
 
 double toDouble(std::string_view s);
+size_t toSizeType(std::string_view s);
 
 }
