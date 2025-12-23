@@ -6,11 +6,11 @@ std::unique_ptr<Value> List::cloneValue() const {
     return cloneList();
 }
 
-std::unique_ptr<Expression> List::back() const {
+std::unique_ptr<Value> List::back() const {
     return at(length() - 1);
 }
 
-void List::pushBack(std::unique_ptr<Expression>&& element) {
+void List::pushBack(std::unique_ptr<Value>&& element) {
     insert(length(), std::move(element));
 }
 
@@ -36,15 +36,15 @@ bool List::isEmpty() const {
     return length() == 0;
 }
 
-std::unique_ptr<Expression> List::operator[](size_t index) const {
+std::unique_ptr<Value> List::operator[](size_t index) const {
     return at(index);
 }
 
-std::unique_ptr<Expression> List::front() const {
+std::unique_ptr<Value> List::front() const {
     return at(0);
 }
 
-void List::pushFront(std::unique_ptr<Expression>&& element) {
+void List::pushFront(std::unique_ptr<Value>&& element) {
     insert(0, std::move(element));
 }
 
@@ -56,16 +56,12 @@ void List::popBack() {
     erase(length() - 1);
 }
 
-std::unique_ptr<Expression> List::popFrontAndGet() {
+std::unique_ptr<Value> List::popFrontAndGet() {
     return eraseAndGet(0);
 }
 
-std::unique_ptr<Expression> List::popBackAndGet() {
+std::unique_ptr<Value> List::popBackAndGet() {
     return eraseAndGet(length() - 1);
-}
-
-ExpressionType List::type() const {
-    return ExpressionType::List;
 }
 
 void List::assertNotEmpty() const {

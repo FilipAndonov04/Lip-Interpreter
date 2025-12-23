@@ -137,6 +137,8 @@
   <ItemGroup>
     <ClCompile Include="src\Expression\Call\Variable\VariableCall.cpp" />
     <ClCompile Include="src\Expression\Call\Function\FunctionCall.cpp" />
+    <ClCompile Include="src\Expression\Literal\List\ListLiteral.cpp" />
+    <ClCompile Include="src\Expression\Literal\Number\NumberLiteral.cpp" />
     <ClCompile Include="src\Value\List\Concrete\ConcreteList.cpp" />
     <ClCompile Include="src\Value\List\Lazy\Finite\FiniteList.cpp" />
     <ClCompile Include="src\Value\List\Lazy\Infinite\InfiniteList.cpp" />
@@ -190,6 +192,9 @@
     <ClInclude Include="src\Expression\Expression.h" />
     <ClInclude Include="src\Expression\ExpressionType.h" />
     <ClInclude Include="src\Expression\Call\Function\FunctionCall.h" />
+    <ClInclude Include="src\Expression\Literal\List\ListLiteral.h" />
+    <ClInclude Include="src\Expression\Literal\Literal.h" />
+    <ClInclude Include="src\Expression\Literal\Number\NumberLiteral.h" />
     <ClInclude Include="src\Value\List\Concrete\ConcreteList.h" />
     <ClInclude Include="src\Value\List\Lazy\Finite\FiniteList.h" />
     <ClInclude Include="src\Value\List\Lazy\Infinite\InfiniteList.h" />

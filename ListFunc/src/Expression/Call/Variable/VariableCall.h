@@ -10,7 +10,7 @@ public:
 
 	ExpressionType type() const override;
 
-	std::unique_ptr<Expression> cloneExpression() const override;
+	std::unique_ptr<Expression> clone() const override;
 
 	std::string toString() const override;
 

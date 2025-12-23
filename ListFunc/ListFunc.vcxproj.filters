@@ -159,6 +159,12 @@
     <ClCompile Include="src\Function\Graph\Node\Variable\VariableNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Expression\Literal\Number\NumberLiteral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Expression\Literal\List\ListLiteral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h">
@@ -318,6 +324,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Function\Graph\Node\Variable\VariableNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expression\Literal\Literal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expression\Literal\Number\NumberLiteral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expression\Literal\List\ListLiteral.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

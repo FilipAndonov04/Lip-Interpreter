@@ -58,7 +58,7 @@ void Interpreter::handleExpressionEvaluation(std::vector<std::string>&& tokens) 
     ObjectFactory factory(std::move(tokens), variableSet);
 
     auto expr = factory.createExpression();
-    auto res = Expression::evaluate(expr->cloneExpression());
+    auto res = Expression::evaluate(expr->clone());
 
     std::cout << expr->toString() << " " << res->toString() << '\n';
 }
