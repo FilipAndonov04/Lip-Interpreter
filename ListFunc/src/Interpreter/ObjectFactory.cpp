@@ -106,7 +106,7 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
 
 std::unique_ptr<GraphFunction> ObjectFactory::createGraphFunction(size_t argCount) {
     auto root = createFunctionNode();
-    if (argIds.size() != argCount || *std::max_element(argIds.begin(), argIds.end()) != argCount) {
+    if (argIds.size() != argCount || !argIds.empty() && *std::max_element(argIds.begin(), argIds.end()) != argCount) {
         throw std::invalid_argument("invalid argument count in function definition");
     }
     return std::make_unique<GraphFunction>(argIds.size(), std::move(root));

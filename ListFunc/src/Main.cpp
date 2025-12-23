@@ -1,18 +1,22 @@
 #include "Interpreter/Interpreter.h"
+#include "Function/Wrapper/WrapperFunction.hpp"
 #include "Interpreter/EmbeddedFunctions/FuncAdd.h"
+#include "Interpreter/EmbeddedFunctions/FuncSub.h"
+#include "Interpreter/EmbeddedFunctions/FuncMul.h"
+#include "Interpreter/EmbeddedFunctions/FuncIf.h"
+#include "Interpreter/EmbeddedFunctions/FuncEq.h"
 
 #include <iostream>
 #include <string>
 #include <fstream>
 
 int main() {
-	/*
 	VariableSet varSet;
-	varSet.add("add", std::make_unique<WrapperFunction<Add>>(2));
-	varSet.add("sub", std::make_unique<WrapperFunction<Sub>>(2));
-	varSet.add("mul", std::make_unique<WrapperFunction<Mul>>(2));
-	varSet.add("if", std::make_unique<WrapperFunction<If>>(3));
-	varSet.add("eq", std::make_unique<WrapperFunction<Equal>>(2));
+	varSet.add("add", std::make_unique<WrapperFunction<FuncAdd>>(2));
+	varSet.add("sub", std::make_unique<WrapperFunction<FuncSub>>(2));
+	varSet.add("mul", std::make_unique<WrapperFunction<FuncMul>>(2));
+	varSet.add("if", std::make_unique<WrapperFunction<FuncIf>>(3));
+	varSet.add("eq", std::make_unique<WrapperFunction<FuncEq>>(2));
 
 	Interpreter inter(std::move(varSet));
 	
@@ -35,5 +39,4 @@ int main() {
 
 		inter.interpret(line);
 	}
-	*/
 }

@@ -2,8 +2,8 @@
 #include "Variable/Variable.h"
 
 std::unique_ptr<Variable> Expression::evaluate(std::unique_ptr<Expression>&& expression) {
-    if (auto var = dynamic_cast<Variable*>(expression.get())) {
-        expression.release();
+    if (isVariable(expression->type())) {
+        auto var = static_cast<Variable*>(expression.release());
         return std::unique_ptr<Variable>(var);
     }
     return expression->evaluate();
