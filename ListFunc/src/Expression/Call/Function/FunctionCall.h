@@ -2,6 +2,8 @@
 #include "Expression/Expression.h"
 #include "Interpreter/VariableSet/FunctionRef.h"
 
+#include <vector>
+
 class FunctionCall : public Expression {
 public:
 	explicit FunctionCall(FunctionRef functionRef);

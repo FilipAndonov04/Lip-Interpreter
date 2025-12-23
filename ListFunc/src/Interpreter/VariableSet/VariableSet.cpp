@@ -106,19 +106,28 @@ void VariableSet::removeFunction(const std::string& name, size_t argCount) {
 	}
 }
 
-Variable& VariableSet::getVariable(const std::string& name) const {
+const Variable* VariableSet::getVariable(const std::string& name) const {
 	auto var = variables.find(name);
 	if (var == variables.end()) {
-		throw std::runtime_error("there is not a variable with named " + name);
+		return nullptr;
 	}
 
-	return *(var->second);
+	return var->second.get();
 }
 
-Function& VariableSet::getFunction(const std::string& name, size_t argCount) const {
+Variable* VariableSet::getVariable(const std::string& name) {
+	auto var = variables.find(name);
+	if (var == variables.end()) {
+		return nullptr;
+	}
+
+	return var->second.get();
+}
+
+const Function* VariableSet::getFunction(const std::string& name, size_t argCount) const {
 	auto sameNamed = functions.find(name);
 	if (sameNamed == functions.end()) {
-		throw std::runtime_error("there is not a function named " + name);
+		return nullptr;
 	}
 
 	auto& funcs = sameNamed->second;
@@ -126,8 +135,25 @@ Function& VariableSet::getFunction(const std::string& name, size_t argCount) con
 		return f->getArgCount() == argCount;
 	});
 	if (sameArgs == funcs.end()) {
-		throw std::runtime_error("function " + name + " does not take " + std::to_string(argCount) + " arguments");
+		return nullptr;
 	}
 
-	return **sameArgs;
+	return sameArgs->get();
+}
+
+Function* VariableSet::getFunction(const std::string& name, size_t argCount) {
+	auto sameNamed = functions.find(name);
+	if (sameNamed == functions.end()) {
+		return nullptr;
+	}
+
+	auto& funcs = sameNamed->second;
+	auto sameArgs = std::find_if(funcs.begin(), funcs.end(), [argCount](const std::unique_ptr<Function>& f) {
+		return f->getArgCount() == argCount;
+	});
+	if (sameArgs == funcs.end()) {
+		return nullptr;
+	}
+
+	return sameArgs->get();
 }
