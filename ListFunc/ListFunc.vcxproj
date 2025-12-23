@@ -146,7 +146,7 @@
     <ClCompile Include="src\Expression\Variable\Number\Real\RealNumber.cpp" />
     <ClCompile Include="src\Expression\Variable\Variable.cpp" />
     <ClCompile Include="src\Function\Function.cpp" />
-    <ClCompile Include="src\Function\FunctionRef.cpp" />
+    <ClCompile Include="src\Interpreter\VariableSet\FunctionRef.cpp" />
     <ClCompile Include="src\Function\Graph\GraphFunction.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Argument\ArgumentNode.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Composite\CompositeNode.cpp" />
@@ -154,7 +154,7 @@
     <ClCompile Include="src\Interpreter\Interpreter.cpp" />
     <ClCompile Include="src\Interpreter\LineParser.cpp" />
     <ClCompile Include="src\Interpreter\ObjectFactory.cpp" />
-    <ClCompile Include="src\Interpreter\VariableSet.cpp" />
+    <ClCompile Include="src\Interpreter\VariableSet\VariableSet.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\StringUtils\CharUtils.cpp" />
     <ClCompile Include="src\StringUtils\StringUtils.cpp" />
@@ -172,7 +172,7 @@
     <ClInclude Include="src\Expression\Variable\Number\Real\RealNumber.h" />
     <ClInclude Include="src\Expression\Variable\Variable.h" />
     <ClInclude Include="src\Function\Function.h" />
-    <ClInclude Include="src\Function\FunctionRef.h" />
+    <ClInclude Include="src\Interpreter\VariableSet\FunctionRef.h" />
     <ClInclude Include="src\Function\Graph\GraphFunction.h" />
     <ClInclude Include="src\Function\Graph\Node\Argument\ArgumentNode.h" />
     <ClInclude Include="src\Function\Graph\Node\Composite\CompositeNode.h" />
@@ -182,7 +182,7 @@
     <ClInclude Include="src\Interpreter\ObjectFactory.h" />
     <ClInclude Include="src\Interpreter\Interpreter.h" />
     <ClInclude Include="src\Interpreter\LineParser.h" />
-    <ClInclude Include="src\Interpreter\VariableSet.h" />
+    <ClInclude Include="src\Interpreter\VariableSet\VariableSet.h" />
     <ClInclude Include="src\StringUtils\CharUtils.h" />
     <ClInclude Include="src\StringUtils\StringUtils.h" />
   </ItemGroup>

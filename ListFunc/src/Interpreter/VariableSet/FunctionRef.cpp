@@ -1,5 +1,4 @@
 #include "FunctionRef.h"
-#include "Interpreter/VariableSet.h"
 
 FunctionRef::FunctionRef(std::string name, size_t argCount, const VariableSet& variableSet)
     : name(std::move(name)), argCount(argCount), variableSet(&variableSet) {}

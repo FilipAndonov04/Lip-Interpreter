@@ -1,6 +1,6 @@
 #pragma once
 #include "Function/Graph/Node/FunctionNode.h"
-#include "Function/FunctionRef.h"
+#include "Interpreter/VariableSet/FunctionRef.h"
 
 class CompositeNode final : public FunctionNode {
 public:

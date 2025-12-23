@@ -1,5 +1,5 @@
 #pragma once
-#include "Interpreter/VariableSet.h"
+#include "Interpreter/VariableSet/VariableSet.h"
 #include "Interpreter/LineParser.h"
 #include "ObjectFactory.h"
 

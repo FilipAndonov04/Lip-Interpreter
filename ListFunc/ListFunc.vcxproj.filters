@@ -30,7 +30,7 @@
     <ClCompile Include="src\Function\Function.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Function\FunctionRef.cpp">
+    <ClCompile Include="src\Interpreter\VariableSet\FunctionRef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Function\Graph\Node\Composite\CompositeNode.cpp">
@@ -39,7 +39,7 @@
     <ClCompile Include="src\Function\Graph\GraphFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\VariableSet.cpp">
+    <ClCompile Include="src\Interpreter\VariableSet\VariableSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Expression\Variable\Number\Number.cpp">
@@ -107,7 +107,7 @@
     <ClInclude Include="src\Function\Function.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Function\FunctionRef.h">
+    <ClInclude Include="src\Interpreter\VariableSet\FunctionRef.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Function\Graph\GraphFunction.h">
@@ -119,7 +119,7 @@
     <ClInclude Include="src\Interpreter\Interpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\VariableSet.h">
+    <ClInclude Include="src\Interpreter\VariableSet\VariableSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Expression\Variable\Number\Number.h">
