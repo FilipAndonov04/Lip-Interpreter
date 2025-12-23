@@ -1,9 +1,9 @@
 #pragma once
+#include "Expression/Variable/Variable.h"
 
 #include <string>
 
 class VariableSet;
-class Variable;
 
 class VariableRef {
 public:

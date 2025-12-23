@@ -3,19 +3,20 @@
 
 #include <stdexcept>
 
-VariableRef::VariableRef(std::string name, const VariableSet& variableSet) {}
+VariableRef::VariableRef(std::string name, const VariableSet& variableSet)
+    : name(std::move(name)), variableSet(&variableSet) {}
 
 const Variable& VariableRef::deref() const {
-    auto ptrv = ptr();
-    if (!ptrv) {
-        throw std::runtime_error("there is not a variable named <" + name + ">");
-    }
-
-    return *ptrv;
+    return *ptr();
 }
 
 const Variable* VariableRef::ptr() const {
-    return variableSet->getVariable(name);
+    auto var = variableSet->getVariable(name);
+    if (!var) {
+        throw std::runtime_error("there is not a variable named <" + name + ">");
+    }
+
+    return var;
 }
 
 const Variable& VariableRef::operator*() const {

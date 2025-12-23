@@ -1,9 +1,9 @@
 #pragma once
+#include "Function/Function.h"
 
 #include <string>
 
 class VariableSet;
-class Function;
 
 class FunctionRef {
 public:

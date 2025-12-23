@@ -7,17 +7,17 @@ FunctionRef::FunctionRef(std::string name, size_t argCount, const VariableSet& v
     : name(std::move(name)), argCount(argCount), variableSet(&variableSet) {}
 
 const Function& FunctionRef::deref() const {
-    auto ptrf = ptr();
-    if (!ptrf) {
+    return *ptr();
+}
+
+const Function* FunctionRef::ptr() const {
+    auto func = variableSet->getFunction(name, argCount);
+    if (!func) {
         throw std::runtime_error("there is not a function <" + name + "> that takes " +
                                  std::to_string(argCount) + " arguments");
     }
 
-    return *ptrf;
-}
-
-const Function* FunctionRef::ptr() const {
-    return variableSet->getFunction(name, argCount);
+    return func;
 }
 
 const Function& FunctionRef::operator*() const {
