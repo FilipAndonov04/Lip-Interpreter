@@ -15,6 +15,8 @@ public:
 	virtual std::unique_ptr<Expression> eraseAndGet(size_t index) = 0;
 	virtual std::unique_ptr<Expression> popBackAndGet();
 
+	ExpressionType type() const override;
+
 	std::unique_ptr<Variable> cloneVariable() const override;
 	virtual std::unique_ptr<List> cloneList() const = 0;
 

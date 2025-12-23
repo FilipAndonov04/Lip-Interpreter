@@ -49,6 +49,10 @@ std::unique_ptr<Expression> FiniteList::eraseAndGet(size_t index) {
     return cachedElements->eraseAndGet(index);
 }
 
+ExpressionType FiniteList::type() const {
+    return ExpressionType::FiniteList;
+}
+
 std::unique_ptr<List> FiniteList::cloneList() const {
     return std::make_unique<FiniteList>(cachedElements->cloneList(), step->clone(), elementCount);
 }

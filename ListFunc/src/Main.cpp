@@ -1,11 +1,12 @@
 #include "Interpreter/Interpreter.h"
-#include "EmbeddedFuncs.h"
+#include "Interpreter/EmbeddedFunctions/FuncAdd.h"
 
 #include <iostream>
 #include <string>
 #include <fstream>
 
 int main() {
+	/*
 	VariableSet varSet;
 	varSet.add("add", std::make_unique<WrapperFunction<Add>>(2));
 	varSet.add("sub", std::make_unique<WrapperFunction<Sub>>(2));
@@ -34,4 +35,5 @@ int main() {
 
 		inter.interpret(line);
 	}
+	*/
 }

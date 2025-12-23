@@ -84,6 +84,9 @@
     <ClCompile Include="src\Interpreter\Interpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Expression\ExpressionType.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h">
@@ -158,7 +161,10 @@
     <ClInclude Include="src\StringUtils\CharUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\EmbeddedFuncs.h">
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\FuncAdd.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expression\ExpressionType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

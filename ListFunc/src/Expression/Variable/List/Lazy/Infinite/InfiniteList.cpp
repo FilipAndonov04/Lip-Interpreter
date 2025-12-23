@@ -41,6 +41,10 @@ std::unique_ptr<Expression> InfiniteList::popBackAndGet() {
     throw std::logic_error("infinite list does not have a last element");
 }
 
+ExpressionType InfiniteList::type() const {
+    return ExpressionType::InfiniteList;
+}
+
 std::unique_ptr<List> InfiniteList::cloneList() const {
     return std::make_unique<InfiniteList>(cachedElements->cloneList(), step->clone());
 }

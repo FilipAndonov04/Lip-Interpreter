@@ -136,6 +136,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Expression\Expression.cpp" />
+    <ClCompile Include="src\Expression\ExpressionType.cpp" />
     <ClCompile Include="src\Expression\FunctionCall\FunctionCall.cpp" />
     <ClCompile Include="src\Expression\Variable\List\Concrete\ConcreteList.cpp" />
     <ClCompile Include="src\Expression\Variable\List\Lazy\Finite\FiniteList.cpp" />
@@ -160,8 +161,8 @@
     <ClCompile Include="src\StringUtils\StringUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\EmbeddedFuncs.h" />
     <ClInclude Include="src\Expression\Expression.h" />
+    <ClInclude Include="src\Expression\ExpressionType.h" />
     <ClInclude Include="src\Expression\FunctionCall\FunctionCall.h" />
     <ClInclude Include="src\Expression\Variable\List\Concrete\ConcreteList.h" />
     <ClInclude Include="src\Expression\Variable\List\Lazy\Finite\FiniteList.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="src\Expression\Variable\Number\Real\RealNumber.h" />
     <ClInclude Include="src\Expression\Variable\Variable.h" />
     <ClInclude Include="src\Function\Function.h" />
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\FuncAdd.h" />
     <ClInclude Include="src\Interpreter\VariableSet\FunctionRef.h" />
     <ClInclude Include="src\Function\Graph\GraphFunction.h" />
     <ClInclude Include="src\Function\Graph\Node\Argument\ArgumentNode.h" />

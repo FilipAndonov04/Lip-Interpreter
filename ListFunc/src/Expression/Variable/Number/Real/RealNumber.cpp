@@ -3,6 +3,10 @@
 RealNumber::RealNumber(double value)
     : value(value) {}
 
+ExpressionType RealNumber::type() const {
+    return ExpressionType::RealNumber;
+}
+
 std::unique_ptr<Number> RealNumber::cloneNumber() const {
     return of(value);
 }

@@ -17,6 +17,8 @@ public:
 	std::unique_ptr<Expression> eraseAndGet(size_t index) override;
 	std::unique_ptr<Expression> popBackAndGet() override;
 
+	ExpressionType type() const override;
+
 	std::unique_ptr<List> cloneList() const override;
 
 	std::string toString() const override;

@@ -57,6 +57,10 @@ std::unique_ptr<Expression> List::popBackAndGet() {
     return eraseAndGet(length() - 1);
 }
 
+ExpressionType List::type() const {
+    return ExpressionType::List;
+}
+
 void List::assertNotEmpty() const {
     if (isEmpty()) {
         throw std::logic_error("empty list");

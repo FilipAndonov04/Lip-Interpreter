@@ -10,6 +10,10 @@ LazyList::LazyList(std::unique_ptr<Expression>&& initialElement, std::unique_ptr
 LazyList::LazyList(std::unique_ptr<List>&& cachedElements, std::unique_ptr<Function>&& step) 
 	: cachedElements(std::move(cachedElements)), step(std::move(step)) {}
 
+ExpressionType LazyList::type() const {
+	return ExpressionType::LazyList;
+}
+
 void LazyList::cacheElement(size_t index) const {
 	if (index < cachedElements->length()) {
 		return;

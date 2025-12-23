@@ -5,6 +5,8 @@ class RealNumber final : public Number {
 public:
 	explicit RealNumber(double value);
 
+	ExpressionType type() const override;
+
 	std::unique_ptr<Number> cloneNumber() const override;
 
 	std::string toString() const override;

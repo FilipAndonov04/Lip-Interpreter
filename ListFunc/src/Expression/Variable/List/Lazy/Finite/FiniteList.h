@@ -16,6 +16,8 @@ public:
 	void erase(size_t index) override;
 	std::unique_ptr<Expression> eraseAndGet(size_t index) override;
 
+	ExpressionType type() const override;
+
 	std::unique_ptr<List> cloneList() const override;
 
 private:
