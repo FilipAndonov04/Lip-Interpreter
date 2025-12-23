@@ -3,19 +3,18 @@
 
 class FiniteList final : public LazyList {
 public:
-	FiniteList(std::unique_ptr<Variable>&& initialElement, 
+	FiniteList(std::unique_ptr<Expression>&& initialElement,
 			   std::unique_ptr<Function>&& step, size_t elementCount);
 	FiniteList(std::unique_ptr<List>&& cachedElements, 
 			   std::unique_ptr<Function>&& step, size_t elementCount);
 
 	size_t length() const override;
 
-	const Variable& at(size_t index) const override;
-	Variable& at(size_t index) override;
+	std::unique_ptr<Expression> at(size_t index) const override;
 
-	void insert(size_t index, std::unique_ptr<Variable>&& element) override;
+	void insert(size_t index, std::unique_ptr<Expression>&& element) override;
 	void erase(size_t index) override;
-	std::unique_ptr<Variable> eraseAndGet(size_t index) override;
+	std::unique_ptr<Expression> eraseAndGet(size_t index) override;
 
 	std::unique_ptr<List> cloneList() const override;
 

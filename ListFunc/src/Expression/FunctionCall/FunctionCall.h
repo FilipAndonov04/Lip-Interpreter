@@ -11,6 +11,8 @@ public:
 
 	std::unique_ptr<Expression> cloneExpression() const override;
 
+	std::string toString() const override;
+
 private:
 	FunctionRef functionRef;
 	std::vector<std::unique_ptr<Expression>> args;

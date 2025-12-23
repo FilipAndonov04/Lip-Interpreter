@@ -151,6 +151,7 @@
     <ClCompile Include="src\Function\Graph\Node\Argument\ArgumentNode.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Composite\CompositeNode.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Literal\LiteralNode.cpp" />
+    <ClCompile Include="src\Interpreter\Interpreter.cpp" />
     <ClCompile Include="src\Interpreter\LineParser.cpp" />
     <ClCompile Include="src\Interpreter\ObjectFactory.cpp" />
     <ClCompile Include="src\Interpreter\VariableSet.cpp" />

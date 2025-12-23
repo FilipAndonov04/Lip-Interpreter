@@ -34,9 +34,9 @@ std::unique_ptr<Variable> ObjectFactory::createVariable() {
     throw std::runtime_error("invalid token for variable");
 }
 
-std::unique_ptr<Function> ObjectFactory::createFunction() {
+std::unique_ptr<Function> ObjectFactory::createFunction(size_t argCount) {
     argIds.clear();
-    return createGraphFunction();
+    return createGraphFunction(argCount);
 }
 
 std::unique_ptr<RealNumber> ObjectFactory::createRealNumber() {
@@ -54,7 +54,7 @@ std::unique_ptr<ConcreteList> ObjectFactory::createConcreteList() {
     }
 
     auto list = std::make_unique<ConcreteList>();
-    list->pushBack(Expression::evaluate(createExpression()));
+    list->pushBack(createExpression());
 
     while (true) {
         assertIndex();
@@ -67,7 +67,7 @@ std::unique_ptr<ConcreteList> ObjectFactory::createConcreteList() {
         if (tokens[index++] != ",") {
             throw std::runtime_error("invalid token for list");
         }
-        list->pushBack(Expression::evaluate(createExpression()));
+        list->pushBack(createExpression());
     }
 }
 
@@ -104,9 +104,9 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
     }
 }
 
-std::unique_ptr<GraphFunction> ObjectFactory::createGraphFunction() {
+std::unique_ptr<GraphFunction> ObjectFactory::createGraphFunction(size_t argCount) {
     auto root = createFunctionNode();
-    if (!argIds.empty() && argIds.size() != *std::max_element(argIds.begin(), argIds.end())) {
+    if (argIds.size() != argCount || *std::max_element(argIds.begin(), argIds.end()) != argCount) {
         throw std::invalid_argument("invalid argument count in function definition");
     }
     return std::make_unique<GraphFunction>(argIds.size(), std::move(root));

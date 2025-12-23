@@ -2,7 +2,7 @@
 #include "Function/Function.h"
 #include "Expression/Variable/List/Concrete/ConcreteList.h"
 
-LazyList::LazyList(std::unique_ptr<Variable>&& initialElement, std::unique_ptr<Function>&& step) 
+LazyList::LazyList(std::unique_ptr<Expression>&& initialElement, std::unique_ptr<Function>&& step) 
 	: cachedElements(std::make_unique<ConcreteList>()), step(std::move(step)) {
 	cachedElements->pushBack(std::move(initialElement));
 }
@@ -19,7 +19,7 @@ void LazyList::cacheElement(size_t index) const {
 
 	std::vector<const Expression*> args(1);
 	for (size_t lastIndex = cachedElements->length() - 1; lastIndex < index; lastIndex++) {
-		args[0] = &cachedElements->at(lastIndex);
+		args[0] = cachedElements->at(lastIndex).get();
 		cachedElements->pushBack(Expression::evaluate(step->call(args)));
 	}
 }

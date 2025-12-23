@@ -30,3 +30,14 @@ std::unique_ptr<Expression> FunctionCall::cloneExpression() const {
 
     return std::make_unique<FunctionCall>(functionRef, std::move(clonedArgs));
 }
+
+std::string FunctionCall::toString() const {
+    std::string s = "(" + functionRef.getName() + ", " + "(";
+
+    for (size_t i = 0; i < args.size(); i++) {
+        s.append(args[i]->toString()).append(i != args.size() - 1 ? ", " : "");
+    }
+
+    s.append("))");
+    return s;
+}

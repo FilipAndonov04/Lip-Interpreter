@@ -6,11 +6,19 @@ std::unique_ptr<Variable> List::cloneVariable() const {
     return cloneList();
 }
 
+std::unique_ptr<Expression> List::back() const {
+    return at(length() - 1);
+}
+
+void List::pushBack(std::unique_ptr<Expression>&& element) {
+    insert(length(), std::move(element));
+}
+
 std::string List::toString() const {
     std::string s("[");
 
     for (size_t i = 0; i < length(); i++) {
-        s.append(at(i).toString()).append(i != length() - 1 ? ", " : "");
+        s.append(at(i)->toString()).append(i != length() - 1 ? ", " : "");
     }
 
     s.append("]");
@@ -21,36 +29,16 @@ bool List::isEmpty() const {
     return length() == 0;
 }
 
-const Variable& List::operator[](size_t index) const {
+std::unique_ptr<Expression> List::operator[](size_t index) const {
     return at(index);
 }
 
-Variable& List::operator[](size_t index) {
-    return at(index);
-}
-
-const Variable& List::front() const {
+std::unique_ptr<Expression> List::front() const {
     return at(0);
 }
 
-Variable& List::front() {
-    return at(0);
-}
-
-const Variable& List::back() const {
-    return at(length() - 1);
-}
-
-Variable& List::back() {
-    return at(length() - 1);
-}
-
-void List::pushFront(std::unique_ptr<Variable>&& element) {
+void List::pushFront(std::unique_ptr<Expression>&& element) {
     insert(0, std::move(element));
-}
-
-void List::pushBack(std::unique_ptr<Variable>&& element) {
-    insert(length(), std::move(element));
 }
 
 void List::popFront() {
@@ -61,11 +49,11 @@ void List::popBack() {
     erase(length() - 1);
 }
 
-std::unique_ptr<Variable> List::popFrontAndGet() {
+std::unique_ptr<Expression> List::popFrontAndGet() {
     return eraseAndGet(0);
 }
 
-std::unique_ptr<Variable> List::popBackAndGet() {
+std::unique_ptr<Expression> List::popBackAndGet() {
     return eraseAndGet(length() - 1);
 }
 

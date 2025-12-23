@@ -1,7 +1,7 @@
 #include "FiniteList.h"
 #include "Function/Function.h"
 
-FiniteList::FiniteList(std::unique_ptr<Variable>&& initialElement, 
+FiniteList::FiniteList(std::unique_ptr<Expression>&& initialElement,
                        std::unique_ptr<Function>&& step, size_t elementCount)
     : LazyList(std::move(initialElement), std::move(step)), elementCount(elementCount) {}
 
@@ -13,21 +13,14 @@ size_t FiniteList::length() const {
     return elementCount;
 }
 
-const Variable& FiniteList::at(size_t index) const {
+std::unique_ptr<Expression> FiniteList::at(size_t index) const {
     assertAccessIndex(index);
 
     cacheElement(index);
     return cachedElements->at(index);
 }
 
-Variable& FiniteList::at(size_t index) {
-    assertAccessIndex(index);
-
-    cacheElement(index);
-    return cachedElements->at(index);
-}
-
-void FiniteList::insert(size_t index, std::unique_ptr<Variable>&& element) {
+void FiniteList::insert(size_t index, std::unique_ptr<Expression>&& element) {
     assertInsertIndex(index);
 
     cacheElement(index);
@@ -47,7 +40,7 @@ void FiniteList::erase(size_t index) {
     eraseAndGet(index);
 }
 
-std::unique_ptr<Variable> FiniteList::eraseAndGet(size_t index) {
+std::unique_ptr<Expression> FiniteList::eraseAndGet(size_t index) {
     assertNotEmpty();
     assertAccessIndex(index);
 

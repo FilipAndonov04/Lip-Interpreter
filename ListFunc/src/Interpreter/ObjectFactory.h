@@ -17,14 +17,14 @@ public:
 
 	std::unique_ptr<Expression> createExpression();
 	std::unique_ptr<Variable> createVariable();
-	std::unique_ptr<Function> createFunction();
+	std::unique_ptr<Function> createFunction(size_t argCount);
 
 private:
 	std::unique_ptr<RealNumber> createRealNumber();
 	std::unique_ptr<ConcreteList> createConcreteList();
 	std::unique_ptr<FunctionCall> createFunctionCall();
 
-	std::unique_ptr<GraphFunction> createGraphFunction();
+	std::unique_ptr<GraphFunction> createGraphFunction(size_t argCount);
 	std::unique_ptr<FunctionNode> createFunctionNode();
 	std::unique_ptr<ArgumentNode> createArgumentNode();
 	std::unique_ptr<LiteralNode> createLiteralNode();
