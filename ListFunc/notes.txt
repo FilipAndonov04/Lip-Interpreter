@@ -1,6 +1,6 @@
-(*) add variables
-(*) add VariableRef
-(*) add VariableCall
+(*) implement VariableNode
+(*) implement VariableParsing
+(*) implement VariableCreation
 
 (*) add function redef
 (*) add function undef

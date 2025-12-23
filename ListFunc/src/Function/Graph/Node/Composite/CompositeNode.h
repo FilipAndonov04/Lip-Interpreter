@@ -11,6 +11,9 @@ public:
 
 	std::unique_ptr<FunctionNode> clone() const override;
 
+	const FunctionRef& getFunctionRef() const;
+	std::vector<const FunctionNode*> getArgNodes() const;
+
 private:
 	std::vector<std::unique_ptr<FunctionNode>> argNodes;
 	FunctionRef functionRef;

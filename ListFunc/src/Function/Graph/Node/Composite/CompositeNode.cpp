@@ -10,11 +10,14 @@ CompositeNode::CompositeNode(FunctionRef functionRef,
     : functionRef(std::move(functionRef)), argNodes(std::move(argNodes)) {}
 
 std::unique_ptr<Expression> CompositeNode::call(const std::vector<const Expression*>& args) const {
-    std::vector<std::unique_ptr<Expression>> args2;
-    for (const auto& child : argNodes) {
-        args2.push_back(child->call(args));
+    std::vector<std::unique_ptr<Expression>> refArgs;
+    refArgs.reserve(argNodes.size());
+
+    for (const auto& argNode : argNodes) {
+        refArgs.push_back(argNode->call(args));
     }
-    return std::make_unique<FunctionCall>(functionRef, std::move(args2));
+
+    return std::make_unique<FunctionCall>(functionRef, std::move(refArgs));
 }
 
 std::unique_ptr<FunctionNode> CompositeNode::clone() const {
@@ -26,4 +29,12 @@ std::unique_ptr<FunctionNode> CompositeNode::clone() const {
     }
 
     return std::make_unique<CompositeNode>(functionRef, std::move(clonedNodes));
+}
+
+const FunctionRef& CompositeNode::getFunctionRef() const {
+    return functionRef;
+}
+
+std::vector<const FunctionNode*> CompositeNode::getArgNodes() const {
+    return std::vector<const FunctionNode*>();
 }
