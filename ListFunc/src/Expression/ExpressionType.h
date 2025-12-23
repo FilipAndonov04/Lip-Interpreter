@@ -8,7 +8,8 @@ enum class ExpressionType {
 	LazyList,
 	FiniteList,
 	InfiniteList,
-	FunctionCall
+	FunctionCall,
+	VariableCall
 };
 
 bool isVariable(ExpressionType type);

@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Expression\Call\Variable\VariableCall.cpp" />
     <ClCompile Include="src\Expression\Expression.cpp" />
     <ClCompile Include="src\Expression\ExpressionType.cpp" />
     <ClCompile Include="src\Expression\Call\Function\FunctionCall.cpp" />
@@ -186,6 +187,8 @@
     <ClCompile Include="src\StringUtils\StringUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Expression\Call\Call.h" />
+    <ClInclude Include="src\Expression\Call\Variable\VariableCall.h" />
     <ClInclude Include="src\Expression\Expression.h" />
     <ClInclude Include="src\Expression\ExpressionType.h" />
     <ClInclude Include="src\Expression\Call\Function\FunctionCall.h" />

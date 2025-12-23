@@ -1,6 +1,5 @@
 #include "FunctionCall.h"
 #include "Expression/Variable/Variable.h"
-#include "Function/Function.h"
 
 FunctionCall::FunctionCall(FunctionRef functionRef)
     : functionRef(std::move(functionRef)) {}

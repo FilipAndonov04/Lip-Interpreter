@@ -1,10 +1,10 @@
 #pragma once
-#include "Expression/Expression.h"
+#include "Expression/Call/Call.h"
 #include "Interpreter/VariableSet/FunctionRef.h"
 
 #include <vector>
 
-class FunctionCall : public Expression {
+class FunctionCall final : public Call {
 public:
 	explicit FunctionCall(FunctionRef functionRef);
 	FunctionCall(FunctionRef functionRef, std::vector<std::unique_ptr<Expression>>&& args);
