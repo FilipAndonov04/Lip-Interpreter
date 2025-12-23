@@ -7,6 +7,13 @@
 
 class VariableSet {
 public:
+	VariableSet() = default;
+	VariableSet(const VariableSet& other);
+	VariableSet(VariableSet&&) noexcept = default;
+	VariableSet& operator=(const VariableSet& other);
+	VariableSet& operator=(VariableSet&&) noexcept = default;
+	~VariableSet() = default;
+
 	bool containsVariable(const std::string& name) const;
 	bool containsFunction(const std::string& name) const;
 	bool containsFunction(const std::string& name, size_t argCount) const;

@@ -3,6 +3,33 @@
 #include <stdexcept>
 #include <algorithm>
 
+VariableSet::VariableSet(const VariableSet& other) {
+	variables.reserve(other.variables.size());
+	for (const auto& var : other.variables) {
+		variables.insert({var.first, var.second->cloneVariable()});
+	}
+
+	functions.reserve(other.functions.size());
+	for (const auto& funcs : other.functions) {
+		std::vector<std::unique_ptr<Function>> clonedFuncs;
+		clonedFuncs.reserve(funcs.second.size());
+
+		for (const auto& f : funcs.second) {
+			clonedFuncs.push_back(f->clone());
+		}
+
+		functions.insert({funcs.first, std::move(clonedFuncs)});
+	}
+}
+
+VariableSet& VariableSet::operator=(const VariableSet& other) {
+	if (this != &other) {
+		VariableSet temp(other);
+		*this = std::move(temp);
+	}
+	return *this;
+}
+
 bool VariableSet::containsVariable(const std::string& name) const {
 	return variables.find(name) != variables.end();
 }
