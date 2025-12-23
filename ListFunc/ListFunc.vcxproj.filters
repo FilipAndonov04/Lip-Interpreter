@@ -39,7 +39,7 @@
     <ClCompile Include="src\Function\Graph\GraphFunction.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\VariableDatabase.cpp">
+    <ClCompile Include="src\Interpreter\VariableSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Expression\Variable\Number\Number.cpp">
@@ -116,7 +116,7 @@
     <ClInclude Include="src\Interpreter\Interpreter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\VariableDatabase.h">
+    <ClInclude Include="src\Interpreter\VariableSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Expression\Variable\Number\Number.h">
@@ -158,5 +158,8 @@
     <ClInclude Include="src\EmbeddedFuncs.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="functions.txt" />
   </ItemGroup>
 </Project>

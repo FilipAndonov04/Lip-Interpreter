@@ -1,5 +1,5 @@
 #pragma once
-#include "Interpreter/VariableDatabase.h"
+#include "Interpreter/VariableSet.h"
 #include "Interpreter/LineParser.h"
 
 #include <string_view>
@@ -7,14 +7,14 @@
 class Interpreter {
 public:
 	Interpreter() = default;
-	explicit Interpreter(const VariableDatabase& variableDatabase);
-	explicit Interpreter(VariableDatabase&& variableDatabase);
+	explicit Interpreter(const VariableSet& variableSet);
+	explicit Interpreter(VariableSet&& variableSet);
 
 	void interpret(std::string_view line);
 
-	const VariableDatabase& getVariableDatabase() const;
-	VariableDatabase& getVariableDatabase();
+	const VariableSet& getVariableSet() const;
+	VariableSet& getVariableSet();
 
 private:
-	VariableDatabase variableDatabase;
+	VariableSet variableSet;
 };

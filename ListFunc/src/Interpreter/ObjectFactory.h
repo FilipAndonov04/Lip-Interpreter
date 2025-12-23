@@ -12,7 +12,7 @@
 
 class ObjectFactory {
 public:
-	ObjectFactory(std::vector<std::string> tokens);
+	ObjectFactory(std::vector<std::string> tokens, const VariableSet& variableSet);
 
 	std::unique_ptr<Expression> createExpression();
 	std::unique_ptr<Variable> createVariable();
@@ -34,4 +34,5 @@ public:
 
 	std::vector<std::string> tokens;
 	size_t index = 0;
+	const VariableSet* variableSet;
 };

@@ -153,7 +153,7 @@
     <ClCompile Include="src\Function\Graph\Node\Literal\LiteralNode.cpp" />
     <ClCompile Include="src\Interpreter\LineParser.cpp" />
     <ClCompile Include="src\Interpreter\ObjectFactory.cpp" />
-    <ClCompile Include="src\Interpreter\VariableDatabase.cpp" />
+    <ClCompile Include="src\Interpreter\VariableSet.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\StringUtils\CharUtils.cpp" />
     <ClCompile Include="src\StringUtils\StringUtils.cpp" />
@@ -181,9 +181,12 @@
     <ClInclude Include="src\Interpreter\ObjectFactory.h" />
     <ClInclude Include="src\Interpreter\Interpreter.h" />
     <ClInclude Include="src\Interpreter\LineParser.h" />
-    <ClInclude Include="src\Interpreter\VariableDatabase.h" />
+    <ClInclude Include="src\Interpreter\VariableSet.h" />
     <ClInclude Include="src\StringUtils\CharUtils.h" />
     <ClInclude Include="src\StringUtils\StringUtils.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="functions.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

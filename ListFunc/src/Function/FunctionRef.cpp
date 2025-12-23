@@ -1,11 +1,11 @@
 #include "FunctionRef.h"
-#include "Interpreter/VariableDatabase.h"
+#include "Interpreter/VariableSet.h"
 
-FunctionRef::FunctionRef(std::string name, size_t argCount, const VariableDatabase& database) 
-    : name(std::move(name)), argCount(argCount), database(&database) {}
+FunctionRef::FunctionRef(std::string name, size_t argCount, const VariableSet& variableSet)
+    : name(std::move(name)), argCount(argCount), variableSet(&variableSet) {}
 
 Function& FunctionRef::function() const {
-    return database->getFunction(name, argCount);
+    return variableSet->getFunction(name, argCount);
 }
 
 Function& FunctionRef::operator*() const {
@@ -17,7 +17,7 @@ Function* FunctionRef::operator->() const {
 }
 
 bool FunctionRef::isValid() const {
-    return database->containsFunction(name, argCount);
+    return variableSet->containsFunction(name, argCount);
 }
 
 FunctionRef::operator bool() const {

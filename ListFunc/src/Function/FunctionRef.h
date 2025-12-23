@@ -3,11 +3,11 @@
 
 #include <string>
 
-class VariableDatabase;
+class VariableSet;
 
 class FunctionRef {
 public:
-	FunctionRef(std::string name, size_t argCount, const VariableDatabase& database);
+	FunctionRef(std::string name, size_t argCount, const VariableSet& variableSet);
 
 	Function& function() const;
 	Function& operator*() const;
@@ -19,5 +19,5 @@ public:
 private:
 	std::string name;
 	size_t argCount;
-	const VariableDatabase* database;
+	const VariableSet* variableSet;
 };

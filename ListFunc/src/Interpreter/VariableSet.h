@@ -5,7 +5,7 @@
 #include <string>
 #include <unordered_map>
 
-class VariableDatabase {
+class VariableSet {
 public:
 	bool containsVariable(const std::string& name) const;
 	bool containsFunction(const std::string& name) const;

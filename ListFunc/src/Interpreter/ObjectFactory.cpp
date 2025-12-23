@@ -9,10 +9,16 @@
 
 #include <stdexcept>
 
-ObjectFactory::ObjectFactory(std::vector<std::string> tokens) 
-    : tokens(std::move(tokens)) {}
+ObjectFactory::ObjectFactory(std::vector<std::string> tokens, const VariableSet& variableSet)
+    : tokens(std::move(tokens)), variableSet(&variableSet) {}
 
 std::unique_ptr<Expression> ObjectFactory::createExpression() {
+    assertIndex();
+
+    if (StringUtils::isLetter(tokens[index].front())) {
+        return createFunctionCall();
+    }
+
     return createVariable();
 }
 
@@ -24,15 +30,12 @@ std::unique_ptr<Variable> ObjectFactory::createVariable() {
     } else if (tokens[index] == "[") {
         return createConcreteList();
     }
-    throw std::runtime_error("invalid token");
+
+    throw std::runtime_error("invalid token for variable");
 }
 
 std::unique_ptr<Function> ObjectFactory::createFunction() {
     return std::unique_ptr<Function>();
-}
-
-std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
-    throw std::runtime_error("invalid line");
 }
 
 std::unique_ptr<RealNumber> ObjectFactory::createRealNumber() {
@@ -61,18 +64,51 @@ std::unique_ptr<ConcreteList> ObjectFactory::createConcreteList() {
         }
 
         if (tokens[index++] != ",") {
-            throw std::runtime_error("invalid element in list");
+            throw std::runtime_error("invalid token for list");
         }
         list->pushBack(Expression::evaluate(createExpression()));
     }
 }
 
 std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
-    return std::unique_ptr<FunctionCall>();
+    std::string functionName = std::move(tokens[index++]);
+
+    assertIndex();
+    if (tokens[index++] != "(") {
+        throw std::runtime_error("invalid token for function call");
+    }
+
+    assertIndex();
+    if (tokens[index] == ")") {
+        index++;
+        return std::make_unique<FunctionCall>(FunctionRef{std::move(functionName), 0, *variableSet});
+    }
+
+    std::vector<std::unique_ptr<Expression>> args;
+    args.push_back(createExpression());
+
+    while (true) {
+        assertIndex();
+
+        if (tokens[index] == ")") {
+            index++;
+            return std::make_unique<FunctionCall>(FunctionRef{std::move(functionName), 
+                                                  args.size(), *variableSet}, std::move(args));
+        }
+
+        if (tokens[index++] != ",") {
+            throw std::runtime_error("invalid token for function call");
+        }
+        args.push_back(createExpression());
+    }
 }
 
 std::unique_ptr<GraphFunction> ObjectFactory::createGraphFunction() {
     return std::unique_ptr<GraphFunction>();
+}
+
+std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
+    throw std::runtime_error("invalid line");
 }
 
 std::unique_ptr<ArgumentNode> ObjectFactory::createArgumentNode() {
