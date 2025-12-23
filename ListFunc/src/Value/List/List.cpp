@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-std::unique_ptr<Variable> List::cloneVariable() const {
+std::unique_ptr<Value> List::cloneValue() const {
     return cloneList();
 }
 

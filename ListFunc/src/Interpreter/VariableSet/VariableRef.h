@@ -1,5 +1,5 @@
 #pragma once
-#include "Expression/Variable/Variable.h"
+#include "Value/Value.h"
 
 #include <string>
 
@@ -9,10 +9,10 @@ class VariableRef {
 public:
 	VariableRef(std::string name, const VariableSet& variableSet);
 
-	const Variable& deref() const;
-	const Variable* ptr() const;
-	const Variable& operator*() const;
-	const Variable* operator->() const;
+	const Value& deref() const;
+	const Value* ptr() const;
+	const Value& operator*() const;
+	const Value* operator->() const;
 
 	bool isValid() const;
 	operator bool() const;

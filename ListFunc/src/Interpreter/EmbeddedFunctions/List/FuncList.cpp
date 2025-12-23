@@ -1,7 +1,7 @@
 #include "FuncList.h"
-#include "Expression/Variable/List/Lazy/Finite/FiniteList.h"
-#include "Expression/Variable/List/Lazy/Infinite/InfiniteList.h"
-#include "Expression/Variable/Number/RealNumber.h"
+#include "Value/List/Lazy/Finite/FiniteList.h"
+#include "Value/List/Lazy/Infinite/InfiniteList.h"
+#include "Value/Number/RealNumber.h"
 #include "Function/Wrapper/WrapperFunction.hpp"
 
 #include <stdexcept>

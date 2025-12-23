@@ -1,5 +1,5 @@
 #include "FunctionCall.h"
-#include "Expression/Variable/Variable.h"
+#include "Value/Value.h"
 
 FunctionCall::FunctionCall(FunctionRef functionRef)
     : functionRef(std::move(functionRef)) {}
@@ -9,7 +9,7 @@ FunctionCall::FunctionCall(FunctionRef functionRef,
     : functionRef(std::move(functionRef)), args(std::move(args)) {}
 
 
-std::unique_ptr<Variable> FunctionCall::evaluate() const {
+std::unique_ptr<Value> FunctionCall::evaluate() const {
     std::vector<const Expression*> argRefs;
     argRefs.reserve(args.size());
 

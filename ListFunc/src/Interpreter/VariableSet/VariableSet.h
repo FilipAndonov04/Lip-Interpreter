@@ -1,5 +1,5 @@
 #pragma once
-#include "Expression/Variable/Variable.h"
+#include "Value/Value.h"
 #include "Function/Function.h"
 
 #include <string>
@@ -18,7 +18,7 @@ public:
 	bool containsFunction(const std::string& name) const;
 	bool containsFunction(const std::string& name, size_t argCount) const;
 
-	void add(const std::string& name, std::unique_ptr<Variable>&& variable);
+	void add(const std::string& name, std::unique_ptr<Value>&& variable);
 	void add(const std::string& name, std::unique_ptr<Function>&& function);
 	
 	void removeVariable(const std::string& name);
@@ -26,7 +26,7 @@ public:
 	void removeFunction(const std::string& name, size_t argCount);
 
 	const Variable* getVariable(const std::string& name) const;
-	Variable* getVariable(const std::string& name);
+	Value* getVariable(const std::string& name);
 	const Function* getFunction(const std::string& name, size_t argCount) const;
 	Function* getFunction(const std::string& name, size_t argCount);
 

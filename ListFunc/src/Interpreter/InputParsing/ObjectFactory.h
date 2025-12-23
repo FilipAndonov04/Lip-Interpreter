@@ -1,6 +1,6 @@
 #pragma once
-#include "Expression/Variable/Number/RealNumber.h"
-#include "Expression/Variable/List/Concrete/ConcreteList.h"
+#include "Value/Number/RealNumber.h"
+#include "Value/List/Concrete/ConcreteList.h"
 #include "Expression/Call/Function/FunctionCall.h"
 #include "Expression/Call/Variable/VariableCall.h"
 
@@ -19,7 +19,7 @@ public:
 	ObjectFactory(std::vector<std::string> tokens, const VariableSet& variableSet, size_t index = 0);
 
 	std::unique_ptr<Expression> createExpression();
-	std::unique_ptr<Variable> createVariable();
+	std::unique_ptr<Value> createVariable();
 	std::unique_ptr<Function> createFunction(size_t argCount);
 
 private:

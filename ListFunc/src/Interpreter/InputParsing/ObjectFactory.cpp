@@ -1,6 +1,6 @@
 #include "ObjectFactory.h"
-#include "Expression/Variable/Number/RealNumber.h"
-#include "Expression/Variable/List/Concrete/ConcreteList.h"
+#include "Value/Number/RealNumber.h"
+#include "Value/List/Concrete/ConcreteList.h"
 #include "Function/Graph/GraphFunction.h"
 #include "Function/Graph/Node/FunctionNode.h"
 
@@ -24,7 +24,7 @@ std::unique_ptr<Expression> ObjectFactory::createExpression() {
     return createVariable();
 }
 
-std::unique_ptr<Variable> ObjectFactory::createVariable() {
+std::unique_ptr<Value> ObjectFactory::createVariable() {
     assertIndex();
 
     if (StringUtils::isDigit(tokens[index].front()) || StringUtils::isDash(tokens[index].front())) {

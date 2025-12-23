@@ -1,6 +1,6 @@
 #pragma once
 #include "Function/Function.h"
-#include "Expression/Variable/Variable.h"
+#include "Value/Value.h"
 
 template <typename Func>
 class WrapperFunction final : public Function {

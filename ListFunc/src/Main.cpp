@@ -1,8 +1,8 @@
 #include "Interpreter/Interpreter.h"
 #include "Function/Wrapper/WrapperFunction.hpp"
 
-#include "Expression/Variable/Number/RealNumber.h"
-#include "Expression/Variable/List/Concrete/ConcreteList.h"
+#include "Value/Number/RealNumber.h"
+#include "Value/List/Concrete/ConcreteList.h"
 #include "Expression/Call/Function/FunctionCall.h"
 #include "Function/Graph/GraphFunction.h"
 #include "Function/Graph/Node/Argument/ArgumentNode.h"

@@ -1,13 +1,11 @@
 #pragma once
-#include "Expression/Variable/Variable.h"
+#include "Value/Value.h"
 
-class RealNumber final : public Variable {
+class RealNumber final : public Value {
 public:
 	explicit RealNumber(double value);
 
-	ExpressionType type() const override;
-
-	std::unique_ptr<Variable> cloneVariable() const override;
+	std::unique_ptr<Value> cloneValue() const override;
 
 	std::string toString() const override;
 

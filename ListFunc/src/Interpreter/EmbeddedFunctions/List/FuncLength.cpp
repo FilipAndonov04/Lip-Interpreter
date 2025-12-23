@@ -1,6 +1,6 @@
 #include "FuncLength.h"
-#include "Expression/Variable/List/List.h"
-#include "Expression/Variable/Number/RealNumber.h"
+#include "Value/List/List.h"
+#include "Value/Number/RealNumber.h"
 
 #include <stdexcept>
 

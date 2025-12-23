@@ -1,7 +1,7 @@
 #include "FiniteList.h"
 #include "Function/Function.h"
 
-FiniteList::FiniteList(std::unique_ptr<Expression>&& initialElement,
+FiniteList::FiniteList(std::unique_ptr<Value>&& initialElement,
                        std::unique_ptr<Function>&& step, size_t elementCount)
     : LazyList(std::move(initialElement), std::move(step)), elementCount(elementCount) {}
 
@@ -13,14 +13,14 @@ size_t FiniteList::length() const {
     return elementCount;
 }
 
-std::unique_ptr<Expression> FiniteList::at(size_t index) const {
+std::unique_ptr<Value> FiniteList::at(size_t index) const {
     assertAccessIndex(index);
 
     cacheElement(index);
     return cachedElements->at(index);
 }
 
-void FiniteList::insert(size_t index, std::unique_ptr<Expression>&& element) {
+void FiniteList::insert(size_t index, std::unique_ptr<Value>&& element) {
     assertInsertIndex(index);
 
     cacheElement(index);
@@ -40,17 +40,13 @@ void FiniteList::erase(size_t index) {
     eraseAndGet(index);
 }
 
-std::unique_ptr<Expression> FiniteList::eraseAndGet(size_t index) {
+std::unique_ptr<Value> FiniteList::eraseAndGet(size_t index) {
     assertNotEmpty();
     assertAccessIndex(index);
 
     cacheElement(index + 1);
     elementCount--;
     return cachedElements->eraseAndGet(index);
-}
-
-ExpressionType FiniteList::type() const {
-    return ExpressionType::FiniteList;
 }
 
 std::unique_ptr<List> FiniteList::cloneList() const {

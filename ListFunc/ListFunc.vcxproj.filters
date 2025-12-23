@@ -21,9 +21,6 @@
     <ClCompile Include="src\Function\Graph\Node\Literal\LiteralNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Variable\Variable.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Function\Graph\Node\Argument\ArgumentNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -42,28 +39,25 @@
     <ClCompile Include="src\Interpreter\VariableSet\VariableSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Variable\Number\RealNumber.cpp">
+    <ClCompile Include="src\Value\Number\RealNumber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Expression\Call\Function\FunctionCall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Expression.cpp">
+    <ClCompile Include="src\Value\List\List.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Variable\List\List.cpp">
+    <ClCompile Include="src\Value\List\Concrete\ConcreteList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Variable\List\Concrete\ConcreteList.cpp">
+    <ClCompile Include="src\Value\List\Lazy\LazyList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Variable\List\Lazy\LazyList.cpp">
+    <ClCompile Include="src\Value\List\Lazy\Finite\FiniteList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Variable\List\Lazy\Finite\FiniteList.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.cpp">
+    <ClCompile Include="src\Value\List\Lazy\Infinite\InfiniteList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\InputParsing\ObjectFactory.cpp">
@@ -79,9 +73,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\Interpreter.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Expression\ExpressionType.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncAdd.cpp">
@@ -179,7 +170,7 @@
     <ClInclude Include="src\Expression\Expression.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Variable\Variable.h">
+    <ClInclude Include="src\Value\Value.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Function\Graph\Node\Argument\ArgumentNode.h">
@@ -206,25 +197,25 @@
     <ClInclude Include="src\Interpreter\VariableSet\VariableSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Variable\Number\RealNumber.h">
+    <ClInclude Include="src\Value\Number\RealNumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Expression\Call\Function\FunctionCall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Variable\List\List.h">
+    <ClInclude Include="src\Value\List\List.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Variable\List\Concrete\ConcreteList.h">
+    <ClInclude Include="src\Value\List\Concrete\ConcreteList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Variable\List\Lazy\LazyList.h">
+    <ClInclude Include="src\Value\List\Lazy\LazyList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Variable\List\Lazy\Finite\FiniteList.h">
+    <ClInclude Include="src\Value\List\Lazy\Finite\FiniteList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.h">
+    <ClInclude Include="src\Value\List\Lazy\Infinite\InfiniteList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Interpreter\InputParsing\Tokenizer.h">

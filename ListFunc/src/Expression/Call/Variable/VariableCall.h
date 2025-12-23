@@ -6,7 +6,7 @@ class VariableCall final : public Call {
 public:
 	explicit VariableCall(VariableRef variableRef);
 
-	std::unique_ptr<Variable> evaluate() const override;
+	std::unique_ptr<Value> evaluate() const override;
 
 	ExpressionType type() const override;
 

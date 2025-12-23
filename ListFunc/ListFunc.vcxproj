@@ -136,16 +136,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\Expression\Call\Variable\VariableCall.cpp" />
-    <ClCompile Include="src\Expression\Expression.cpp" />
-    <ClCompile Include="src\Expression\ExpressionType.cpp" />
     <ClCompile Include="src\Expression\Call\Function\FunctionCall.cpp" />
-    <ClCompile Include="src\Expression\Variable\List\Concrete\ConcreteList.cpp" />
-    <ClCompile Include="src\Expression\Variable\List\Lazy\Finite\FiniteList.cpp" />
-    <ClCompile Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.cpp" />
-    <ClCompile Include="src\Expression\Variable\List\Lazy\LazyList.cpp" />
-    <ClCompile Include="src\Expression\Variable\List\List.cpp" />
-    <ClCompile Include="src\Expression\Variable\Number\RealNumber.cpp" />
-    <ClCompile Include="src\Expression\Variable\Variable.cpp" />
+    <ClCompile Include="src\Value\List\Concrete\ConcreteList.cpp" />
+    <ClCompile Include="src\Value\List\Lazy\Finite\FiniteList.cpp" />
+    <ClCompile Include="src\Value\List\Lazy\Infinite\InfiniteList.cpp" />
+    <ClCompile Include="src\Value\List\Lazy\LazyList.cpp" />
+    <ClCompile Include="src\Value\List\List.cpp" />
+    <ClCompile Include="src\Value\Number\RealNumber.cpp" />
     <ClCompile Include="src\Function\Function.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Variable\VariableNode.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterOrEqual.cpp" />
@@ -193,13 +190,13 @@
     <ClInclude Include="src\Expression\Expression.h" />
     <ClInclude Include="src\Expression\ExpressionType.h" />
     <ClInclude Include="src\Expression\Call\Function\FunctionCall.h" />
-    <ClInclude Include="src\Expression\Variable\List\Concrete\ConcreteList.h" />
-    <ClInclude Include="src\Expression\Variable\List\Lazy\Finite\FiniteList.h" />
-    <ClInclude Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.h" />
-    <ClInclude Include="src\Expression\Variable\List\Lazy\LazyList.h" />
-    <ClInclude Include="src\Expression\Variable\List\List.h" />
-    <ClInclude Include="src\Expression\Variable\Number\RealNumber.h" />
-    <ClInclude Include="src\Expression\Variable\Variable.h" />
+    <ClInclude Include="src\Value\List\Concrete\ConcreteList.h" />
+    <ClInclude Include="src\Value\List\Lazy\Finite\FiniteList.h" />
+    <ClInclude Include="src\Value\List\Lazy\Infinite\InfiniteList.h" />
+    <ClInclude Include="src\Value\List\Lazy\LazyList.h" />
+    <ClInclude Include="src\Value\List\List.h" />
+    <ClInclude Include="src\Value\Number\RealNumber.h" />
+    <ClInclude Include="src\Value\Value.h" />
     <ClInclude Include="src\Function\Function.h" />
     <ClInclude Include="src\Function\Graph\Node\Variable\VariableNode.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterThan.h" />

@@ -1,6 +1,6 @@
 #include "GraphFunction.h"
 #include "Function/Graph/Node/FunctionNode.h"
-#include "Expression/Variable/Variable.h"
+#include "Value/Value.h"
 
 GraphFunction::GraphFunction(size_t argCount, std::unique_ptr<FunctionNode>&& graphRoot) 
     : Function(argCount), graphRoot(std::move(graphRoot)) {}

@@ -1,5 +1,5 @@
 #include "ArgumentNode.h"
-#include "Expression/Variable/Variable.h"
+#include "Value/Value.h"
 
 ArgumentNode::ArgumentNode(size_t argId)
     : argId(argId) {}

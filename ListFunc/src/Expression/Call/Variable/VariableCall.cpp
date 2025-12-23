@@ -3,7 +3,7 @@
 VariableCall::VariableCall(VariableRef variableRef)
     : variableRef(std::move(variableRef)) {}
 
-std::unique_ptr<Variable> VariableCall::evaluate() const {
+std::unique_ptr<Value> VariableCall::evaluate() const {
     return variableRef->cloneVariable();
 }
 

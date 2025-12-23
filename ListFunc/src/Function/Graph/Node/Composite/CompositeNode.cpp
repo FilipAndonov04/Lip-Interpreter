@@ -1,5 +1,5 @@
 #include "CompositeNode.h"
-#include "Expression/Variable/Variable.h"
+#include "Value/Value.h"
 #include "Expression/Call/Function/FunctionCall.h"
 
 CompositeNode::CompositeNode(FunctionRef functionRef) 

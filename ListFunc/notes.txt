@@ -1,5 +1,12 @@
-(*) implement VariableParsing
-(*) implement VariableCreation
+(*) refactor variable into value
+(*) separate value hierarchy
+(*) add literal list expressions
+(*) add literal number expressions
+(*) fix lazy list caching
+(*) make functions return value
+(*) fix errors
+(*) clean up value list class
+(*) add value wrapper
 
 (*) add variable def
 (*) add variable redef

@@ -9,7 +9,7 @@ public:
 	explicit FunctionCall(FunctionRef functionRef);
 	FunctionCall(FunctionRef functionRef, std::vector<std::unique_ptr<Expression>>&& args);
 
-	std::unique_ptr<Variable> evaluate() const override;
+	std::unique_ptr<Value> evaluate() const override;
 
 	ExpressionType type() const override;
 
