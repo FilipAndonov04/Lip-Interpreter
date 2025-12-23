@@ -18,10 +18,12 @@ bool isWhitespace(char ch);
 
 bool isSign(char ch);
 
-bool isOpenParentheses(char ch);
-bool isCloseParentheses(char ch);
-bool isOpenBracket(char ch);
-bool isCloseBracket(char ch);
+bool isOpenCircleBracket(char ch);
+bool isCloseCircleBracket(char ch);
+bool isOpenSquareBracket(char ch);
+bool isCloseSquareBracket(char ch);
+bool isOpenCurlyBracket(char ch);
+bool isCloseCurlyBracket(char ch);
 
 bool isEqualSign(char ch);
 bool isDolarSign(char ch);

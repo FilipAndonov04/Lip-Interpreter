@@ -1,9 +1,14 @@
-(*) implement VariableNode
 (*) implement VariableParsing
 (*) implement VariableCreation
 
+(*) add variable def
+(*) add variable redef
+(*) add variable undef
+
 (*) add function redef
 (*) add function undef
+
+(*) make tokenizer give the token type with the string
 
 (*) clean up embedded functions
 (*) clean up interpreter
@@ -15,4 +20,4 @@
 (*) add file work mode
 (*) add saving function to file and loading them from file
 
-(*) add different embedded functions based on difficulty
+(*) different embedded functions based on difficulty

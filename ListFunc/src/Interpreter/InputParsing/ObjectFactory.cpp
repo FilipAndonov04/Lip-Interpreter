@@ -17,6 +17,8 @@ std::unique_ptr<Expression> ObjectFactory::createExpression() {
 
     if (StringUtils::isLetter(tokens[index].front())) {
         return createFunctionCall();
+    } else if (tokens[index] == "{") {
+        return createVariableCall();
     }
 
     return createVariable();
@@ -31,7 +33,7 @@ std::unique_ptr<Variable> ObjectFactory::createVariable() {
         return createConcreteList();
     }
 
-    throw std::runtime_error("invalid token for variable");
+    throw std::invalid_argument("invalid token for variable");
 }
 
 std::unique_ptr<Function> ObjectFactory::createFunction(size_t argCount) {
@@ -65,7 +67,7 @@ std::unique_ptr<ConcreteList> ObjectFactory::createConcreteList() {
         }
 
         if (tokens[index++] != ",") {
-            throw std::runtime_error("invalid token for list");
+            throw std::invalid_argument("invalid token for list");
         }
         list->pushBack(createExpression());
     }
@@ -76,7 +78,7 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
 
     assertIndex();
     if (tokens[index++] != "(") {
-        throw std::runtime_error("invalid token for function call");
+        throw std::invalid_argument("function name must be followed by a circle bracket");
     }
 
     assertIndex();
@@ -98,10 +100,24 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
         }
 
         if (tokens[index++] != ",") {
-            throw std::runtime_error("invalid token for function call");
+            throw std::invalid_argument("function arguments must be separated by commas");
         }
         args.push_back(createExpression());
     }
+}
+
+std::unique_ptr<VariableCall> ObjectFactory::createVariableCall() {
+    index++;
+
+    assertIndex();
+    std::string variableName = std::move(tokens[index++]);
+
+    assertIndex();
+    if (tokens[index++] != "}") {
+        throw std::invalid_argument("variable name must be followed by closed curly bracket");
+    }
+
+    return std::make_unique<VariableCall>(VariableRef{std::move(variableName), *variableSet});
 }
 
 std::unique_ptr<GraphFunction> ObjectFactory::createGraphFunction(size_t argCount) {
@@ -116,12 +132,22 @@ std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
     assertIndex();
 
     if (tokens[index] == "$") {
-        return createArgumentNode();
+        index++;
+        assertIndex();
+        index--;
+
+        if (StringUtils::isDigit(tokens[index + 1].front())) {
+            return createArgumentNode();
+        } else if (StringUtils::isLetter(tokens[index + 1].front())) {
+            return createVariableNode();
+        }
+        
+        throw std::invalid_argument("$ must be followed by a argument number or variable name");
     } else if (StringUtils::isDigit(tokens[index].front()) || 
                StringUtils::isDash(tokens[index].front()) || 
-               StringUtils::isOpenBracket(tokens[index].front())) {
+               StringUtils::isOpenSquareBracket(tokens[index].front())) {
         return createLiteralNode();
-    }else if (StringUtils::isLetter(tokens[index].front())) {
+    } else if (StringUtils::isLetter(tokens[index].front())) {
         return createCompositeNode();
     }
 }
@@ -144,7 +170,7 @@ std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
 
     assertIndex();
     if (tokens[index++] != "(") {
-        throw std::runtime_error("invalid token for function");
+        throw std::invalid_argument("function name must be followed by a circle bracket");
     }
 
     assertIndex();
@@ -166,14 +192,21 @@ std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
         }
 
         if (tokens[index++] != ",") {
-            throw std::runtime_error("invalid token for function");
+            throw std::invalid_argument("function arguments must be separated by commas");
         }
         argNodes.push_back(createFunctionNode());
     }
 }
 
+std::unique_ptr<VariableNode> ObjectFactory::createVariableNode() {
+    index++;
+
+    assertIndex();
+    return VariableNode::of(VariableRef{std::move(tokens[index++]), *variableSet});
+}
+
 void ObjectFactory::assertIndex() const {
     if (index >= tokens.size()) {
-        throw std::runtime_error("there are no more tokens");
+        throw std::invalid_argument("there are no more tokens");
     }
 }

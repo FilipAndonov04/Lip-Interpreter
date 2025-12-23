@@ -11,6 +11,7 @@ bool isVariable(ExpressionType type) {
 	case ExpressionType::InfiniteList:
 		return true;
 	case ExpressionType::FunctionCall:
+	case ExpressionType::VariableCall:
 		return false;
 	}
 
@@ -29,6 +30,7 @@ bool isList(ExpressionType type) {
 	case ExpressionType::InfiniteList:
 		return true;
 	case ExpressionType::FunctionCall:
+	case ExpressionType::VariableCall:
 		return false;
 	}
 

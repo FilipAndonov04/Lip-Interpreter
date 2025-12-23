@@ -2,7 +2,7 @@
 #include "Function/Graph/Node/FunctionNode.h"
 #include "Interpreter/VariableSet/VariableRef.h"
 
-class VariableNode : public FunctionNode {
+class VariableNode final : public FunctionNode {
 public:
 	explicit VariableNode(VariableRef variableRef);
 

@@ -117,7 +117,14 @@ Interpreter setUpFunctions() {
 	varSet.add("list", std::make_unique<WrapperFunction<FuncList>>(2));
 	varSet.add("list", std::make_unique<WrapperFunction<FuncList>>(1));
 
+	// extra
 	varSet.add("work", std::make_unique<WrapperFunction<Worker>>(0));
+
+	// variables
+	varSet.add("pi", RealNumber::of(3.14));
+	varSet.add("e", RealNumber::of(2.71828));
+	varSet.add("a", RealNumber::of(1));
+	varSet.add("b", RealNumber::of(-5.5));
 
 	return inter;
 }

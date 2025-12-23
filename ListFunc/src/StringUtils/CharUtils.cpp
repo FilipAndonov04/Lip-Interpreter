@@ -47,25 +47,33 @@ bool isWhitespace(char ch) {
 }
 
 bool isSign(char ch) {
-    return isOpenParentheses(ch) || isCloseParentheses(ch) || isOpenBracket(ch) ||
-        isCloseBracket(ch) || isEqualSign(ch) || isDolarSign(ch) || 
-        isComma(ch) || isDot(ch);
+    return isOpenCircleBracket(ch) || isCloseCircleBracket(ch) || isOpenSquareBracket(ch) ||
+        isCloseSquareBracket(ch) || isOpenCurlyBracket(ch) || isCloseCurlyBracket(ch) ||
+        isEqualSign(ch) || isDolarSign(ch) || isComma(ch) || isDot(ch);
 }
 
-bool isOpenParentheses(char ch) {
+bool isOpenCircleBracket(char ch) {
     return ch == '(';
 }
 
-bool isCloseParentheses(char ch) {
+bool isCloseCircleBracket(char ch) {
     return ch == ')';
 }
 
-bool isOpenBracket(char ch) {
+bool isOpenSquareBracket(char ch) {
     return ch == '[';
 }
 
-bool isCloseBracket(char ch) {
+bool isCloseSquareBracket(char ch) {
     return ch == ']';
+}
+
+bool isOpenCurlyBracket(char ch) {
+    return ch == '{';
+}
+
+bool isCloseCurlyBracket(char ch) {
+    return ch == '}';
 }
 
 bool isEqualSign(char ch) {
