@@ -11,7 +11,7 @@ ExpressionType VariableCall::type() const {
     return ExpressionType::VariableCall;
 }
 
-std::unique_ptr<Expression> VariableCall::cloneExpression() const {
+std::unique_ptr<Expression> VariableCall::clone() const {
     return std::make_unique<VariableCall>(variableRef);
 }
 

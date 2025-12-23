@@ -11,5 +11,5 @@ std::unique_ptr<Expression> FuncIf::operator()(const std::vector<const Expressio
 	}
 
 	auto n1 = static_cast<const RealNumber*>(arg1.get());
-	return n1->getValue() ? args[1]->cloneExpression() : args[2]->cloneExpression();
+	return n1->getValue() ? args[1]->clone() : args[2]->clone();
 }

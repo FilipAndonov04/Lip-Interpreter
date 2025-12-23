@@ -12,4 +12,6 @@ static constexpr char DEFAULT[] = "\x1b[39m";
 double toDouble(std::string_view s);
 size_t toSizeType(std::string_view s);
 
+std::string toString(double d);
+
 }
