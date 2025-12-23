@@ -45,7 +45,7 @@
     <ClCompile Include="src\Expression\Variable\Number\RealNumber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\FunctionCall\FunctionCall.cpp">
+    <ClCompile Include="src\Expression\Call\Function\FunctionCall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Expression\Expression.cpp">
@@ -200,7 +200,7 @@
     <ClInclude Include="src\Expression\Variable\Number\RealNumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\FunctionCall\FunctionCall.h">
+    <ClInclude Include="src\Expression\Call\Function\FunctionCall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Expression\Variable\List\List.h">
@@ -311,5 +311,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="functions.txt" />
+    <Text Include="notes.txt" />
   </ItemGroup>
 </Project>

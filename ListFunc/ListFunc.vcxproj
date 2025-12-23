@@ -137,7 +137,7 @@
   <ItemGroup>
     <ClCompile Include="src\Expression\Expression.cpp" />
     <ClCompile Include="src\Expression\ExpressionType.cpp" />
-    <ClCompile Include="src\Expression\FunctionCall\FunctionCall.cpp" />
+    <ClCompile Include="src\Expression\Call\Function\FunctionCall.cpp" />
     <ClCompile Include="src\Expression\Variable\List\Concrete\ConcreteList.cpp" />
     <ClCompile Include="src\Expression\Variable\List\Lazy\Finite\FiniteList.cpp" />
     <ClCompile Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.cpp" />
@@ -187,7 +187,7 @@
   <ItemGroup>
     <ClInclude Include="src\Expression\Expression.h" />
     <ClInclude Include="src\Expression\ExpressionType.h" />
-    <ClInclude Include="src\Expression\FunctionCall\FunctionCall.h" />
+    <ClInclude Include="src\Expression\Call\Function\FunctionCall.h" />
     <ClInclude Include="src\Expression\Variable\List\Concrete\ConcreteList.h" />
     <ClInclude Include="src\Expression\Variable\List\Lazy\Finite\FiniteList.h" />
     <ClInclude Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.h" />
@@ -237,6 +237,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="functions.txt" />
+    <Text Include="notes.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

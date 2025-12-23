@@ -1,0 +1,18 @@
+(*) add variables
+(*) add VariableRef
+(*) add VariableCall
+
+(*) add function redef
+(*) add function undef
+
+(*) clean up embedded functions
+(*) clean up interpreter
+
+(*) add String type
+(*) add FunctionObject type
+
+(*) add command line args parsing
+(*) add file work mode
+(*) add saving function to file and loading them from file
+
+(*) add different embedded functions based on difficulty
