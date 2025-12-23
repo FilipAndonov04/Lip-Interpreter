@@ -42,10 +42,7 @@
     <ClCompile Include="src\Interpreter\VariableSet\VariableSet.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Variable\Number\Number.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Expression\Variable\Number\Real\RealNumber.cpp">
+    <ClCompile Include="src\Expression\Variable\Number\RealNumber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Expression\FunctionCall\FunctionCall.cpp">
@@ -200,10 +197,7 @@
     <ClInclude Include="src\Interpreter\VariableSet\VariableSet.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Variable\Number\Number.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Expression\Variable\Number\Real\RealNumber.h">
+    <ClInclude Include="src\Expression\Variable\Number\RealNumber.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Expression\FunctionCall\FunctionCall.h">

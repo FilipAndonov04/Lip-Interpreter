@@ -143,8 +143,7 @@
     <ClCompile Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.cpp" />
     <ClCompile Include="src\Expression\Variable\List\Lazy\LazyList.cpp" />
     <ClCompile Include="src\Expression\Variable\List\List.cpp" />
-    <ClCompile Include="src\Expression\Variable\Number\Number.cpp" />
-    <ClCompile Include="src\Expression\Variable\Number\Real\RealNumber.cpp" />
+    <ClCompile Include="src\Expression\Variable\Number\RealNumber.cpp" />
     <ClCompile Include="src\Expression\Variable\Variable.cpp" />
     <ClCompile Include="src\Function\Function.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterOrEqual.cpp" />
@@ -194,8 +193,7 @@
     <ClInclude Include="src\Expression\Variable\List\Lazy\Infinite\InfiniteList.h" />
     <ClInclude Include="src\Expression\Variable\List\Lazy\LazyList.h" />
     <ClInclude Include="src\Expression\Variable\List\List.h" />
-    <ClInclude Include="src\Expression\Variable\Number\Number.h" />
-    <ClInclude Include="src\Expression\Variable\Number\Real\RealNumber.h" />
+    <ClInclude Include="src\Expression\Variable\Number\RealNumber.h" />
     <ClInclude Include="src\Expression\Variable\Variable.h" />
     <ClInclude Include="src\Function\Function.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterThan.h" />

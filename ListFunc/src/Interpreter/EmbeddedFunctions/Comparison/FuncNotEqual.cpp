@@ -1,5 +1,5 @@
 #include "FuncNotEqual.h"
-#include "Expression/Variable/Number/Real/RealNumber.h"
+#include "Expression/Variable/Number/RealNumber.h"
 
 #include <stdexcept>
 
@@ -7,8 +7,8 @@ std::unique_ptr<Expression> FuncNotEqual::operator()(const std::vector<const Exp
 	auto arg1 = args[0]->evaluate();
 	auto arg2 = args[1]->evaluate();
 
-	if (arg1->type() != ExpressionType::RealNumber ||
-		arg2->type() != ExpressionType::RealNumber) {
+	if (arg1->type() != ExpressionType::Number ||
+		arg2->type() != ExpressionType::Number) {
 		throw std::invalid_argument("equal takes 2 real numbers as arguments");
 	}
 

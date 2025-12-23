@@ -1,7 +1,7 @@
 #include "FuncList.h"
 #include "Expression/Variable/List/Lazy/Finite/FiniteList.h"
 #include "Expression/Variable/List/Lazy/Infinite/InfiniteList.h"
-#include "Expression/Variable/Number/Real/RealNumber.h"
+#include "Expression/Variable/Number/RealNumber.h"
 #include "Function/Wrapper/WrapperFunction.hpp"
 
 #include <stdexcept>
@@ -23,8 +23,8 @@ std::unique_ptr<Expression> FuncList::operator()(const std::vector<const Express
         auto arg2 = args[1]->evaluate();
         auto arg3 = args[2]->evaluate();
 
-        if (arg1->type() != ExpressionType::RealNumber || arg2->type() != ExpressionType::RealNumber ||
-            arg3->type() != ExpressionType::RealNumber) {
+        if (arg1->type() != ExpressionType::Number || arg2->type() != ExpressionType::Number ||
+            arg3->type() != ExpressionType::Number) {
             throw std::invalid_argument("list takes 3 real numbers");
         }
 
@@ -37,7 +37,7 @@ std::unique_ptr<Expression> FuncList::operator()(const std::vector<const Express
         auto arg1 = args[0]->evaluate();
         auto arg2 = args[1]->evaluate();
 
-        if (arg1->type() != ExpressionType::RealNumber || arg2->type() != ExpressionType::RealNumber) {
+        if (arg1->type() != ExpressionType::Number || arg2->type() != ExpressionType::Number) {
             throw std::invalid_argument("list takes 2 real numbers");
         }
 
@@ -48,7 +48,7 @@ std::unique_ptr<Expression> FuncList::operator()(const std::vector<const Express
     } else if (args.size() == 1) {
         auto arg1 = args[0]->evaluate();
 
-        if (arg1->type() != ExpressionType::RealNumber) {
+        if (arg1->type() != ExpressionType::Number) {
             throw std::invalid_argument("list takes 1 real numbers");
         }
 
