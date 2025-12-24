@@ -6,7 +6,7 @@
 VariableSet::VariableSet(const VariableSet& other) {
 	variables.reserve(other.variables.size());
 	for (const auto& var : other.variables) {
-		variables.insert({var.first, var.second->cloneVariable()});
+		variables.insert({var.first, var.second->cloneValue()});
 	}
 
 	functions.reserve(other.functions.size());
@@ -51,7 +51,7 @@ bool VariableSet::containsFunction(const std::string& name, size_t argCount) con
 	return sameArgs != funcs.end();
 }
 
-void VariableSet::add(const std::string& name, std::unique_ptr<Variable>&& variable) {
+void VariableSet::add(const std::string& name, std::unique_ptr<Value>&& variable) {
 	if (containsVariable(name)) {
 		throw std::runtime_error("there is already a variable named " + name);
 	} else if (containsFunction(name)) {
@@ -106,7 +106,7 @@ void VariableSet::removeFunction(const std::string& name, size_t argCount) {
 	}
 }
 
-const Variable* VariableSet::getVariable(const std::string& name) const {
+const Value* VariableSet::getVariable(const std::string& name) const {
 	auto var = variables.find(name);
 	if (var == variables.end()) {
 		return nullptr;
@@ -115,7 +115,7 @@ const Variable* VariableSet::getVariable(const std::string& name) const {
 	return var->second.get();
 }
 
-Variable* VariableSet::getVariable(const std::string& name) {
+Value* VariableSet::getVariable(const std::string& name) {
 	auto var = variables.find(name);
 	if (var == variables.end()) {
 		return nullptr;

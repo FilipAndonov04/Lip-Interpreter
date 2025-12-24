@@ -5,6 +5,10 @@
 RealNumber::RealNumber(double value)
     : value(value) {}
 
+ValueType RealNumber::type() const {
+    return ValueType::Number;
+}
+
 std::unique_ptr<Value> RealNumber::cloneValue() const {
     return of(value);
 }

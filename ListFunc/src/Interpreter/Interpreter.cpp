@@ -1,6 +1,7 @@
 #include "Interpreter.h"
 #include "Interpreter/InputParsing/Tokenizer.h"
 #include "Interpreter/InputParsing/ObjectFactory.h"
+#include "Expression/Expression.h"
 
 #include "StringUtils/CharUtils.h"
 #include "StringUtils/StringUtils.h"
@@ -58,7 +59,7 @@ void Interpreter::handleExpressionEvaluation(std::vector<std::string>&& tokens) 
     ObjectFactory factory(std::move(tokens), variableSet);
 
     auto expr = factory.createExpression();
-    auto res = Expression::evaluate(expr->clone());
+    auto res = expr->evaluate();
 
     std::cout << expr->toString() << " " << res->toString() << '\n';
 }

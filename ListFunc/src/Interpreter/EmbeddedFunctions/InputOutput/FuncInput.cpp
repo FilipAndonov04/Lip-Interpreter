@@ -1,4 +1,5 @@
 #include "FuncInput.h"
+#include "Expression/Expression.h"
 #include "Value/Number/RealNumber.h"
 #include "Interpreter/InputParsing/Tokenizer.h"
 #include "Interpreter/InputParsing/ObjectFactory.h"
@@ -8,7 +9,7 @@
 FuncInput::FuncInput(const VariableSet& variableSet) 
 	: variableSet(&variableSet) {}
 
-std::unique_ptr<Expression> FuncInput::operator()(const std::vector<const Expression*>& args) const {
+std::unique_ptr<Value> FuncInput::operator()(const std::vector<const Expression*>& args) const {
 	std::cout << "> ";
 
 	std::string line;
@@ -17,5 +18,5 @@ std::unique_ptr<Expression> FuncInput::operator()(const std::vector<const Expres
 	Tokenizer tokenizer(line);
 	ObjectFactory factory(tokenizer.tokenize(), *variableSet);
 
-	return factory.createExpression();
+	return factory.createExpression()->evaluate();
 }

@@ -9,7 +9,7 @@ public:
 
 	ExpressionType type() const override;
 
-	std::unique_ptr<Expression> clone() const override;
+	std::unique_ptr<Literal> cloneLiteral() const override;
 
 	std::string toString() const override;
 

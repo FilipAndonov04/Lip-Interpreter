@@ -1,13 +1,13 @@
 #include "CompositeNode.h"
-#include "Value/Value.h"
+#include "Function/Function.h"
 #include "Expression/Call/Function/FunctionCall.h"
 
-CompositeNode::CompositeNode(FunctionRef functionRef) 
-    : functionRef(std::move(functionRef)) {}
+CompositeNode::CompositeNode(const Function* function)
+    : function(function) {}
 
-CompositeNode::CompositeNode(FunctionRef functionRef,
+CompositeNode::CompositeNode(const Function* function,
                              std::vector<std::unique_ptr<FunctionNode>>&& argNodes) 
-    : functionRef(std::move(functionRef)), argNodes(std::move(argNodes)) {}
+    : function(function), argNodes(std::move(argNodes)) {}
 
 std::unique_ptr<Expression> CompositeNode::call(const std::vector<const Expression*>& args) const {
     std::vector<std::unique_ptr<Expression>> refArgs;
@@ -17,7 +17,7 @@ std::unique_ptr<Expression> CompositeNode::call(const std::vector<const Expressi
         refArgs.push_back(argNode->call(args));
     }
 
-    return std::make_unique<FunctionCall>(functionRef, std::move(refArgs));
+    return std::make_unique<FunctionCall>(function, std::move(refArgs));
 }
 
 std::unique_ptr<FunctionNode> CompositeNode::clone() const {
@@ -28,13 +28,5 @@ std::unique_ptr<FunctionNode> CompositeNode::clone() const {
         clonedNodes.push_back(childNode->clone());
     }
 
-    return std::make_unique<CompositeNode>(functionRef, std::move(clonedNodes));
-}
-
-const FunctionRef& CompositeNode::getFunctionRef() const {
-    return functionRef;
-}
-
-std::vector<const FunctionNode*> CompositeNode::getArgNodes() const {
-    return std::vector<const FunctionNode*>();
+    return std::make_unique<CompositeNode>(function, std::move(clonedNodes));
 }

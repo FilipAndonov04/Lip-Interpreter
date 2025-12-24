@@ -25,12 +25,12 @@ public:
 	void removeFunctions(const std::string& name);
 	void removeFunction(const std::string& name, size_t argCount);
 
-	const Variable* getVariable(const std::string& name) const;
+	const Value* getVariable(const std::string& name) const;
 	Value* getVariable(const std::string& name);
 	const Function* getFunction(const std::string& name, size_t argCount) const;
 	Function* getFunction(const std::string& name, size_t argCount);
 
 private:
-	std::unordered_map<std::string, std::unique_ptr<Variable>> variables;
+	std::unordered_map<std::string, std::unique_ptr<Value>> variables;
 	std::unordered_map<std::string, std::vector<std::unique_ptr<Function>>> functions;
 };

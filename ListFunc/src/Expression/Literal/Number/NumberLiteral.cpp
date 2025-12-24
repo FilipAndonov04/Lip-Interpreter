@@ -14,7 +14,7 @@ ExpressionType NumberLiteral::type() const {
     return ExpressionType::NumberLiteral;
 }
 
-std::unique_ptr<Expression> NumberLiteral::clone() const {
+std::unique_ptr<Literal> NumberLiteral::cloneLiteral() const {
     return of(value);
 }
 

@@ -17,7 +17,5 @@ public:
 	std::unique_ptr<Value> eraseAndGet(size_t index) override;
 	std::unique_ptr<Value> popBackAndGet() override;
 
-	ValueType type() const override;
-
 	std::unique_ptr<List> cloneList() const override;
 };

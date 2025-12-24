@@ -1,8 +1,14 @@
 #include "ObjectFactory.h"
-#include "Value/Number/RealNumber.h"
-#include "Value/List/Concrete/ConcreteList.h"
+#include "Expression/Literal/Number/NumberLiteral.h"
+#include "Expression/Literal/List/ListLiteral.h"
+#include "Expression/Call/Function/FunctionCall.h"
+
 #include "Function/Graph/GraphFunction.h"
-#include "Function/Graph/Node/FunctionNode.h"
+#include "Function/Graph/Node/Argument/ArgumentNode.h"
+#include "Function/Graph/Node/Literal/LiteralNode.h"
+#include "Function/Graph/Node/Composite/CompositeNode.h"
+
+#include "Interpreter/VariableSet/VariableSet.h"
 
 #include "StringUtils/StringUtils.h"
 #include "StringUtils/CharUtils.h"
@@ -17,23 +23,9 @@ std::unique_ptr<Expression> ObjectFactory::createExpression() {
 
     if (StringUtils::isLetter(tokens[index].front())) {
         return createFunctionCall();
-    } else if (tokens[index] == "{") {
-        return createVariableCall();
     }
 
-    return createVariable();
-}
-
-std::unique_ptr<Value> ObjectFactory::createVariable() {
-    assertIndex();
-
-    if (StringUtils::isDigit(tokens[index].front()) || StringUtils::isDash(tokens[index].front())) {
-        return createRealNumber();
-    } else if (tokens[index] == "[") {
-        return createConcreteList();
-    }
-
-    throw std::invalid_argument("invalid token for variable");
+    return createLiteral();
 }
 
 std::unique_ptr<Function> ObjectFactory::createFunction(size_t argCount) {
@@ -41,21 +33,33 @@ std::unique_ptr<Function> ObjectFactory::createFunction(size_t argCount) {
     return createGraphFunction(argCount);
 }
 
-std::unique_ptr<RealNumber> ObjectFactory::createRealNumber() {
-    double value = StringUtils::toDouble(tokens[index++]);
-    return RealNumber::of(value);
+std::unique_ptr<Literal> ObjectFactory::createLiteral() {
+    assertIndex();
+
+    if (tokens[index] == "[") {
+        return createListLiteral();
+    } else if (StringUtils::isDigit(tokens[index].front())) {
+        return createNumberLiteral();
+    }
+
+    throw std::invalid_argument("invalid token for literal");
 }
 
-std::unique_ptr<ConcreteList> ObjectFactory::createConcreteList() {
+std::unique_ptr<NumberLiteral> ObjectFactory::createNumberLiteral() {
+    double value = StringUtils::toDouble(tokens[index++]);
+    return NumberLiteral::of(value);
+}
+
+std::unique_ptr<ListLiteral> ObjectFactory::createListLiteral() {
     index++;
 
     assertIndex();
     if (tokens[index] == "]") {
         index++;
-        return std::make_unique<ConcreteList>();
+        return std::make_unique<ListLiteral>();
     }
 
-    auto list = std::make_unique<ConcreteList>();
+    auto list = std::make_unique<ListLiteral>();
     list->pushBack(createExpression());
 
     while (true) {
@@ -84,7 +88,7 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
     assertIndex();
     if (tokens[index] == ")") {
         index++;
-        return std::make_unique<FunctionCall>(FunctionRef{std::move(functionName), 0, *variableSet});
+        return std::make_unique<FunctionCall>(variableSet->getFunction(functionName, 0));
     }
 
     std::vector<std::unique_ptr<Expression>> args;
@@ -95,8 +99,8 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
 
         if (tokens[index] == ")") {
             index++;
-            return std::make_unique<FunctionCall>(FunctionRef{std::move(functionName), 
-                                                  args.size(), *variableSet}, std::move(args));
+            auto function = variableSet->getFunction(functionName, args.size());
+            return std::make_unique<FunctionCall>(function, std::move(args));
         }
 
         if (tokens[index++] != ",") {
@@ -106,23 +110,10 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
     }
 }
 
-std::unique_ptr<VariableCall> ObjectFactory::createVariableCall() {
-    index++;
-
-    assertIndex();
-    std::string variableName = std::move(tokens[index++]);
-
-    assertIndex();
-    if (tokens[index++] != "}") {
-        throw std::invalid_argument("variable name must be followed by closed curly bracket");
-    }
-
-    return std::make_unique<VariableCall>(VariableRef{std::move(variableName), *variableSet});
-}
-
 std::unique_ptr<GraphFunction> ObjectFactory::createGraphFunction(size_t argCount) {
     auto root = createFunctionNode();
-    if (argIds.size() != argCount || !argIds.empty() && *std::max_element(argIds.begin(), argIds.end()) != argCount) {
+    if (argIds.size() != argCount || !argIds.empty() && 
+        *std::max_element(argIds.begin(), argIds.end()) != argCount) {
         throw std::invalid_argument("invalid argument count in function definition");
     }
     return std::make_unique<GraphFunction>(argIds.size(), std::move(root));
@@ -132,17 +123,7 @@ std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
     assertIndex();
 
     if (tokens[index] == "$") {
-        index++;
-        assertIndex();
-        index--;
-
-        if (StringUtils::isDigit(tokens[index + 1].front())) {
-            return createArgumentNode();
-        } else if (StringUtils::isLetter(tokens[index + 1].front())) {
-            return createVariableNode();
-        }
-        
-        throw std::invalid_argument("$ must be followed by a argument number or variable name");
+        createArgumentNode();
     } else if (StringUtils::isDigit(tokens[index].front()) || 
                StringUtils::isDash(tokens[index].front()) || 
                StringUtils::isOpenSquareBracket(tokens[index].front())) {
@@ -150,19 +131,21 @@ std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
     } else if (StringUtils::isLetter(tokens[index].front())) {
         return createCompositeNode();
     }
+
+    throw std::invalid_argument("invalid token for function node");
 }
 
 std::unique_ptr<ArgumentNode> ObjectFactory::createArgumentNode() {
     index++;
-
     assertIndex();
+
     size_t id = StringUtils::toSizeType(tokens[index++]);
     argIds.insert(id);
     return ArgumentNode::of(id);
 }
 
 std::unique_ptr<LiteralNode> ObjectFactory::createLiteralNode() {
-    return LiteralNode::of(createVariable());
+    return LiteralNode::of(createLiteral());
 }
 
 std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
@@ -176,7 +159,7 @@ std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
     assertIndex();
     if (tokens[index] == ")") {
         index++;
-        return std::make_unique<CompositeNode>(FunctionRef{std::move(functionName), 0, *variableSet});
+        return std::make_unique<CompositeNode>(variableSet->getFunction(functionName, 0));
     }
 
     std::vector<std::unique_ptr<FunctionNode>> argNodes;
@@ -187,8 +170,8 @@ std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
 
         if (tokens[index] == ")") {
             index++;
-            return std::make_unique<CompositeNode>(FunctionRef{std::move(functionName),
-                                                  argNodes.size(), *variableSet}, std::move(argNodes));
+            auto function = variableSet->getFunction(functionName, argNodes.size());
+            return std::make_unique<CompositeNode>(function, std::move(argNodes));
         }
 
         if (tokens[index++] != ",") {
@@ -196,13 +179,6 @@ std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
         }
         argNodes.push_back(createFunctionNode());
     }
-}
-
-std::unique_ptr<VariableNode> ObjectFactory::createVariableNode() {
-    index++;
-
-    assertIndex();
-    return VariableNode::of(VariableRef{std::move(tokens[index++]), *variableSet});
 }
 
 void ObjectFactory::assertIndex() const {

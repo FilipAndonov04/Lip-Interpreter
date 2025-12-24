@@ -15,6 +15,8 @@ public:
 	virtual std::unique_ptr<Value> eraseAndGet(size_t index) = 0;
 	virtual std::unique_ptr<Value> popBackAndGet();
 
+	ValueType type() const override;
+
 	std::unique_ptr<Value> cloneValue() const override;
 	virtual std::unique_ptr<List> cloneList() const = 0;
 
