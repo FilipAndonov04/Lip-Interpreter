@@ -5,7 +5,7 @@ LiteralNode::LiteralNode(std::unique_ptr<Literal>&& literal)
     : literal(std::move(literal)) {}
 
 std::unique_ptr<Expression> LiteralNode::call(const std::vector<const Expression*>& args) const {
-    return literal->clone();
+    return literal->cloneLiteral();
 }
 
 std::unique_ptr<FunctionNode> LiteralNode::clone() const {

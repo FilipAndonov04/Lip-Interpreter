@@ -1,42 +1,35 @@
 #include "FunctionCall.h"
 #include "Value/Value.h"
 
-FunctionCall::FunctionCall(FunctionRef functionRef)
-    : functionRef(std::move(functionRef)) {}
+FunctionCall::FunctionCall(const Function* function)
+    : function(function) {}
 
-FunctionCall::FunctionCall(FunctionRef functionRef, 
+FunctionCall::FunctionCall(const Function* function,
                            std::vector<std::unique_ptr<Expression>>&& args)
-    : functionRef(std::move(functionRef)), args(std::move(args)) {}
+    : function(function), args(std::move(args)) {}
 
 
 std::unique_ptr<Value> FunctionCall::evaluate() const {
-    std::vector<const Expression*> argRefs;
-    argRefs.reserve(args.size());
-
-    for (const auto& arg : args) {
-        argRefs.push_back(arg.get());
-    }
-
-    return Expression::evaluate(functionRef->call(argRefs));
+    return function->call(getArgs());
 }
 
 ExpressionType FunctionCall::type() const {
     return ExpressionType::FunctionCall;
 }
 
-std::unique_ptr<Expression> FunctionCall::clone() const {
+std::unique_ptr<Expression> FunctionCall::cloneExpression() const {
     std::vector<std::unique_ptr<Expression>> clonedArgs;
     clonedArgs.reserve(args.size());
 
     for (const auto& arg : args) {
-        clonedArgs.push_back(arg->clone());
+        clonedArgs.push_back(arg->cloneExpression());
     }
 
-    return std::make_unique<FunctionCall>(functionRef, std::move(clonedArgs));
+    return std::make_unique<FunctionCall>(function, std::move(clonedArgs));
 }
 
 std::string FunctionCall::toString() const {
-    std::string s = "(" + functionRef.getName() + ", " + "(";
+    std::string s = "(" + std::string("<insert name>") + ", " + "(";
 
     for (size_t i = 0; i < args.size(); i++) {
         s.append(args[i]->toString()).append(i != args.size() - 1 ? ", " : "");
@@ -44,4 +37,19 @@ std::string FunctionCall::toString() const {
 
     s.append("))");
     return s;
+}
+
+const Function* FunctionCall::getFunction() const {
+    return function;
+}
+
+std::vector<const Expression*> FunctionCall::getArgs() const {
+    std::vector<const Expression*> argRefs;
+    argRefs.reserve(args.size());
+
+    for (const auto& arg : args) {
+        argRefs.push_back(arg.get());
+    }
+
+    return argRefs;
 }

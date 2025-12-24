@@ -64,6 +64,10 @@ std::unique_ptr<Value> List::popBackAndGet() {
     return eraseAndGet(length() - 1);
 }
 
+ValueType List::type() const {
+    return ValueType::List;
+}
+
 void List::assertNotEmpty() const {
     if (isEmpty()) {
         throw std::logic_error("empty list");

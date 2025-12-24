@@ -1,8 +1,11 @@
 #pragma once
-#include "Expression/Expression.h"
 
+#include <memory>
 #include <vector>
 
+class Expression;
+class Value;
+
 struct FuncSqrt {
-	std::unique_ptr<Expression> operator()(const std::vector<const Expression*>& args) const;
+	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const;
 };

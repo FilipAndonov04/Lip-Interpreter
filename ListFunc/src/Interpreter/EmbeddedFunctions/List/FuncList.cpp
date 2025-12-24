@@ -1,4 +1,5 @@
 #include "FuncList.h"
+#include "Expression/Expression.h"
 #include "Value/List/Lazy/Finite/FiniteList.h"
 #include "Value/List/Lazy/Infinite/InfiniteList.h"
 #include "Value/Number/RealNumber.h"
@@ -7,7 +8,7 @@
 #include <stdexcept>
 
 struct AddConst {
-    std::unique_ptr<Expression> operator()(const std::vector<const Expression*>& args) const {
+    std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const {
         auto arg1 = args[0]->evaluate();
         auto n1 = static_cast<RealNumber*>(arg1.get());
         
@@ -17,14 +18,14 @@ struct AddConst {
     double value;
 };
 
-std::unique_ptr<Expression> FuncList::operator()(const std::vector<const Expression*>& args) const {
+std::unique_ptr<Value> FuncList::operator()(const std::vector<const Expression*>& args) const {
     if (args.size() == 3) {
         auto arg1 = args[0]->evaluate();
         auto arg2 = args[1]->evaluate();
         auto arg3 = args[2]->evaluate();
 
-        if (arg1->type() != ExpressionType::Number || arg2->type() != ExpressionType::Number ||
-            arg3->type() != ExpressionType::Number) {
+        if (arg1->type() != ValueType::Number || arg2->type() != ValueType::Number ||
+            arg3->type() != ValueType::Number) {
             throw std::invalid_argument("list takes 3 real numbers");
         }
 
@@ -37,7 +38,7 @@ std::unique_ptr<Expression> FuncList::operator()(const std::vector<const Express
         auto arg1 = args[0]->evaluate();
         auto arg2 = args[1]->evaluate();
 
-        if (arg1->type() != ExpressionType::Number || arg2->type() != ExpressionType::Number) {
+        if (arg1->type() != ValueType::Number || arg2->type() != ValueType::Number) {
             throw std::invalid_argument("list takes 2 real numbers");
         }
 
@@ -48,7 +49,7 @@ std::unique_ptr<Expression> FuncList::operator()(const std::vector<const Express
     } else if (args.size() == 1) {
         auto arg1 = args[0]->evaluate();
 
-        if (arg1->type() != ExpressionType::Number) {
+        if (arg1->type() != ValueType::Number) {
             throw std::invalid_argument("list takes 1 real numbers");
         }
 

@@ -1,14 +1,15 @@
 #include "FuncLessThan.h"
+#include "Expression/Expression.h"
 #include "Value/Number/RealNumber.h"
 
 #include <stdexcept>
 
-std::unique_ptr<Expression> FuncLessThan::operator()(const std::vector<const Expression*>& args) const {
+std::unique_ptr<Value> FuncLessThan::operator()(const std::vector<const Expression*>& args) const {
 	auto arg1 = args[0]->evaluate();
 	auto arg2 = args[1]->evaluate();
 
-	if (arg1->type() != ExpressionType::Number ||
-		arg2->type() != ExpressionType::Number) {
+	if (arg1->type() != ValueType::Number ||
+		arg2->type() != ValueType::Number) {
 		throw std::invalid_argument("less than takes 2 real numbers as arguments");
 	}
 

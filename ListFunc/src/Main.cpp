@@ -46,7 +46,7 @@
 #include <fstream>
 
 struct Worker {
-	std::unique_ptr<Expression> operator()(const std::vector<const Expression*>& args) const {
+	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const {
 		std::cout << "\tDoing work\n";
 
 		return RealNumber::of(1);
@@ -58,7 +58,7 @@ static Interpreter setUpFunctions();
 int main() {
 	Interpreter inter = setUpFunctions();
 	
-	{
+	if (0) {
 		std::ifstream ifs("functions.txt");
 		std::string line;
 		while (std::getline(ifs, line)) {

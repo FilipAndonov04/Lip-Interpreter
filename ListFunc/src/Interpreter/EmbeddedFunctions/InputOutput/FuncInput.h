@@ -7,7 +7,7 @@
 struct FuncInput {
 	explicit FuncInput(const VariableSet& variableSet);
 
-	std::unique_ptr<Expression> operator()(const std::vector<const Expression*>& args) const;
+	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const;
 
 private:
 	const VariableSet* variableSet;

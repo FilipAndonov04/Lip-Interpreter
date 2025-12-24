@@ -11,6 +11,8 @@ LazyList::LazyList(std::unique_ptr<List>&& cachedElements, std::unique_ptr<Funct
 	: cachedElements(std::move(cachedElements)), step(std::move(step)) {}
 
 void LazyList::cacheElement(size_t index) const {
+	throw "not implemented";
+
 	if (index < cachedElements->length()) {
 		return;
 	} else if (index >= length()) {
@@ -21,6 +23,6 @@ void LazyList::cacheElement(size_t index) const {
 	for (size_t lastIndex = cachedElements->length() - 1; lastIndex < index; lastIndex++) {
 		auto lastElem = cachedElements->at(lastIndex);
 		args[0] = lastElem.get();
-		cachedElements->pushBack(Expression::evaluate(step->call(args)));
+		//cachedElements->pushBack(step->call(args));
 	}
 }

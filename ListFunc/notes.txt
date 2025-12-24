@@ -1,12 +1,4 @@
-(*) refactor variable into value
-(*) separate value hierarchy
-(*) add literal list expressions
-(*) add literal number expressions
-(*) fix lazy list caching
-(*) make functions return value
-(*) fix errors
-(*) clean up value list class
-(*) add value wrapper
+(*) make it compile
 
 (*) add variable def
 (*) add variable redef
@@ -14,6 +6,10 @@
 
 (*) add function redef
 (*) add function undef
+
+(*) fix lazy list caching
+(*) clean up value list class
+(*) add value wrapper
 
 (*) make tokenizer give the token type with the string
 
