@@ -1,8 +1,9 @@
 #pragma once
 #include "Expression/Call/Call.h"
-#include "Interpreter/VariableSet/FunctionRef.h"
 
 #include <vector>
+
+class Function;
 
 class FunctionCall final : public Call {
 public:

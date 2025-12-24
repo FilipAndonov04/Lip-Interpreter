@@ -1,5 +1,6 @@
 #include "FunctionCall.h"
 #include "Value/Value.h"
+#include "Function/Function.h"
 
 FunctionCall::FunctionCall(const Function* function)
     : function(function) {}

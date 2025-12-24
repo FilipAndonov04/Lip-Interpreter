@@ -58,7 +58,7 @@ static Interpreter setUpFunctions();
 int main() {
 	Interpreter inter = setUpFunctions();
 	
-	if (0) {
+	{
 		std::ifstream ifs("functions.txt");
 		std::string line;
 		while (std::getline(ifs, line)) {
@@ -81,50 +81,44 @@ int main() {
 
 Interpreter setUpFunctions() {
 	Interpreter inter;
-	VariableSet& varSet = inter.getVariableSet();
+	Environment& env = inter.getCurrentEnvironment();
 
-	varSet.add("add", std::make_unique<WrapperFunction<FuncAdd>>(2));
-	varSet.add("sub", std::make_unique<WrapperFunction<FuncSubtract>>(2));
-	varSet.add("mul", std::make_unique<WrapperFunction<FuncMultiply>>(2));
-	varSet.add("div", std::make_unique<WrapperFunction<FuncDivide>>(2));
-	varSet.add("mod", std::make_unique<WrapperFunction<FuncMod>>(2));
-	varSet.add("sqrt", std::make_unique<WrapperFunction<FuncSqrt>>(1));
+	env.addFunction("add", std::make_unique<WrapperFunction<FuncAdd>>(2));
+	env.addFunction("sub", std::make_unique<WrapperFunction<FuncSubtract>>(2));
+	env.addFunction("mul", std::make_unique<WrapperFunction<FuncMultiply>>(2));
+	env.addFunction("div", std::make_unique<WrapperFunction<FuncDivide>>(2));
+	env.addFunction("mod", std::make_unique<WrapperFunction<FuncMod>>(2));
+	env.addFunction("sqrt", std::make_unique<WrapperFunction<FuncSqrt>>(1));
 
-	varSet.add("not", std::make_unique<WrapperFunction<FuncNot>>(1));
-	varSet.add("and", std::make_unique<WrapperFunction<FuncAnd>>(2));
-	varSet.add("or", std::make_unique<WrapperFunction<FuncOr>>(2));
+	env.addFunction("not", std::make_unique<WrapperFunction<FuncNot>>(1));
+	env.addFunction("and", std::make_unique<WrapperFunction<FuncAnd>>(2));
+	env.addFunction("or", std::make_unique<WrapperFunction<FuncOr>>(2));
 
-	varSet.add("eq", std::make_unique<WrapperFunction<FuncEqual>>(2));
-	varSet.add("lt", std::make_unique<WrapperFunction<FuncLessThan>>(2));
-	varSet.add("ne", std::make_unique<WrapperFunction<FuncNotEqual>>(2));
-	varSet.add("le", std::make_unique<WrapperFunction<FuncLessOrEqual>>(2));
-	varSet.add("gt", std::make_unique<WrapperFunction<FuncGreaterThan>>(2));
-	varSet.add("ge", std::make_unique<WrapperFunction<FuncGreaterOrEqual>>(2));
+	env.addFunction("eq", std::make_unique<WrapperFunction<FuncEqual>>(2));
+	env.addFunction("lt", std::make_unique<WrapperFunction<FuncLessThan>>(2));
+	env.addFunction("ne", std::make_unique<WrapperFunction<FuncNotEqual>>(2));
+	env.addFunction("le", std::make_unique<WrapperFunction<FuncLessOrEqual>>(2));
+	env.addFunction("gt", std::make_unique<WrapperFunction<FuncGreaterThan>>(2));
+	env.addFunction("ge", std::make_unique<WrapperFunction<FuncGreaterOrEqual>>(2));
 
-	varSet.add("if", std::make_unique<WrapperFunction<FuncIf>>(3));
+	env.addFunction("if", std::make_unique<WrapperFunction<FuncIf>>(3));
 
-	varSet.add("int", std::make_unique<WrapperFunction<FuncInt>>(1));
-	varSet.add("bool", std::make_unique<WrapperFunction<FuncBool>>(1));
+	env.addFunction("int", std::make_unique<WrapperFunction<FuncInt>>(1));
+	env.addFunction("bool", std::make_unique<WrapperFunction<FuncBool>>(1));
 
-	varSet.add("input", std::make_unique<WrapperFunction<FuncInput>>(0, FuncInput{varSet}));
-	varSet.add("print", std::make_unique<WrapperFunction<FuncPrint>>(1));
+	env.addFunction("input", std::make_unique<WrapperFunction<FuncInput>>(0, FuncInput{env}));
+	env.addFunction("print", std::make_unique<WrapperFunction<FuncPrint>>(1));
 
-	varSet.add("head", std::make_unique<WrapperFunction<FuncHead>>(1));
-	varSet.add("tail", std::make_unique<WrapperFunction<FuncTail>>(1));
-	varSet.add("len", std::make_unique<WrapperFunction<FuncLength>>(1));
-	varSet.add("concat", std::make_unique<WrapperFunction<FuncConcat>>(2));
-	varSet.add("list", std::make_unique<WrapperFunction<FuncList>>(3));
-	varSet.add("list", std::make_unique<WrapperFunction<FuncList>>(2));
-	varSet.add("list", std::make_unique<WrapperFunction<FuncList>>(1));
+	env.addFunction("head", std::make_unique<WrapperFunction<FuncHead>>(1));
+	env.addFunction("tail", std::make_unique<WrapperFunction<FuncTail>>(1));
+	env.addFunction("len", std::make_unique<WrapperFunction<FuncLength>>(1));
+	env.addFunction("concat", std::make_unique<WrapperFunction<FuncConcat>>(2));
+	env.addFunction("list", std::make_unique<WrapperFunction<FuncList>>(3));
+	env.addFunction("list", std::make_unique<WrapperFunction<FuncList>>(2));
+	env.addFunction("list", std::make_unique<WrapperFunction<FuncList>>(1));
 
 	// extra
-	varSet.add("work", std::make_unique<WrapperFunction<Worker>>(0));
-
-	// variables
-	varSet.add("pi", RealNumber::of(3.14));
-	varSet.add("e", RealNumber::of(2.71828));
-	varSet.add("a", RealNumber::of(1));
-	varSet.add("b", RealNumber::of(-5.5));
+	env.addFunction("work", std::make_unique<WrapperFunction<Worker>>(0));
 
 	return inter;
 }
