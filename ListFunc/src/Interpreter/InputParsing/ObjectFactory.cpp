@@ -8,15 +8,15 @@
 #include "Function/Graph/Node/Literal/LiteralNode.h"
 #include "Function/Graph/Node/Composite/CompositeNode.h"
 
-#include "Interpreter/VariableSet/VariableSet.h"
+#include "Interpreter/Environment/Environment.h"
 
 #include "StringUtils/StringUtils.h"
 #include "StringUtils/CharUtils.h"
 
 #include <stdexcept>
 
-ObjectFactory::ObjectFactory(std::vector<std::string> tokens, const VariableSet& variableSet, size_t index)
-    : tokens(std::move(tokens)), variableSet(&variableSet), index(index) {}
+ObjectFactory::ObjectFactory(std::vector<std::string> tokens, Environment& environment, size_t index)
+    : tokens(std::move(tokens)), environment(&environment), index(index) {}
 
 std::unique_ptr<Expression> ObjectFactory::createExpression() {
     assertIndex();
@@ -28,9 +28,8 @@ std::unique_ptr<Expression> ObjectFactory::createExpression() {
     return createLiteral();
 }
 
-std::unique_ptr<Function> ObjectFactory::createFunction(size_t argCount) {
-    argIds.clear();
-    return createGraphFunction(argCount);
+std::shared_ptr<Function> ObjectFactory::createFunction(const std::string& name, size_t argCount) {
+    return createGraphFunction(name, argCount);
 }
 
 std::unique_ptr<Literal> ObjectFactory::createLiteral() {
@@ -38,7 +37,8 @@ std::unique_ptr<Literal> ObjectFactory::createLiteral() {
 
     if (tokens[index] == "[") {
         return createListLiteral();
-    } else if (StringUtils::isDigit(tokens[index].front())) {
+    } else if (StringUtils::isDigit(tokens[index].front()) || 
+               StringUtils::isDash(tokens[index].front())) {
         return createNumberLiteral();
     }
 
@@ -78,7 +78,7 @@ std::unique_ptr<ListLiteral> ObjectFactory::createListLiteral() {
 }
 
 std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
-    std::string functionName = std::move(tokens[index++]);
+    std::string funcName = std::move(tokens[index++]);
 
     assertIndex();
     if (tokens[index++] != "(") {
@@ -88,7 +88,12 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
     assertIndex();
     if (tokens[index] == ")") {
         index++;
-        return std::make_unique<FunctionCall>(variableSet->getFunction(functionName, 0));
+        auto func = environment->getFunction(funcName, 0);
+        if (!func) {
+            throw std::invalid_argument("function <" + funcName + "(0)> is not defined");
+        }
+
+        return std::make_unique<FunctionCall>(func);
     }
 
     std::vector<std::unique_ptr<Expression>> args;
@@ -99,8 +104,13 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
 
         if (tokens[index] == ")") {
             index++;
-            auto function = variableSet->getFunction(functionName, args.size());
-            return std::make_unique<FunctionCall>(function, std::move(args));
+            auto func = environment->getFunction(funcName, args.size());
+            if (!func) {
+                throw std::invalid_argument("function <" + funcName + "(" +
+                                            std::to_string(args.size()) + ")> is not defined");
+            }
+
+            return std::make_unique<FunctionCall>(func, std::move(args));
         }
 
         if (tokens[index++] != ",") {
@@ -110,20 +120,30 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
     }
 }
 
-std::unique_ptr<GraphFunction> ObjectFactory::createGraphFunction(size_t argCount) {
+std::shared_ptr<GraphFunction> ObjectFactory::createGraphFunction(const std::string& name, size_t argCount) {
+    argIds.clear();
+
+    auto func = std::make_shared<GraphFunction>(argCount);
+    if (!environment->addFunction(name, func)) {
+        throw std::invalid_argument("there is already a function <" + name + 
+                                    "(" + std::to_string(argCount) + ")>");
+    }
+
     auto root = createFunctionNode();
     if (argIds.size() != argCount || !argIds.empty() && 
         *std::max_element(argIds.begin(), argIds.end()) != argCount) {
         throw std::invalid_argument("invalid argument count in function definition");
     }
-    return std::make_unique<GraphFunction>(argIds.size(), std::move(root));
+
+    func->setGraphRoot(std::move(root));
+    return func;
 }
 
 std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
     assertIndex();
 
     if (tokens[index] == "$") {
-        createArgumentNode();
+        return createArgumentNode();
     } else if (StringUtils::isDigit(tokens[index].front()) || 
                StringUtils::isDash(tokens[index].front()) || 
                StringUtils::isOpenSquareBracket(tokens[index].front())) {
@@ -149,7 +169,7 @@ std::unique_ptr<LiteralNode> ObjectFactory::createLiteralNode() {
 }
 
 std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
-    std::string functionName = std::move(tokens[index++]);
+    std::string funcName = std::move(tokens[index++]);
 
     assertIndex();
     if (tokens[index++] != "(") {
@@ -159,7 +179,12 @@ std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
     assertIndex();
     if (tokens[index] == ")") {
         index++;
-        return std::make_unique<CompositeNode>(variableSet->getFunction(functionName, 0));
+        auto func = environment->getFunction(funcName, 0);
+        if (!func) {
+            throw std::invalid_argument("function <" + funcName + "(0)> is not defined");
+        }
+
+        return std::make_unique<CompositeNode>(func);
     }
 
     std::vector<std::unique_ptr<FunctionNode>> argNodes;
@@ -170,8 +195,13 @@ std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
 
         if (tokens[index] == ")") {
             index++;
-            auto function = variableSet->getFunction(functionName, argNodes.size());
-            return std::make_unique<CompositeNode>(function, std::move(argNodes));
+            auto func = environment->getFunction(funcName, argNodes.size());
+            if (!func) {
+                throw std::invalid_argument("function <" + funcName + "(" + 
+                                            std::to_string(argNodes.size()) + ")> is not defined");
+            }
+
+            return std::make_unique<CompositeNode>(func, std::move(argNodes));
         }
 
         if (tokens[index++] != ",") {

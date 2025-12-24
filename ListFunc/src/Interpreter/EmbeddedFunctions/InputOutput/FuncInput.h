@@ -1,14 +1,14 @@
 #pragma once
 #include "Expression/Expression.h"
-#include "Interpreter/VariableSet/VariableSet.h"
+#include "Interpreter/Environment/Environment.h"
 
 #include <vector>
 
 struct FuncInput {
-	explicit FuncInput(const VariableSet& variableSet);
+	explicit FuncInput(Environment& environment);
 
 	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const;
 
 private:
-	const VariableSet* variableSet;
+	Environment* environment;
 };

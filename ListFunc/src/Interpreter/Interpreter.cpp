@@ -2,14 +2,12 @@
 #include "Interpreter/InputParsing/Tokenizer.h"
 #include "Interpreter/InputParsing/ObjectFactory.h"
 #include "Expression/Expression.h"
+#include "Value/Value.h"
 
 #include "StringUtils/CharUtils.h"
 #include "StringUtils/StringUtils.h"
 
 #include <iostream>
-
-Interpreter::Interpreter(VariableSet&& variableSet) 
-    : variableSet(std::move(variableSet)) {}
 
 void Interpreter::interpret(std::string_view line) {
     try {
@@ -30,12 +28,17 @@ void Interpreter::interpret(std::string_view line) {
     }
 }
 
-const VariableSet& Interpreter::getVariableSet() const {
-    return variableSet;
+const Environment& Interpreter::getCurrentEnvironment() const {
+    return *currentEnvironment;
 }
 
-VariableSet& Interpreter::getVariableSet() {
-    return variableSet;
+Environment& Interpreter::getCurrentEnvironment() {
+    return *currentEnvironment;
+}
+
+void Interpreter::setCurrentEnvironment(std::unique_ptr<Environment>&& environment) {
+    environment->setPreviousEnvironment(std::move(currentEnvironment));
+    currentEnvironment = std::move(environment);
 }
 
 void Interpreter::handleFunctionDefinition(std::vector<std::string>&& tokens) {
@@ -43,23 +46,25 @@ void Interpreter::handleFunctionDefinition(std::vector<std::string>&& tokens) {
         throw std::invalid_argument("invalid function definition");
     }
 
-    std::string funcName = std::move(tokens[1]);
+    std::string name = std::move(tokens[1]);
     size_t argCount = StringUtils::toSizeType(tokens[3]);
 
-    ObjectFactory factory(std::move(tokens), variableSet, 6);
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
 
-    auto func = factory.createFunction(argCount);
-    variableSet.removeFunction(funcName, func->getArgCount());
-    variableSet.add(funcName, std::move(func));
+    ObjectFactory factory(std::move(tokens), *nextEnvironment, 6);
+    auto func = factory.createFunction(name, argCount);
 
-    std::cout << "defining function <" << funcName << '(' << argCount << ")>\n";
+    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
+    currentEnvironment = std::move(nextEnvironment);
+
+    std::cout << "defining function <" << name << '(' << argCount << ")>\n";
 }
 
 void Interpreter::handleExpressionEvaluation(std::vector<std::string>&& tokens) const {
-    ObjectFactory factory(std::move(tokens), variableSet);
+    ObjectFactory factory(std::move(tokens), *currentEnvironment);
 
     auto expr = factory.createExpression();
     auto res = expr->evaluate();
 
-    std::cout << expr->toString() << " " << res->toString() << '\n';
+    std::cout << res->toString() << " <- " << expr->toString() << '\n';
 }

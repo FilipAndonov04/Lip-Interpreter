@@ -1,5 +1,9 @@
 #pragma once
 
+#include <memory>
+#include <string>
+#include <unordered_set>
+
 class Expression;
 class Literal;
 class NumberLiteral;
@@ -14,18 +18,14 @@ class LiteralNode;
 class ArgumentNode;
 class CompositeNode;
 
-class VariableSet;
-
-#include <memory>
-#include <string>
-#include <unordered_set>
+class Environment;
 
 class ObjectFactory {
 public:
-	ObjectFactory(std::vector<std::string> tokens, const VariableSet& variableSet, size_t index = 0);
+	ObjectFactory(std::vector<std::string> tokens, Environment& environment, size_t index = 0);
 
 	std::unique_ptr<Expression> createExpression();
-	std::unique_ptr<Function> createFunction(size_t argCount);
+	std::shared_ptr<Function> createFunction(const std::string& name, size_t argCount);
 
 private:
 	std::unique_ptr<Literal> createLiteral();
@@ -33,7 +33,7 @@ private:
 	std::unique_ptr<ListLiteral> createListLiteral();
 	std::unique_ptr<FunctionCall> createFunctionCall();
 
-	std::unique_ptr<GraphFunction> createGraphFunction(size_t argCount);
+	std::shared_ptr<GraphFunction> createGraphFunction(const std::string& name, size_t argCount);
 
 	std::unique_ptr<FunctionNode> createFunctionNode();
 	std::unique_ptr<ArgumentNode> createArgumentNode();
@@ -44,7 +44,7 @@ private:
 
 	std::vector<std::string> tokens;
 	size_t index;
-	const VariableSet* variableSet;
+	Environment* environment;
 
 	std::unordered_set<size_t> argIds;
 };
