@@ -10,7 +10,7 @@ public:
 	std::unique_ptr<Function> clone() const override;
 
 protected:
-	std::unique_ptr<Expression> callImpl(const std::vector<const Expression*>& args) const override;
+	std::unique_ptr<Value> callImpl(const std::vector<const Expression*>& args) const override;
 
 private:
 	std::unique_ptr<FunctionNode> graphRoot;

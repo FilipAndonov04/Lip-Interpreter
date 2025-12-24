@@ -11,7 +11,7 @@ public:
 	std::unique_ptr<Function> clone() const override;
 
 protected:
-	std::unique_ptr<Expression> callImpl(const std::vector<const Expression*>& args) const override;
+	std::unique_ptr<Value> callImpl(const std::vector<const Expression*>& args) const override;
 
 private:
 	Func func{};
@@ -31,6 +31,6 @@ inline std::unique_ptr<Function> WrapperFunction<Func>::clone() const {
 }
 
 template<typename Func>
-inline std::unique_ptr<Expression> WrapperFunction<Func>::callImpl(const std::vector<const Expression*>& args) const {
+inline std::unique_ptr<Value> WrapperFunction<Func>::callImpl(const std::vector<const Expression*>& args) const {
 	return func(args);
 }
