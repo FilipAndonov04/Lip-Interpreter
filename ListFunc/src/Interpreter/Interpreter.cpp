@@ -26,6 +26,8 @@ void Interpreter::interpret(std::string_view line) {
             undefineFunction(std::move(tokens));
         } else if (tokens[0].payload == KEYWORD_DEFINE_VARIABLE) {
             defineVariable(std::move(tokens));
+        } else if (tokens[0].payload == KEYWORD_UNDEFINE_VARIABLE) {
+            undefineVariable(std::move(tokens));
         } else if (currentEnvironment->containsVariable(tokens[0].payload)) {
             redefineVariable(std::move(tokens));
         } else {
@@ -167,7 +169,9 @@ void Interpreter::redefineVariable(std::vector<Token>&& tokens) {
 
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 2);
     auto expr = factory.createExpression();
-    nextEnvironment->replaceVariable(varName, expr->evaluate());
+    if (!nextEnvironment->replaceVariable(varName, expr->evaluate())) {
+        throw std::invalid_argument("variable assignment failed");
+    }
 
     nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
     currentEnvironment = std::move(nextEnvironment);
@@ -176,7 +180,27 @@ void Interpreter::redefineVariable(std::vector<Token>&& tokens) {
         currentEnvironment->getVariable(varName)->toString() << '\n';
 }
 
-void Interpreter::undefineVariable(std::vector<Token>&& tokens) {}
+void Interpreter::undefineVariable(std::vector<Token>&& tokens) {
+    if (!isValidVariableUndefinition(tokens)) {
+        throw std::invalid_argument(std::string("deleting variable must be in the following format: ") +
+                                    KEYWORD_UNDEFINE_VARIABLE + " <var_name>");
+    }
+
+    std::string varName = std::move(tokens[1].payload);
+    if (!currentEnvironment->containsVariable(varName)) {
+        throw std::invalid_argument("variable <" + varName + "> does not exist");
+    }
+
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+    if (!nextEnvironment->removeVariable(varName)) {
+        throw std::invalid_argument("variable deletion failed");
+    }
+
+    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
+    currentEnvironment = std::move(nextEnvironment);
+
+    std::cout << "deleting variable <" << varName << ">\n";
+}
 
 void Interpreter::evaluateExpression(std::vector<Token>&& tokens) const {
     ObjectFactory factory(std::move(tokens), *currentEnvironment);
