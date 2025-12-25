@@ -26,6 +26,8 @@ void Interpreter::interpret(std::string_view line) {
             undefineFunction(std::move(tokens));
         } else if (tokens[0].payload == KEYWORD_DEFINE_VARIABLE) {
             defineVariable(std::move(tokens));
+        } else if (currentEnvironment->containsVariable(tokens[0].payload)) {
+            redefineVariable(std::move(tokens));
         } else {
             evaluateExpression(std::move(tokens));
         }
@@ -146,11 +148,33 @@ void Interpreter::defineVariable(std::vector<Token>&& tokens) {
     nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
     currentEnvironment = std::move(nextEnvironment);
 
-    std::cout << "creating variable <" << varName << "> = " << 
+    std::cout << "creating variable <" << varName << "> with value " << 
         currentEnvironment->getVariable(varName)->toString() << '\n';
 }
 
-void Interpreter::redefineVariable(std::vector<Token>&& tokens) {}
+void Interpreter::redefineVariable(std::vector<Token>&& tokens) {
+    if (!isValidVariableRedefinition(tokens)) {
+        throw std::invalid_argument("assigning variable must be in the following format: "
+                                    "<var_name> = <expr>");
+    }
+
+    std::string varName = std::move(tokens[0].payload);
+    if (!currentEnvironment->containsVariable(varName)) {
+        throw std::invalid_argument("variable <" + varName + "> does not exist");
+    }
+
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+
+    ObjectFactory factory(std::move(tokens), *nextEnvironment, 2);
+    auto expr = factory.createExpression();
+    nextEnvironment->replaceVariable(varName, expr->evaluate());
+
+    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
+    currentEnvironment = std::move(nextEnvironment);
+
+    std::cout << "assigning variable <" << varName << "> to " <<
+        currentEnvironment->getVariable(varName)->toString() << '\n';
+}
 
 void Interpreter::undefineVariable(std::vector<Token>&& tokens) {}
 

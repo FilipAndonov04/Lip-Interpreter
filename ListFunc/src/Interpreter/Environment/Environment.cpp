@@ -6,11 +6,12 @@
 #include <algorithm>
 
 Environment::Environment(const Environment& other) 
-	: functions(other.functions) {}
+	: functions(other.functions), variables(other.variables) {}
 
 Environment& Environment::operator=(const Environment& other) {
 	if (this != &other) {
 		functions = other.functions;
+		variables = other.variables;
 		previous.reset();
 	}
 	return *this;
