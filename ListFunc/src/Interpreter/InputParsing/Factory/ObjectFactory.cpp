@@ -185,14 +185,17 @@ std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
 
     if (tokens[index].type == TokenType::Dolar) {
         return createArgumentNode();
-    } else if (tokens[index].type == TokenType::Word) {
-        return createCompositeNode();
     } else if (tokens[index].type == TokenType::Number ||
                tokens[index].type == TokenType::Dash ||
                tokens[index].type == TokenType::SingleQuote ||
                tokens[index].type == TokenType::DoubleQuote ||
-               tokens[index].type == TokenType::OpenSquareBracket) {
-        return createLiteralNode();
+               tokens[index].type == TokenType::OpenSquareBracket ||
+               tokens[index].type == TokenType::Word &&
+               (index == tokens.size() - 1 || tokens[index + 1].type != TokenType::OpenCircleBracket)) {
+        return createExpressionNode();
+    } else if (tokens[index].type == TokenType::Word && index != tokens.size() - 1 &&
+               tokens[index + 1].type == TokenType::OpenCircleBracket) {
+        return createCompositeNode();
     }
 
     throw std::invalid_argument("invalid function body token");
@@ -207,8 +210,8 @@ std::unique_ptr<ArgumentNode> ObjectFactory::createArgumentNode() {
     return ArgumentNode::of(id);
 }
 
-std::unique_ptr<ExpressionNode> ObjectFactory::createLiteralNode() {
-    return ExpressionNode::of(createLiteral());
+std::unique_ptr<ExpressionNode> ObjectFactory::createExpressionNode() {
+    return ExpressionNode::of(createExpression());
 }
 
 std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {

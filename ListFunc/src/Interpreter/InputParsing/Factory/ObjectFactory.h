@@ -42,7 +42,7 @@ private:
 
 	std::unique_ptr<FunctionNode> createFunctionNode();
 	std::unique_ptr<ArgumentNode> createArgumentNode();
-	std::unique_ptr<ExpressionNode> createLiteralNode();
+	std::unique_ptr<ExpressionNode> createExpressionNode();
 	std::unique_ptr<CompositeNode> createCompositeNode();
 
 	void assertIndex() const;

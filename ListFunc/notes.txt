@@ -1,5 +1,3 @@
-(*) add variable in function definition
-
 (*) add comments
 
 (*) add Function metadata (isEmbedded, description)
