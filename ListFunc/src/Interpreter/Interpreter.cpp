@@ -24,6 +24,8 @@ void Interpreter::interpret(std::string_view line) {
             redefineFunction(std::move(tokens));
         } else if (tokens[0].payload == KEYWORD_UNDEFINE_FUNCTION) {
             undefineFunction(std::move(tokens));
+        } else if (tokens[0].payload == KEYWORD_DEFINE_VARIABLE) {
+            defineVariable(std::move(tokens));
         } else {
             evaluateExpression(std::move(tokens));
         }
@@ -122,6 +124,36 @@ void Interpreter::undefineFunction(std::vector<Token>&& tokens) {
     std::cout << "undefining function <" << funcName << '(' << argCount << ")>\n";
 }
 
+void Interpreter::defineVariable(std::vector<Token>&& tokens) {
+    if (!isValidVariableDefinition(tokens)) {
+        throw std::invalid_argument(std::string("creating variable must be in the following format: ") +
+                                    KEYWORD_DEFINE_VARIABLE + " <var_name> = <expr>");
+    }
+
+    std::string varName = std::move(tokens[1].payload);
+    if (currentEnvironment->containsFunction(varName)) {
+        throw std::invalid_argument("there exists a function <" + varName + ">");
+    } else if (currentEnvironment->containsVariable(varName)) {
+        throw std::invalid_argument("there is already a variable <" + varName + ">");
+    }
+
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+
+    ObjectFactory factory(std::move(tokens), *nextEnvironment, 3);
+    auto expr = factory.createExpression();
+    nextEnvironment->addVariable(varName, expr->evaluate());
+
+    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
+    currentEnvironment = std::move(nextEnvironment);
+
+    std::cout << "creating variable <" << varName << "> = " << 
+        currentEnvironment->getVariable(varName)->toString() << '\n';
+}
+
+void Interpreter::redefineVariable(std::vector<Token>&& tokens) {}
+
+void Interpreter::undefineVariable(std::vector<Token>&& tokens) {}
+
 void Interpreter::evaluateExpression(std::vector<Token>&& tokens) const {
     ObjectFactory factory(std::move(tokens), *currentEnvironment);
 
@@ -133,7 +165,7 @@ void Interpreter::evaluateExpression(std::vector<Token>&& tokens) const {
 }
 
 bool Interpreter::isValidFunctionDefinition(const std::vector<Token>& tokens) const {
-    if (tokens.size() < 7) {
+    if (tokens.size() <= 6) {
         return false;
     } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_DEFINE_FUNCTION) {
         return false;
@@ -153,7 +185,7 @@ bool Interpreter::isValidFunctionDefinition(const std::vector<Token>& tokens) co
 }
 
 bool Interpreter::isValidFunctionRedefinition(const std::vector<Token>& tokens) const {
-    if (tokens.size() < 7) {
+    if (tokens.size() <= 6) {
         return false;
     } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_REDEFINE_FUNCTION) {
         return false;
@@ -184,6 +216,44 @@ bool Interpreter::isValidFunctionUndefinition(const std::vector<Token>& tokens) 
     } else if (tokens[3].type != TokenType::Number) {
         return false;
     } else if (tokens[4].type != TokenType::CloseCircleBracket) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Interpreter::isValidVariableDefinition(const std::vector<Token>& tokens) const {
+    if (tokens.size() <= 3) {
+        return false;
+    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_DEFINE_VARIABLE) {
+        return false;
+    } else if (tokens[1].type != TokenType::Word) {
+        return false;
+    } else if (tokens[2].type != TokenType::Equal) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Interpreter::isValidVariableRedefinition(const std::vector<Token>& tokens) const {
+    if (tokens.size() <= 2) {
+        return false;
+    } else if (tokens[0].type != TokenType::Word) {
+        return false;
+    } else if (tokens[1].type != TokenType::Equal) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Interpreter::isValidVariableUndefinition(const std::vector<Token>& tokens) const {
+    if (tokens.size() != 2) {
+        return false;
+    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_UNDEFINE_VARIABLE) {
+        return false;
+    } else if (tokens[1].type != TokenType::Word) {
         return false;
     }
 
