@@ -175,6 +175,8 @@ std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
         return createCompositeNode();
     } else if (tokens[index].type == TokenType::Number ||
                tokens[index].type == TokenType::Dash ||
+               tokens[index].type == TokenType::SingleQuote ||
+               tokens[index].type == TokenType::DoubleQuote ||
                tokens[index].type == TokenType::OpenSquareBracket) {
         return createLiteralNode();
     }
