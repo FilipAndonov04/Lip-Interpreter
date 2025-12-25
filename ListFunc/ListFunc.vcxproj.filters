@@ -156,6 +156,12 @@
     <ClCompile Include="src\Value\Number\RealNumber.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Expression\Literal\String\StringLiteral.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Value\String\String.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h">
@@ -317,9 +323,16 @@
     <ClInclude Include="src\Value\ValueType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Expression\Literal\String\StringLiteral.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Value\String\String.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="functions.txt" />
     <Text Include="notes.txt" />
+    <Text Include="skill_issue.txt" />
   </ItemGroup>
 </Project>

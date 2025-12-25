@@ -2,5 +2,6 @@
 
 enum class ValueType {
 	Number,
-	List
+	List,
+	String
 };

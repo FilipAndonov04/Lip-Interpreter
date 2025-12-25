@@ -139,6 +139,7 @@
     <ClCompile Include="src\Expression\Literal\List\ListLiteral.cpp" />
     <ClCompile Include="src\Expression\Literal\Literal.cpp" />
     <ClCompile Include="src\Expression\Literal\Number\NumberLiteral.cpp" />
+    <ClCompile Include="src\Expression\Literal\String\StringLiteral.cpp" />
     <ClCompile Include="src\Function\Function.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterOrEqual.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterThan.cpp" />
@@ -182,6 +183,7 @@
     <ClCompile Include="src\Value\List\Lazy\LazyList.cpp" />
     <ClCompile Include="src\Value\List\List.cpp" />
     <ClCompile Include="src\Value\Number\RealNumber.cpp" />
+    <ClCompile Include="src\Value\String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Expression\Call\Call.h" />
@@ -190,6 +192,7 @@
     <ClInclude Include="src\Expression\Literal\List\ListLiteral.h" />
     <ClInclude Include="src\Expression\Literal\Literal.h" />
     <ClInclude Include="src\Expression\Literal\Number\NumberLiteral.h" />
+    <ClInclude Include="src\Expression\Literal\String\StringLiteral.h" />
     <ClInclude Include="src\Object\Object.h" />
     <ClInclude Include="src\Function\Function.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterThan.h" />
@@ -235,12 +238,14 @@
     <ClInclude Include="src\Value\List\Lazy\LazyList.h" />
     <ClInclude Include="src\Value\List\List.h" />
     <ClInclude Include="src\Value\Number\RealNumber.h" />
+    <ClInclude Include="src\Value\String\String.h" />
     <ClInclude Include="src\Value\Value.h" />
     <ClInclude Include="src\Value\ValueType.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="functions.txt" />
     <Text Include="notes.txt" />
+    <Text Include="skill_issue.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

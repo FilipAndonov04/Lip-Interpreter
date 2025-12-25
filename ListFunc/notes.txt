@@ -1,24 +1,30 @@
-(*) add variable def
-(*) add variable redef
-(*) add variable undef
+(*) add String type
+
+(*) make tokenizer give the token type with the string
 
 (*) add function redef
 (*) add function undef
 
-(*) fix lazy list caching
+(*) add variable def
+(*) add variable redef
+(*) add variable undef
+
+(*) add comments
+
+(*) add FunctionObject type
+
 (*) clean up value list class
 (*) add value wrapper
-
-(*) make tokenizer give the token type with the string
-
-(*) clean up embedded functions
-(*) clean up interpreter
-
-(*) add String type
-(*) add FunctionObject type
 
 (*) add command line args parsing
 (*) add file work mode
 (*) add saving function to file and loading them from file
 
+(*) clean up embedded functions
+(*) clean up interpreter
+
+(*) add const variable
+
 (*) different embedded functions based on difficulty
+
+(?) make LiteranNode take Expr instead of Literal

@@ -41,6 +41,8 @@
 #include "Interpreter/EmbeddedFunctions/List/FuncConcat.h"
 #include "Interpreter/EmbeddedFunctions/List/FuncList.h"
 
+#include "StringUtils/StringUtils.h"
+
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -67,9 +69,10 @@ int main() {
 	}
 
 	while (true) {
-		std::cout << "input command: ";
+		std::cout << "input command: " << StringUtils::GREEN;
 		std::string line;
 		std::getline(std::cin, line);
+		std::cout << StringUtils::DEFAULT;
 
 		if (line == "quit") {
 			break;
