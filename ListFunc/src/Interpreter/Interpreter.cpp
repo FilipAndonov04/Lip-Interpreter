@@ -28,7 +28,8 @@ void Interpreter::interpret(std::string_view line) {
             defineVariable(std::move(tokens));
         } else if (tokens[0].payload == KEYWORD_UNDEFINE_VARIABLE) {
             undefineVariable(std::move(tokens));
-        } else if (currentEnvironment->containsVariable(tokens[0].payload)) {
+        } else if (tokens[0].type == TokenType::Word &&
+                   tokens.size() >= 2 && tokens[1].type == TokenType::Equal) {
             redefineVariable(std::move(tokens));
         } else {
             evaluateExpression(std::move(tokens));

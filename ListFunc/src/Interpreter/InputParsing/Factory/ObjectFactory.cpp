@@ -3,6 +3,8 @@
 #include "Expression/Literal/List/ListLiteral.h"
 #include "Expression/Literal/String/StringLiteral.h"
 #include "Expression/Call/Function/FunctionCall.h"
+#include "Expression/Call/Variable/VariableCall.h"
+
 #include "Function/Graph/GraphFunction.h"
 #include "Function/Graph/Node/Argument/ArgumentNode.h"
 #include "Function/Graph/Node/Literal/LiteralNode.h"
@@ -20,7 +22,10 @@ ObjectFactory::ObjectFactory(std::vector<Token> tokens, Environment& environment
 
 std::unique_ptr<Expression> ObjectFactory::createExpression() {
     assertIndex();
-    if (tokens[index].type == TokenType::Word) {
+    if (tokens[index].type == TokenType::Word && 
+        (index == tokens.size() - 1 || tokens[index + 1].type != TokenType::OpenCircleBracket)) {
+        return createVariableCall();
+    } else if (tokens[index].type == TokenType::Word) {
         return createFunctionCall();
     }
 
@@ -146,6 +151,15 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
         }
         args.push_back(createExpression());
     }
+}
+
+std::unique_ptr<VariableCall> ObjectFactory::createVariableCall() {
+    auto var = environment->getVariable(tokens[index++].payload);
+    if (!var) {
+        throw std::invalid_argument("undefined variable");
+    }
+
+    return VariableCall::of(var);
 }
 
 std::shared_ptr<GraphFunction> ObjectFactory::createGraphFunction(const std::string& name, size_t argCount) {

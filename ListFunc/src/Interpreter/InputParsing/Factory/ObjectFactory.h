@@ -11,6 +11,7 @@ class NumberLiteral;
 class ListLiteral;
 class StringLiteral;
 class FunctionCall;
+class VariableCall;
 
 class Function;
 class GraphFunction;
@@ -35,6 +36,7 @@ private:
 	std::unique_ptr<ListLiteral> createListLiteral();
 	std::unique_ptr<StringLiteral> createStringLiteral();
 	std::unique_ptr<FunctionCall> createFunctionCall();
+	std::unique_ptr<VariableCall> createVariableCall();
 
 	std::shared_ptr<GraphFunction> createGraphFunction(const std::string& name, size_t argCount);
 

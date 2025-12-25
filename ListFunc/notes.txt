@@ -1,7 +1,4 @@
-(*) add VariableCall
-(*) add variable def
-(*) add variable redef
-(*) add variable undef
+(*) add variable in function definition
 
 (*) add comments
 
