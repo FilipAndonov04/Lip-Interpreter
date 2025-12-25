@@ -1,5 +1,4 @@
 #pragma once
-#include "Expression/ExpressionType.h"
 
 #include <memory>
 #include <string>
@@ -14,8 +13,6 @@ public:
 	virtual ~Expression() = default;
 
 	virtual std::unique_ptr<Value> evaluate() const = 0;
-
-	virtual ExpressionType type() const = 0;
 
 	virtual std::unique_ptr<Expression> cloneExpression() const = 0;
 

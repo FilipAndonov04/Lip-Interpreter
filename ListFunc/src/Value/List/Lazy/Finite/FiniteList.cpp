@@ -1,7 +1,8 @@
 #include "FiniteList.h"
+#include "Expression/Expression.h"
 #include "Function/Function.h"
 
-FiniteList::FiniteList(std::unique_ptr<Value>&& initialElement,
+FiniteList::FiniteList(std::unique_ptr<Expression>&& initialElement,
                        std::unique_ptr<Function>&& step, size_t elementCount)
     : LazyList(std::move(initialElement), std::move(step)), elementCount(elementCount) {}
 

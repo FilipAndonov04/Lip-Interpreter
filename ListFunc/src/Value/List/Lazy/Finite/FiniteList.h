@@ -3,7 +3,7 @@
 
 class FiniteList final : public LazyList {
 public:
-	FiniteList(std::unique_ptr<Value>&& initialElement,
+	FiniteList(std::unique_ptr<Expression>&& initialElement,
 			   std::unique_ptr<Function>&& step, size_t elementCount);
 	FiniteList(std::unique_ptr<List>&& cachedElements, 
 			   std::unique_ptr<Function>&& step, size_t elementCount);

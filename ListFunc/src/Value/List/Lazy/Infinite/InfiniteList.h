@@ -3,7 +3,7 @@
 
 class InfiniteList final : public LazyList {
 public:
-	InfiniteList(std::unique_ptr<Value>&& initialElement, std::unique_ptr<Function>&& step);
+	InfiniteList(std::unique_ptr<Expression>&& initialElement, std::unique_ptr<Function>&& step);
 	InfiniteList(std::unique_ptr<List>&& cachedElements, std::unique_ptr<Function>&& step);
 
 	size_t length() const override;

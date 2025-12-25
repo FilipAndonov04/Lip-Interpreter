@@ -59,21 +59,21 @@ std::unique_ptr<ListLiteral> ObjectFactory::createListLiteral() {
         return std::make_unique<ListLiteral>();
     }
 
-    auto list = std::make_unique<ListLiteral>();
-    list->pushBack(createExpression());
+    std::vector<std::unique_ptr<Expression>> elements;
+    elements.push_back(createExpression());
 
     while (true) {
         assertIndex();
 
         if (tokens[index] == "]") {
             index++;
-            return list;
+            return std::make_unique<ListLiteral>(std::move(elements));
         }
 
         if (tokens[index++] != ",") {
             throw std::invalid_argument("invalid token for list");
         }
-        list->pushBack(createExpression());
+        elements.push_back(createExpression());
     }
 }
 

@@ -206,9 +206,6 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncAdd.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\ExpressionType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncSubtract.h">
       <Filter>Header Files</Filter>
     </ClInclude>

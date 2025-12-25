@@ -1,9 +1,10 @@
 #include "InfiniteList.h"
+#include "Expression/Expression.h"
 #include "Function/Function.h"
 
 #include <stdexcept>
 
-InfiniteList::InfiniteList(std::unique_ptr<Value>&& initialElement, std::unique_ptr<Function>&& step)
+InfiniteList::InfiniteList(std::unique_ptr<Expression>&& initialElement, std::unique_ptr<Function>&& step)
     : LazyList(std::move(initialElement), std::move(step)) {}
 
 InfiniteList::InfiniteList(std::unique_ptr<List>&& cachedElements, std::unique_ptr<Function>&& step)
