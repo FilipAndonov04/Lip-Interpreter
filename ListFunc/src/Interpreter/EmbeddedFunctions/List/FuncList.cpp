@@ -7,7 +7,7 @@
 
 #include <stdexcept>
 
-struct AddConst {
+static struct AddConst {
     std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const {
         auto arg1 = args[0]->evaluate();
         auto n1 = static_cast<RealNumber*>(arg1.get());

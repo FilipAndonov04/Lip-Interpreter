@@ -1,8 +1,10 @@
 #pragma once
-#include "Expression/Expression.h"
 
+#include <memory>
 #include <vector>
 
+class Expression;
+class Value;
 class Interpreter;
 
 struct FuncInput {

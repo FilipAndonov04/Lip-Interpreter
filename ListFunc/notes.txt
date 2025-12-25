@@ -1,8 +1,6 @@
 (*) add Function metadata (isEmbedded, description)
 (*) add Variable metadata (name)
 
-(*) add FunctionObject type
-
 (*) add command line args parsing
 (*) add file work mode
 (*) add saving function to file and loading them from file
@@ -13,6 +11,8 @@
 
 (*) clean up value list class
 (*) add value wrapper
+
+(*) add FunctionObject type
 
 (*) clean up embedded functions
 (*) clean up interpreter
