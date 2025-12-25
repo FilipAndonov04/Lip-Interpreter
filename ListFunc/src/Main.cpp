@@ -6,7 +6,7 @@
 #include "Expression/Call/Function/FunctionCall.h"
 #include "Function/Graph/GraphFunction.h"
 #include "Function/Graph/Node/Argument/ArgumentNode.h"
-#include "Function/Graph/Node/Literal/LiteralNode.h"
+#include "Function/Graph/Node/Expression/ExpressionNode.h"
 #include "Function/Graph/Node/Composite/CompositeNode.h"
 
 #include "Interpreter/EmbeddedFunctions/Math/FuncAdd.h"

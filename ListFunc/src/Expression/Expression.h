@@ -14,7 +14,7 @@ public:
 
 	virtual std::unique_ptr<Value> evaluate() const = 0;
 
-	virtual std::unique_ptr<Expression> cloneExpression() const = 0;
+	virtual std::unique_ptr<Expression> clone() const = 0;
 
 	virtual std::string toString() const { return "expr"; }
 };

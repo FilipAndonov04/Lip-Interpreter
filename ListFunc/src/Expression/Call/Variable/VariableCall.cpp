@@ -8,7 +8,7 @@ std::unique_ptr<Value> VariableCall::evaluate() const {
     return variable->cloneValue();
 }
 
-std::unique_ptr<Expression> VariableCall::cloneExpression() const {
+std::unique_ptr<Expression> VariableCall::clone() const {
     return of(variable);
 }
 

@@ -32,7 +32,7 @@ std::unique_ptr<Value> FuncList::operator()(const std::vector<const Expression*>
         auto n3 = static_cast<RealNumber*>(arg3.get());
 
         auto step = std::make_unique<WrapperFunction<AddConst>>(1, AddConst{n2->getValue()});
-        return std::make_unique<FiniteList>(args[0]->cloneExpression(), std::move(step), n3->getValue());
+        return std::make_unique<FiniteList>(args[0]->clone(), std::move(step), n3->getValue());
     } else if (args.size() == 2) {
         auto arg1 = args[0]->evaluate();
         auto arg2 = args[1]->evaluate();
@@ -44,7 +44,7 @@ std::unique_ptr<Value> FuncList::operator()(const std::vector<const Expression*>
         auto n2 = static_cast<RealNumber*>(arg2.get());
 
         auto step = std::make_unique<WrapperFunction<AddConst>>(1, AddConst{n2->getValue()});
-        return std::make_unique<InfiniteList>(args[0]->cloneExpression(), std::move(step));
+        return std::make_unique<InfiniteList>(args[0]->clone(), std::move(step));
     } else if (args.size() == 1) {
         auto arg1 = args[0]->evaluate();
 
@@ -53,6 +53,6 @@ std::unique_ptr<Value> FuncList::operator()(const std::vector<const Expression*>
         }
 
         auto step = std::make_unique<WrapperFunction<AddConst>>(1, AddConst{1});
-        return std::make_unique<InfiniteList>(args[0]->cloneExpression(), std::move(step));
+        return std::make_unique<InfiniteList>(args[0]->clone(), std::move(step));
     }
 }

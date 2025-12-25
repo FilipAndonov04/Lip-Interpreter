@@ -7,7 +7,7 @@
 
 #include "Function/Graph/GraphFunction.h"
 #include "Function/Graph/Node/Argument/ArgumentNode.h"
-#include "Function/Graph/Node/Literal/LiteralNode.h"
+#include "Function/Graph/Node/Expression/ExpressionNode.h"
 #include "Function/Graph/Node/Composite/CompositeNode.h"
 
 #include "Interpreter/Environment/Environment.h"
@@ -207,8 +207,8 @@ std::unique_ptr<ArgumentNode> ObjectFactory::createArgumentNode() {
     return ArgumentNode::of(id);
 }
 
-std::unique_ptr<LiteralNode> ObjectFactory::createLiteralNode() {
-    return LiteralNode::of(createLiteral());
+std::unique_ptr<ExpressionNode> ObjectFactory::createLiteralNode() {
+    return ExpressionNode::of(createLiteral());
 }
 
 std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {

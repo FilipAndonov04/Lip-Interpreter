@@ -8,7 +8,7 @@ std::unique_ptr<Value> StringLiteral::evaluate() const {
     return String::of(string);
 }
 
-std::unique_ptr<Literal> StringLiteral::cloneLiteral() const {
+std::unique_ptr<Expression> StringLiteral::clone() const {
     return of(string);
 }
 

@@ -14,12 +14,12 @@ std::unique_ptr<Value> FunctionCall::evaluate() const {
     return function->call(getArgs());
 }
 
-std::unique_ptr<Expression> FunctionCall::cloneExpression() const {
+std::unique_ptr<Expression> FunctionCall::clone() const {
     std::vector<std::unique_ptr<Expression>> clonedArgs;
     clonedArgs.reserve(args.size());
 
     for (const auto& arg : args) {
-        clonedArgs.push_back(arg->cloneExpression());
+        clonedArgs.push_back(arg->clone());
     }
 
     return std::make_unique<FunctionCall>(function, std::move(clonedArgs));

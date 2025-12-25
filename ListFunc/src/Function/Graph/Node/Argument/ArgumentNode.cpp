@@ -5,7 +5,7 @@ ArgumentNode::ArgumentNode(size_t argId)
     : argId(argId) {}
 
 std::unique_ptr<Expression> ArgumentNode::call(const std::vector<const Expression*>& args) const {
-    return args[argId - 1]->cloneExpression();
+    return args[argId - 1]->clone();
 }
 
 std::unique_ptr<FunctionNode> ArgumentNode::clone() const {

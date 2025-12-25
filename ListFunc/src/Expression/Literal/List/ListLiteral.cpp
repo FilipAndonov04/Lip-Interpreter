@@ -17,12 +17,12 @@ std::unique_ptr<Value> ListLiteral::evaluate() const {
     return std::make_unique<ConcreteList>(std::move(values));
 }
 
-std::unique_ptr<Literal> ListLiteral::cloneLiteral() const {
+std::unique_ptr<Expression> ListLiteral::clone() const {
     std::vector<std::unique_ptr<Expression>> clonedElements;
     clonedElements.reserve(elements.size());
 
     for (const auto& element : elements) {
-        clonedElements.push_back(element->cloneExpression());
+        clonedElements.push_back(element->clone());
     }
 
     return std::make_unique<ListLiteral>(std::move(clonedElements));

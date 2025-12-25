@@ -9,7 +9,7 @@ public:
 
 	std::unique_ptr<Value> evaluate() const override;
 
-	std::unique_ptr<Literal> cloneLiteral() const override;
+	std::unique_ptr<Expression> clone() const override;
 
 	std::string toString() const override;
 

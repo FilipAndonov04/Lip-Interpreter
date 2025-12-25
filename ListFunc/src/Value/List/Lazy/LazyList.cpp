@@ -22,7 +22,7 @@ void LazyList::cacheElement(size_t index) const {
 		mutable std::unique_ptr<Value> value;
 
 		std::unique_ptr<Value> evaluate() const override { return std::move(value); }
-		std::unique_ptr<Expression> cloneExpression() const override { return nullptr; }
+		std::unique_ptr<Expression> clone() const override { return nullptr; }
 	};
 
 	if (initialElement) {
