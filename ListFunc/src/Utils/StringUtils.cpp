@@ -51,8 +51,9 @@ size_t toSizeType(std::string_view s) {
     }
 
     if (index != s.length()) {
-        throw std::invalid_argument("invalid character in number");
+        throw std::invalid_argument("invalid character in non-negative integer");
     }
+
     return num;
 }
 

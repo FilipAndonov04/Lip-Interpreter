@@ -146,8 +146,7 @@ std::shared_ptr<GraphFunction> ObjectFactory::createGraphFunction(const std::str
 
     auto func = std::make_shared<GraphFunction>(argCount);
     if (!environment->addFunction(name, func)) {
-        throw std::invalid_argument("there is already a function <" + name + 
-                                    "(" + std::to_string(argCount) + ")>");
+        throw std::invalid_argument("adding function failed");
     }
 
     auto root = createFunctionNode();

@@ -1,7 +1,4 @@
-(*) make tokenizer give the token type with the string
-
 (*) add function redef
-(*) add function undef
 
 (*) add variable def
 (*) add variable redef
@@ -18,6 +15,8 @@
 (*) add saving function to file and loading them from file
 
 (*) add help command
+(*) add warnings
+(*) add check for undef of embedded function
 
 (*) clean up value list class
 (*) add value wrapper

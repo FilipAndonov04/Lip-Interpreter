@@ -18,10 +18,12 @@ void Interpreter::interpret(std::string_view line) {
             return;
         }
 
-        if (tokens[0].payload == "def") {
-            handleFunctionDefinition(std::move(tokens));
+        if (tokens[0].payload == KEYWORD_DEFINE_FUNCTION) {
+            defineFunction(std::move(tokens));
+        } else if (tokens[0].payload == KEYWORD_UNDEFINE_FUNCTION) {
+            undefineFunction(std::move(tokens));
         } else {
-            handleExpressionEvaluation(std::move(tokens));
+            evaluateExpression(std::move(tokens));
         }
     } catch (const std::exception& e) {
         std::cout << "[ERROR] " << e.what() << '\n';
@@ -41,30 +43,96 @@ void Interpreter::setCurrentEnvironment(std::unique_ptr<Environment>&& environme
     currentEnvironment = std::move(environment);
 }
 
-void Interpreter::handleFunctionDefinition(std::vector<Token>&& tokens) {
-    if (tokens.size() < 6) {
-        throw std::invalid_argument("invalid function definition");
+void Interpreter::defineFunction(std::vector<Token>&& tokens) {
+    if (!isValidFunctionDefinition(tokens)) {
+        throw std::invalid_argument(std::string("defining function must be in the following format: ") +
+                                    KEYWORD_DEFINE_FUNCTION + " <func_name>(<num_args>) = <func_body>");
     }
 
-    std::string name = std::move(tokens[1].payload);
+    std::string funcName = std::move(tokens[1].payload);
     size_t argCount = Utils::toSizeType(tokens[3].payload);
+    if (currentEnvironment->containsFunction(funcName, argCount)) {
+        throw std::invalid_argument("there is already a function <" + funcName +
+                                    "(" + std::to_string(argCount) + ")>");
+    }
 
     std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
 
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 6);
-    auto func = factory.createFunction(name, argCount);
+    auto func = factory.createFunction(funcName, argCount);
 
     nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
     currentEnvironment = std::move(nextEnvironment);
 
-    std::cout << "defining function <" << name << '(' << argCount << ")>\n";
+    std::cout << "defining function <" << funcName << '(' << argCount << ")>\n";
 }
 
-void Interpreter::handleExpressionEvaluation(std::vector<Token>&& tokens) const {
+void Interpreter::undefineFunction(std::vector<Token>&& tokens) {
+    if (!isValidFunctionUndefinition(tokens)) {
+        throw std::invalid_argument(std::string("undefining function must be in the following format: ") +
+                                    KEYWORD_UNDEFINE_FUNCTION + " <func_name>(<num_args>)");
+    }
+
+    std::string funcName = std::move(tokens[1].payload);
+    size_t argCount = Utils::toSizeType(tokens[3].payload);
+    if (!currentEnvironment->containsFunction(funcName, argCount)) {
+        throw std::invalid_argument("function was already not defined");
+    }
+
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+    if (!nextEnvironment->removeFunction(funcName, argCount)) {
+        throw std::invalid_argument("function undefining failed");
+    }
+
+    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
+    currentEnvironment = std::move(nextEnvironment);
+
+    std::cout << "undefining function <" << funcName << '(' << argCount << ")>\n";
+}
+
+void Interpreter::evaluateExpression(std::vector<Token>&& tokens) const {
     ObjectFactory factory(std::move(tokens), *currentEnvironment);
 
     auto expr = factory.createExpression();
     auto res = expr->evaluate();
 
     std::cout << res->toString() << " <- " << expr->toString() << '\n';
+}
+
+bool Interpreter::isValidFunctionDefinition(const std::vector<Token>& tokens) const {
+    if (tokens.size() < 7) {
+        return false;
+    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_DEFINE_FUNCTION) {
+        return false;
+    } else if (tokens[1].type != TokenType::Word) {
+        return false;
+    } else if (tokens[2].type != TokenType::OpenCircleBracket) {
+        return false;
+    } else if (tokens[3].type != TokenType::Number) {
+        return false;
+    } else if (tokens[4].type != TokenType::CloseCircleBracket) {
+        return false;
+    } else if (tokens[5].type != TokenType::Equal) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Interpreter::isValidFunctionUndefinition(const std::vector<Token>& tokens) const {
+    if (tokens.size() != 5) {
+        return false;
+    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_UNDEFINE_FUNCTION) {
+        return false;
+    } else if (tokens[1].type != TokenType::Word) {
+        return false;
+    } else if (tokens[2].type != TokenType::OpenCircleBracket) {
+        return false;
+    } else if (tokens[3].type != TokenType::Number) {
+        return false;
+    } else if (tokens[4].type != TokenType::CloseCircleBracket) {
+        return false;
+    }
+
+    return true;
 }
