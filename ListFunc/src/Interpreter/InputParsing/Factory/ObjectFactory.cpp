@@ -48,8 +48,15 @@ std::unique_ptr<Literal> ObjectFactory::createLiteral() {
 }
 
 std::unique_ptr<NumberLiteral> ObjectFactory::createNumberLiteral() {
+    int sign = 1;
+    if (tokens[index].type == TokenType::Dash) {
+        sign = -1;
+        index++;
+    }
+
+    assertIndex();
     double value = Utils::toDouble(tokens[index++].payload);
-    return NumberLiteral::of(value);
+    return NumberLiteral::of(value * sign);
 }
 
 std::unique_ptr<ListLiteral> ObjectFactory::createListLiteral() {
