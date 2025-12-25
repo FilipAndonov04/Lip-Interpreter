@@ -14,10 +14,6 @@ std::unique_ptr<Value> FunctionCall::evaluate() const {
     return function->call(getArgs());
 }
 
-ExpressionType FunctionCall::type() const {
-    return ExpressionType::FunctionCall;
-}
-
 std::unique_ptr<Expression> FunctionCall::cloneExpression() const {
     std::vector<std::unique_ptr<Expression>> clonedArgs;
     clonedArgs.reserve(args.size());

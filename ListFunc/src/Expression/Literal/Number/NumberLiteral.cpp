@@ -10,10 +10,6 @@ std::unique_ptr<Value> NumberLiteral::evaluate() const {
     return RealNumber::of(value);
 }
 
-ExpressionType NumberLiteral::type() const {
-    return ExpressionType::NumberLiteral;
-}
-
 std::unique_ptr<Literal> NumberLiteral::cloneLiteral() const {
     return of(value);
 }

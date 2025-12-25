@@ -12,8 +12,6 @@ public:
 
 	std::unique_ptr<Value> evaluate() const override;
 
-	ExpressionType type() const override;
-
 	std::unique_ptr<Expression> cloneExpression() const override;
 
 	std::string toString() const override;

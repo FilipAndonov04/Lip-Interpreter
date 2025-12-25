@@ -106,7 +106,7 @@ Interpreter setUpFunctions() {
 	env.addFunction("int", std::make_unique<WrapperFunction<FuncInt>>(1));
 	env.addFunction("bool", std::make_unique<WrapperFunction<FuncBool>>(1));
 
-	env.addFunction("input", std::make_unique<WrapperFunction<FuncInput>>(0, FuncInput{env}));
+	env.addFunction("input", std::make_unique<WrapperFunction<FuncInput>>(0, FuncInput{inter}));
 	env.addFunction("print", std::make_unique<WrapperFunction<FuncPrint>>(1));
 
 	env.addFunction("head", std::make_unique<WrapperFunction<FuncHead>>(1));
