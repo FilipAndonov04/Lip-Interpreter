@@ -1,5 +1,6 @@
 #include "Environment.h"
 #include "Function/Function.h"
+#include "Value/Value.h"
 
 #include <stdexcept>
 #include <algorithm>
@@ -20,7 +21,11 @@ bool Environment::containsFunction(const std::string& name) const {
 }
 
 bool Environment::containsFunction(const std::string& name, size_t argCount) const {
-	return getFunction(name, argCount) != nullptr;
+	return getFunction(name, argCount);
+}
+
+bool Environment::containsVariable(const std::string& name) const {
+	return getVariable(name);
 }
 
 const Function* Environment::getFunction(const std::string& name, size_t argCount) const {
@@ -38,7 +43,16 @@ const Function* Environment::getFunction(const std::string& name, size_t argCoun
 	return func != container.end() ? func->get() : nullptr;
 }
 
+const Value* Environment::getVariable(const std::string& name) const {
+	auto var = variables.find(name);
+	return var != variables.end() ? var->second.get() : nullptr;
+}
+
 bool Environment::addFunction(const std::string& name, const std::shared_ptr<Function>& function) {
+	if (containsVariable(name)) {
+		return false;
+	}
+
 	auto& container = functions[name];
 
 	auto hasSameArgCount = [argCount = function->getArgCount()](const std::shared_ptr<Function>& f) {
@@ -55,6 +69,10 @@ bool Environment::addFunction(const std::string& name, const std::shared_ptr<Fun
 }
 
 bool Environment::addFunction(const std::string& name, std::shared_ptr<Function>&& function) {
+	if (containsVariable(name)) {
+		return false;
+	}
+
 	auto& container = functions[name];
 
 	auto hasSameArgCount = [argCount = function->getArgCount()](const std::shared_ptr<Function>& f) {
@@ -67,6 +85,24 @@ bool Environment::addFunction(const std::string& name, std::shared_ptr<Function>
 	}
 
 	container.push_back(std::move(function));
+	return true;
+}
+
+bool Environment::addVariable(const std::string& name, const std::shared_ptr<Value>& value) {
+	if (containsVariable(name) || containsFunction(name)) {
+		return false;
+	}
+
+	variables[name] = value;
+	return true;
+}
+
+bool Environment::addVariable(const std::string& name, std::shared_ptr<Value>&& value) {
+	if (containsVariable(name) || containsFunction(name)) {
+		return false;
+	}
+
+	variables[name] = std::move(value);
 	return true;
 }
 
@@ -100,6 +136,16 @@ bool Environment::removeFunction(const std::string& name, size_t argCount) {
 	if (container.empty()) {
 		functions.erase(funcsByName);
 	}
+	return true;
+}
+
+bool Environment::removeVariable(const std::string& name) {
+	auto var = variables.find(name);
+	if (var == variables.end()) {
+		return false;
+	}
+
+	variables.erase(var);
 	return true;
 }
 
@@ -142,6 +188,26 @@ bool Environment::replaceFunction(const std::string& name, std::shared_ptr<Funct
 
 	container.erase(func);
 	container.push_back(std::move(newFunction));
+	return true;
+}
+
+bool Environment::replaceVariable(const std::string& name, const std::shared_ptr<Value>& newValue) {
+	auto var = variables.find(name);
+	if (var == variables.end()) {
+		return false;
+	}
+
+	var->second = newValue;
+	return true;
+}
+
+bool Environment::replaceVariable(const std::string& name, std::shared_ptr<Value>&& newValue) {
+	auto var = variables.find(name);
+	if (var == variables.end()) {
+		return false;
+	}
+
+	var->second = std::move(newValue);
 	return true;
 }
 
