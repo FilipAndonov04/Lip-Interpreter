@@ -175,8 +175,8 @@
     <ClCompile Include="src\Interpreter\InputParsing\ObjectFactory.cpp" />
     <ClCompile Include="src\Interpreter\Environment\Environment.cpp" />
     <ClCompile Include="src\Main.cpp" />
-    <ClCompile Include="src\StringUtils\CharUtils.cpp" />
-    <ClCompile Include="src\StringUtils\StringUtils.cpp" />
+    <ClCompile Include="src\Utils\CharUtils.cpp" />
+    <ClCompile Include="src\Utils\StringUtils.cpp" />
     <ClCompile Include="src\Value\List\Concrete\ConcreteList.cpp" />
     <ClCompile Include="src\Value\List\Lazy\Finite\FiniteList.cpp" />
     <ClCompile Include="src\Value\List\Lazy\Infinite\InfiniteList.cpp" />
@@ -193,7 +193,6 @@
     <ClInclude Include="src\Expression\Literal\Literal.h" />
     <ClInclude Include="src\Expression\Literal\Number\NumberLiteral.h" />
     <ClInclude Include="src\Expression\Literal\String\StringLiteral.h" />
-    <ClInclude Include="src\Object\Object.h" />
     <ClInclude Include="src\Function\Function.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterThan.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterOrEqual.h" />
@@ -230,8 +229,8 @@
     <ClInclude Include="src\Interpreter\Interpreter.h" />
     <ClInclude Include="src\Interpreter\InputParsing\Tokenizer.h" />
     <ClInclude Include="src\Interpreter\Environment\Environment.h" />
-    <ClInclude Include="src\StringUtils\CharUtils.h" />
-    <ClInclude Include="src\StringUtils\StringUtils.h" />
+    <ClInclude Include="src\Utils\CharUtils.h" />
+    <ClInclude Include="src\Utils\StringUtils.h" />
     <ClInclude Include="src\Value\List\Concrete\ConcreteList.h" />
     <ClInclude Include="src\Value\List\Lazy\Finite\FiniteList.h" />
     <ClInclude Include="src\Value\List\Lazy\Infinite\InfiniteList.h" />

@@ -8,6 +8,7 @@ class Expression;
 class Literal;
 class NumberLiteral;
 class ListLiteral;
+class StringLiteral;
 class FunctionCall;
 
 class Function;
@@ -31,6 +32,7 @@ private:
 	std::unique_ptr<Literal> createLiteral();
 	std::unique_ptr<NumberLiteral> createNumberLiteral();
 	std::unique_ptr<ListLiteral> createListLiteral();
+	std::unique_ptr<StringLiteral> createStringLiteral();
 	std::unique_ptr<FunctionCall> createFunctionCall();
 
 	std::shared_ptr<GraphFunction> createGraphFunction(const std::string& name, size_t argCount);

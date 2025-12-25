@@ -1,6 +1,6 @@
 #pragma once
 
-namespace StringUtils {
+namespace Utils {
 
 bool isDigit(char ch);
 bool isLowerLetter(char ch);
@@ -29,6 +29,9 @@ bool isEqualSign(char ch);
 bool isDolarSign(char ch);
 bool isComma(char ch);
 bool isDot(char ch);
+
+bool isSingleQuote(char ch);
+bool isDoubleQuote(char ch);
 
 int toInt(char ch);
 

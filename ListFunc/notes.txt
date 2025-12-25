@@ -1,5 +1,3 @@
-(*) add String type
-
 (*) make tokenizer give the token type with the string
 
 (*) add function redef
@@ -11,14 +9,18 @@
 
 (*) add comments
 
-(*) add FunctionObject type
+(*) add Function metadata (isEmbedded, description)
 
-(*) clean up value list class
-(*) add value wrapper
+(*) add FunctionObject type
 
 (*) add command line args parsing
 (*) add file work mode
 (*) add saving function to file and loading them from file
+
+(*) add help command
+
+(*) clean up value list class
+(*) add value wrapper
 
 (*) clean up embedded functions
 (*) clean up interpreter

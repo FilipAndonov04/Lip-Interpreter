@@ -1,6 +1,6 @@
 #include "CharUtils.h"
 
-namespace StringUtils {
+namespace Utils {
 
 static bool isBetween(char ch, char beg, char end) {
     return ch >= beg && ch <= end;
@@ -49,7 +49,7 @@ bool isWhitespace(char ch) {
 bool isSign(char ch) {
     return isOpenCircleBracket(ch) || isCloseCircleBracket(ch) || isOpenSquareBracket(ch) ||
         isCloseSquareBracket(ch) || isOpenCurlyBracket(ch) || isCloseCurlyBracket(ch) ||
-        isEqualSign(ch) || isDolarSign(ch) || isComma(ch) || isDot(ch);
+        isEqualSign(ch) || isDolarSign(ch) || isComma(ch) || isDot(ch) || isDoubleQuote(ch);
 }
 
 bool isOpenCircleBracket(char ch) {
@@ -90,6 +90,14 @@ bool isComma(char ch) {
 
 bool isDot(char ch) {
     return ch == '.';
+}
+
+bool isSingleQuote(char ch) {
+    return ch == '\'';
+}
+
+bool isDoubleQuote(char ch) {
+    return ch == '\"';
 }
 
 int toInt(char ch) {

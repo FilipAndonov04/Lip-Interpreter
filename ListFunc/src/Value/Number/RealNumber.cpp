@@ -1,6 +1,6 @@
 #include "RealNumber.h"
 
-#include "StringUtils/StringUtils.h"
+#include "Utils/StringUtils.h"
 
 RealNumber::RealNumber(double value)
     : value(value) {}
@@ -14,7 +14,7 @@ std::unique_ptr<Value> RealNumber::cloneValue() const {
 }
 
 std::string RealNumber::toString() const {
-    return StringUtils::toString(value);
+    return Utils::toString(value);
 }
 
 double RealNumber::getValue() const {

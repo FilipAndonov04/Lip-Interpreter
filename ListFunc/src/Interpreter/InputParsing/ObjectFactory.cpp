@@ -1,6 +1,7 @@
 #include "ObjectFactory.h"
 #include "Expression/Literal/Number/NumberLiteral.h"
 #include "Expression/Literal/List/ListLiteral.h"
+#include "Expression/Literal/String/StringLiteral.h"
 #include "Expression/Call/Function/FunctionCall.h"
 
 #include "Function/Graph/GraphFunction.h"
@@ -10,8 +11,8 @@
 
 #include "Interpreter/Environment/Environment.h"
 
-#include "StringUtils/StringUtils.h"
-#include "StringUtils/CharUtils.h"
+#include "Utils/StringUtils.h"
+#include "Utils/CharUtils.h"
 
 #include <stdexcept>
 
@@ -21,7 +22,7 @@ ObjectFactory::ObjectFactory(std::vector<std::string> tokens, Environment& envir
 std::unique_ptr<Expression> ObjectFactory::createExpression() {
     assertIndex();
 
-    if (StringUtils::isLetter(tokens[index].front())) {
+    if (Utils::isLetter(tokens[index].front())) {
         return createFunctionCall();
     }
 
@@ -37,8 +38,10 @@ std::unique_ptr<Literal> ObjectFactory::createLiteral() {
 
     if (tokens[index] == "[") {
         return createListLiteral();
-    } else if (StringUtils::isDigit(tokens[index].front()) || 
-               StringUtils::isDash(tokens[index].front())) {
+    } else if (tokens[index] == "\"") {
+        return createStringLiteral();
+    } else if (Utils::isDigit(tokens[index].front()) || 
+               Utils::isDash(tokens[index].front())) {
         return createNumberLiteral();
     }
 
@@ -46,7 +49,7 @@ std::unique_ptr<Literal> ObjectFactory::createLiteral() {
 }
 
 std::unique_ptr<NumberLiteral> ObjectFactory::createNumberLiteral() {
-    double value = StringUtils::toDouble(tokens[index++]);
+    double value = Utils::toDouble(tokens[index++]);
     return NumberLiteral::of(value);
 }
 
@@ -75,6 +78,20 @@ std::unique_ptr<ListLiteral> ObjectFactory::createListLiteral() {
         }
         elements.push_back(createExpression());
     }
+}
+
+std::unique_ptr<StringLiteral> ObjectFactory::createStringLiteral() {
+    index++;
+
+    assertIndex();
+    std::string string = std::move(tokens[index++]);
+
+    assertIndex();
+    if (tokens[index++] != "\"") {
+        throw std::invalid_argument("strings must end in double quotes");
+    }
+
+    return StringLiteral::of(std::move(string));
 }
 
 std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
@@ -144,11 +161,11 @@ std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
 
     if (tokens[index] == "$") {
         return createArgumentNode();
-    } else if (StringUtils::isDigit(tokens[index].front()) || 
-               StringUtils::isDash(tokens[index].front()) || 
-               StringUtils::isOpenSquareBracket(tokens[index].front())) {
+    } else if (Utils::isDigit(tokens[index].front()) || 
+               Utils::isDash(tokens[index].front()) || 
+               Utils::isOpenSquareBracket(tokens[index].front())) {
         return createLiteralNode();
-    } else if (StringUtils::isLetter(tokens[index].front())) {
+    } else if (Utils::isLetter(tokens[index].front())) {
         return createCompositeNode();
     }
 
@@ -159,7 +176,7 @@ std::unique_ptr<ArgumentNode> ObjectFactory::createArgumentNode() {
     index++;
     assertIndex();
 
-    size_t id = StringUtils::toSizeType(tokens[index++]);
+    size_t id = Utils::toSizeType(tokens[index++]);
     argIds.insert(id);
     return ArgumentNode::of(id);
 }

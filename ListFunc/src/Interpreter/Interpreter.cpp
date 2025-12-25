@@ -4,8 +4,8 @@
 #include "Expression/Expression.h"
 #include "Value/Value.h"
 
-#include "StringUtils/CharUtils.h"
-#include "StringUtils/StringUtils.h"
+#include "Utils/CharUtils.h"
+#include "Utils/StringUtils.h"
 
 #include <iostream>
 
@@ -47,7 +47,7 @@ void Interpreter::handleFunctionDefinition(std::vector<std::string>&& tokens) {
     }
 
     std::string name = std::move(tokens[1]);
-    size_t argCount = StringUtils::toSizeType(tokens[3]);
+    size_t argCount = Utils::toSizeType(tokens[3]);
 
     std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
 

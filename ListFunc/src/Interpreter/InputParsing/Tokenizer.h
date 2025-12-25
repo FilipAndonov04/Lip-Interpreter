@@ -14,6 +14,7 @@ private:
 	std::string parseWord(size_t& index) const;
 	std::string parseNumber(size_t& index) const;
 	std::string parseSign(size_t& index) const;
+	std::string parseString(size_t& index) const;
 
 	std::string_view line;
 };

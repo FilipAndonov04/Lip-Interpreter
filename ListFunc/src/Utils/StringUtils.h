@@ -2,7 +2,7 @@
 #include <string>
 #include <string_view>
 
-namespace StringUtils {
+namespace Utils {
 
 static constexpr char RED[] = "\x1b[31m";
 static constexpr char GREEN[] = "\x1b[32m";

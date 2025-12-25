@@ -1,9 +1,9 @@
 #include "StringUtils.h"
-#include "StringUtils/CharUtils.h"
+#include "Utils/CharUtils.h"
 
 #include <stdexcept>
 
-namespace StringUtils {
+namespace Utils {
 
 double toDouble(std::string_view s) {
     if (s.empty()) {

@@ -42,13 +42,13 @@
     <ClCompile Include="src\Interpreter\InputParsing\ObjectFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\StringUtils\CharUtils.cpp">
+    <ClCompile Include="src\Utils\CharUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\InputParsing\Tokenizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\StringUtils\StringUtils.cpp">
+    <ClCompile Include="src\Utils\StringUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\Interpreter.cpp">
@@ -203,10 +203,10 @@
     <ClInclude Include="src\Interpreter\InputParsing\ObjectFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\StringUtils\StringUtils.h">
+    <ClInclude Include="src\Utils\StringUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\StringUtils\CharUtils.h">
+    <ClInclude Include="src\Utils\CharUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncAdd.h">
@@ -294,9 +294,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Expression\Literal\List\ListLiteral.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Object\Object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Value\List\Concrete\ConcreteList.h">

@@ -1,7 +1,7 @@
 #include "NumberLiteral.h"
 #include "Value/Number/RealNumber.h"
 
-#include "StringUtils/StringUtils.h"
+#include "Utils/StringUtils.h"
 
 NumberLiteral::NumberLiteral(double value) 
     : value(value) {}
@@ -15,7 +15,7 @@ std::unique_ptr<Literal> NumberLiteral::cloneLiteral() const {
 }
 
 std::string NumberLiteral::toString() const {
-    return StringUtils::toString(value);
+    return Utils::toString(value);
 }
 
 double NumberLiteral::getValue() const {
