@@ -4,12 +4,15 @@
 #include "Expression/Expression.h"
 #include "Value/Value.h"
 
-#include "Utils/CharUtils.h"
 #include "Utils/StringUtils.h"
 
 #include <iostream>
 
 void Interpreter::interpret(std::string_view line) {
+    if (line.empty() || line.substr(0, 2) == "//") {
+        return;
+    }
+
     try {
         Tokenizer tokenizer(line);
         auto tokens = tokenizer.tokenize();
@@ -24,18 +27,18 @@ void Interpreter::interpret(std::string_view line) {
             redefineFunction(std::move(tokens));
         } else if (tokens[0].payload == KEYWORD_UNDEFINE_FUNCTION) {
             undefineFunction(std::move(tokens));
-        } else if (tokens[0].payload == KEYWORD_DEFINE_VARIABLE) {
-            defineVariable(std::move(tokens));
-        } else if (tokens[0].payload == KEYWORD_UNDEFINE_VARIABLE) {
-            undefineVariable(std::move(tokens));
+        } else if (tokens[0].payload == KEYWORD_CREATE_VARIABLE) {
+            createVariable(std::move(tokens));
+        } else if (tokens[0].payload == KEYWORD_DELETE_VARIABLE) {
+            deleteVariable(std::move(tokens));
         } else if (tokens[0].type == TokenType::Word &&
                    tokens.size() >= 2 && tokens[1].type == TokenType::Equal) {
-            redefineVariable(std::move(tokens));
+            assignVariable(std::move(tokens));
         } else {
             evaluateExpression(std::move(tokens));
         }
     } catch (const std::exception& e) {
-        std::cout << "[ERROR] " << e.what() << '\n';
+        std::cerr << Utils::RED << "[ERROR] " << e.what() << Utils::DEFAULT << '\n';
     }
 }
 
@@ -60,7 +63,9 @@ void Interpreter::defineFunction(std::vector<Token>&& tokens) {
 
     std::string funcName = std::move(tokens[1].payload);
     size_t argCount = Utils::toSizeType(tokens[3].payload);
-    if (currentEnvironment->containsFunction(funcName, argCount)) {
+    if (isKeyword(funcName)) {
+        throw std::invalid_argument("<" + funcName + "> is a language keyword");
+    } if (currentEnvironment->containsFunction(funcName, argCount)) {
         throw std::invalid_argument("function <" + funcName + "(" + 
                                     std::to_string(argCount) + ")> is already defined");
     } else if (currentEnvironment->containsVariable(funcName)) {
@@ -129,14 +134,16 @@ void Interpreter::undefineFunction(std::vector<Token>&& tokens) {
     std::cout << "undefining function <" << funcName << '(' << argCount << ")>\n";
 }
 
-void Interpreter::defineVariable(std::vector<Token>&& tokens) {
-    if (!isValidVariableDefinition(tokens)) {
+void Interpreter::createVariable(std::vector<Token>&& tokens) {
+    if (!isValidVariableCreation(tokens)) {
         throw std::invalid_argument(std::string("creating variable must be in the following format: ") +
-                                    KEYWORD_DEFINE_VARIABLE + " <var_name> = <expr>");
+                                    KEYWORD_CREATE_VARIABLE + " <var_name> = <expr>");
     }
 
     std::string varName = std::move(tokens[1].payload);
-    if (currentEnvironment->containsFunction(varName)) {
+    if (isKeyword(varName)) {
+        throw std::invalid_argument("<" + varName + "> is a language keyword");
+    } else if (currentEnvironment->containsFunction(varName)) {
         throw std::invalid_argument("there exists a function <" + varName + ">");
     } else if (currentEnvironment->containsVariable(varName)) {
         throw std::invalid_argument("there is already a variable <" + varName + ">");
@@ -155,8 +162,8 @@ void Interpreter::defineVariable(std::vector<Token>&& tokens) {
         currentEnvironment->getVariable(varName)->toString() << '\n';
 }
 
-void Interpreter::redefineVariable(std::vector<Token>&& tokens) {
-    if (!isValidVariableRedefinition(tokens)) {
+void Interpreter::assignVariable(std::vector<Token>&& tokens) {
+    if (!isValidVariableAssignment(tokens)) {
         throw std::invalid_argument("assigning variable must be in the following format: "
                                     "<var_name> = <expr>");
     }
@@ -181,10 +188,10 @@ void Interpreter::redefineVariable(std::vector<Token>&& tokens) {
         currentEnvironment->getVariable(varName)->toString() << '\n';
 }
 
-void Interpreter::undefineVariable(std::vector<Token>&& tokens) {
-    if (!isValidVariableUndefinition(tokens)) {
+void Interpreter::deleteVariable(std::vector<Token>&& tokens) {
+    if (!isValidVariableDeletion(tokens)) {
         throw std::invalid_argument(std::string("deleting variable must be in the following format: ") +
-                                    KEYWORD_UNDEFINE_VARIABLE + " <var_name>");
+                                    KEYWORD_DELETE_VARIABLE + " <var_name>");
     }
 
     std::string varName = std::move(tokens[1].payload);
@@ -271,10 +278,10 @@ bool Interpreter::isValidFunctionUndefinition(const std::vector<Token>& tokens) 
     return true;
 }
 
-bool Interpreter::isValidVariableDefinition(const std::vector<Token>& tokens) const {
+bool Interpreter::isValidVariableCreation(const std::vector<Token>& tokens) const {
     if (tokens.size() <= 3) {
         return false;
-    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_DEFINE_VARIABLE) {
+    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_CREATE_VARIABLE) {
         return false;
     } else if (tokens[1].type != TokenType::Word) {
         return false;
@@ -285,7 +292,7 @@ bool Interpreter::isValidVariableDefinition(const std::vector<Token>& tokens) co
     return true;
 }
 
-bool Interpreter::isValidVariableRedefinition(const std::vector<Token>& tokens) const {
+bool Interpreter::isValidVariableAssignment(const std::vector<Token>& tokens) const {
     if (tokens.size() <= 2) {
         return false;
     } else if (tokens[0].type != TokenType::Word) {
@@ -297,14 +304,20 @@ bool Interpreter::isValidVariableRedefinition(const std::vector<Token>& tokens) 
     return true;
 }
 
-bool Interpreter::isValidVariableUndefinition(const std::vector<Token>& tokens) const {
+bool Interpreter::isValidVariableDeletion(const std::vector<Token>& tokens) const {
     if (tokens.size() != 2) {
         return false;
-    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_UNDEFINE_VARIABLE) {
+    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_DELETE_VARIABLE) {
         return false;
     } else if (tokens[1].type != TokenType::Word) {
         return false;
     }
 
     return true;
+}
+
+bool Interpreter::isKeyword(std::string_view word) {
+    return word == KEYWORD_DEFINE_FUNCTION || word == KEYWORD_REDEFINE_FUNCTION || 
+        word == KEYWORD_UNDEFINE_FUNCTION ||  word == KEYWORD_CREATE_VARIABLE || 
+        word == KEYWORD_DELETE_VARIABLE;
 }
