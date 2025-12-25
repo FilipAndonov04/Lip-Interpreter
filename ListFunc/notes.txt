@@ -1,3 +1,4 @@
+(*) add VariableCall
 (*) add variable def
 (*) add variable redef
 (*) add variable undef
@@ -5,6 +6,7 @@
 (*) add comments
 
 (*) add Function metadata (isEmbedded, description)
+(*) add Variable metadata (name)
 
 (*) add FunctionObject type
 

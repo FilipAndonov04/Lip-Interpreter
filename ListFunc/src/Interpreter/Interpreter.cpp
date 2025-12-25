@@ -56,6 +56,8 @@ void Interpreter::defineFunction(std::vector<Token>&& tokens) {
     if (currentEnvironment->containsFunction(funcName, argCount)) {
         throw std::invalid_argument("function <" + funcName + "(" + 
                                     std::to_string(argCount) + ")> is already defined");
+    } else if (currentEnvironment->containsVariable(funcName)) {
+        throw std::invalid_argument("there is a variable <" + funcName + ">");
     }
 
     std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
