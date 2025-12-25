@@ -1,8 +1,8 @@
 #include "FuncInput.h"
 #include "Expression/Expression.h"
 #include "Value/Value.h"
-#include "Interpreter/InputParsing/Tokenizer.h"
-#include "Interpreter/InputParsing/ObjectFactory.h"
+#include "Interpreter/InputParsing/Tokenizer/Tokenizer.h"
+#include "Interpreter/InputParsing/Factory/ObjectFactory.h"
 #include "Interpreter/Interpreter.h"
 
 #include <iostream>

@@ -1,7 +1,8 @@
 #pragma once
+#include "Interpreter/InputParsing/Tokenizer/Token.h"
 
 #include <memory>
-#include <string>
+#include <vector>
 #include <unordered_set>
 
 class Expression;
@@ -23,7 +24,7 @@ class Environment;
 
 class ObjectFactory {
 public:
-	ObjectFactory(std::vector<std::string> tokens, Environment& environment, size_t index = 0);
+	ObjectFactory(std::vector<Token> tokens, Environment& environment, size_t index = 0);
 
 	std::unique_ptr<Expression> createExpression();
 	std::shared_ptr<Function> createFunction(const std::string& name, size_t argCount);
@@ -44,7 +45,7 @@ private:
 
 	void assertIndex() const;
 
-	std::vector<std::string> tokens;
+	std::vector<Token> tokens;
 	size_t index;
 	Environment* environment;
 

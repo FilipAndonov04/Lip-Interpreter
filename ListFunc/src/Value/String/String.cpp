@@ -12,7 +12,7 @@ std::unique_ptr<Value> String::cloneValue() const {
 }
 
 std::string String::toString() const {
-    return string;
+    return '\"' + string + '\"';
 }
 
 const std::string& String::getString() const {

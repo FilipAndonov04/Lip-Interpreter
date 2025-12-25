@@ -13,7 +13,7 @@ std::unique_ptr<Literal> StringLiteral::cloneLiteral() const {
 }
 
 std::string StringLiteral::toString() const {
-    return string;
+    return '\"' + string + '\"';
 }
 
 const std::string& StringLiteral::getString() const {

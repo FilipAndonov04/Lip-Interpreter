@@ -171,8 +171,8 @@
     <ClCompile Include="src\Function\Graph\Node\Composite\CompositeNode.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Literal\LiteralNode.cpp" />
     <ClCompile Include="src\Interpreter\Interpreter.cpp" />
-    <ClCompile Include="src\Interpreter\InputParsing\Tokenizer.cpp" />
-    <ClCompile Include="src\Interpreter\InputParsing\ObjectFactory.cpp" />
+    <ClCompile Include="src\Interpreter\InputParsing\Tokenizer\Tokenizer.cpp" />
+    <ClCompile Include="src\Interpreter\InputParsing\Factory\ObjectFactory.cpp" />
     <ClCompile Include="src\Interpreter\Environment\Environment.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Utils\CharUtils.cpp" />
@@ -225,9 +225,11 @@
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h" />
     <ClInclude Include="src\Function\Graph\Node\Literal\LiteralNode.h" />
     <ClInclude Include="src\Function\Wrapper\WrapperFunction.hpp" />
-    <ClInclude Include="src\Interpreter\InputParsing\ObjectFactory.h" />
+    <ClInclude Include="src\Interpreter\InputParsing\Factory\ObjectFactory.h" />
+    <ClInclude Include="src\Interpreter\InputParsing\Tokenizer\Token.h" />
+    <ClInclude Include="src\Interpreter\InputParsing\Tokenizer\TokenType.h" />
     <ClInclude Include="src\Interpreter\Interpreter.h" />
-    <ClInclude Include="src\Interpreter\InputParsing\Tokenizer.h" />
+    <ClInclude Include="src\Interpreter\InputParsing\Tokenizer\Tokenizer.h" />
     <ClInclude Include="src\Interpreter\Environment\Environment.h" />
     <ClInclude Include="src\Utils\CharUtils.h" />
     <ClInclude Include="src\Utils\StringUtils.h" />

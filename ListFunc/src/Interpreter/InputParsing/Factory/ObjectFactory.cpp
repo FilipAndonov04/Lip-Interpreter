@@ -3,26 +3,24 @@
 #include "Expression/Literal/List/ListLiteral.h"
 #include "Expression/Literal/String/StringLiteral.h"
 #include "Expression/Call/Function/FunctionCall.h"
-
 #include "Function/Graph/GraphFunction.h"
 #include "Function/Graph/Node/Argument/ArgumentNode.h"
 #include "Function/Graph/Node/Literal/LiteralNode.h"
 #include "Function/Graph/Node/Composite/CompositeNode.h"
 
 #include "Interpreter/Environment/Environment.h"
+#include "Interpreter/InputParsing/Tokenizer/Token.h"
 
 #include "Utils/StringUtils.h"
-#include "Utils/CharUtils.h"
 
 #include <stdexcept>
 
-ObjectFactory::ObjectFactory(std::vector<std::string> tokens, Environment& environment, size_t index)
+ObjectFactory::ObjectFactory(std::vector<Token> tokens, Environment& environment, size_t index)
     : tokens(std::move(tokens)), environment(&environment), index(index) {}
 
 std::unique_ptr<Expression> ObjectFactory::createExpression() {
     assertIndex();
-
-    if (Utils::isLetter(tokens[index].front())) {
+    if (tokens[index].type == TokenType::Word) {
         return createFunctionCall();
     }
 
@@ -36,12 +34,13 @@ std::shared_ptr<Function> ObjectFactory::createFunction(const std::string& name,
 std::unique_ptr<Literal> ObjectFactory::createLiteral() {
     assertIndex();
 
-    if (tokens[index] == "[") {
+    if (tokens[index].type == TokenType::OpenSquareBracket) {
         return createListLiteral();
-    } else if (tokens[index] == "\"") {
+    } else if (tokens[index].type == TokenType::SingleQuote || 
+               tokens[index].type == TokenType::DoubleQuote) {
         return createStringLiteral();
-    } else if (Utils::isDigit(tokens[index].front()) || 
-               Utils::isDash(tokens[index].front())) {
+    } else if (tokens[index].type == TokenType::Number ||
+               tokens[index].type == TokenType::Dash) {
         return createNumberLiteral();
     }
 
@@ -49,7 +48,7 @@ std::unique_ptr<Literal> ObjectFactory::createLiteral() {
 }
 
 std::unique_ptr<NumberLiteral> ObjectFactory::createNumberLiteral() {
-    double value = Utils::toDouble(tokens[index++]);
+    double value = Utils::toDouble(tokens[index++].payload);
     return NumberLiteral::of(value);
 }
 
@@ -57,7 +56,7 @@ std::unique_ptr<ListLiteral> ObjectFactory::createListLiteral() {
     index++;
 
     assertIndex();
-    if (tokens[index] == "]") {
+    if (tokens[index].type == TokenType::CloseSquareBracket) {
         index++;
         return std::make_unique<ListLiteral>();
     }
@@ -68,42 +67,47 @@ std::unique_ptr<ListLiteral> ObjectFactory::createListLiteral() {
     while (true) {
         assertIndex();
 
-        if (tokens[index] == "]") {
+        if (tokens[index].type == TokenType::CloseSquareBracket) {
             index++;
             return std::make_unique<ListLiteral>(std::move(elements));
         }
 
-        if (tokens[index++] != ",") {
-            throw std::invalid_argument("invalid token for list");
+        if (tokens[index++].type != TokenType::Comma) {
+            throw std::invalid_argument("list arguments must be separated by comma");
         }
         elements.push_back(createExpression());
     }
 }
 
 std::unique_ptr<StringLiteral> ObjectFactory::createStringLiteral() {
+    TokenType quoteType = tokens[index].type;
     index++;
 
     assertIndex();
-    std::string string = std::move(tokens[index++]);
+    if (tokens[index].type != TokenType::Text) {
+        throw std::invalid_argument("invalid string token");
+    }
+
+    std::string string = std::move(tokens[index++].payload);
 
     assertIndex();
-    if (tokens[index++] != "\"") {
-        throw std::invalid_argument("strings must end in double quotes");
+    if (tokens[index++].type != quoteType) {
+        throw std::invalid_argument("string start quote must be the same as its end quote");
     }
 
     return StringLiteral::of(std::move(string));
 }
 
 std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
-    std::string funcName = std::move(tokens[index++]);
+    std::string funcName = std::move(tokens[index++].payload);
 
     assertIndex();
-    if (tokens[index++] != "(") {
-        throw std::invalid_argument("function name must be followed by a circle bracket");
+    if (tokens[index++].type != TokenType::OpenCircleBracket) {
+        throw std::invalid_argument("function name must be followed by an open circle bracket");
     }
 
     assertIndex();
-    if (tokens[index] == ")") {
+    if (tokens[index].type == TokenType::CloseCircleBracket) {
         index++;
         auto func = environment->getFunction(funcName, 0);
         if (!func) {
@@ -119,7 +123,7 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
     while (true) {
         assertIndex();
 
-        if (tokens[index] == ")") {
+        if (tokens[index].type == TokenType::CloseCircleBracket) {
             index++;
             auto func = environment->getFunction(funcName, args.size());
             if (!func) {
@@ -130,8 +134,8 @@ std::unique_ptr<FunctionCall> ObjectFactory::createFunctionCall() {
             return std::make_unique<FunctionCall>(func, std::move(args));
         }
 
-        if (tokens[index++] != ",") {
-            throw std::invalid_argument("function arguments must be separated by commas");
+        if (tokens[index++].type != TokenType::Comma) {
+            throw std::invalid_argument("function arguments must be separated by comma");
         }
         args.push_back(createExpression());
     }
@@ -159,24 +163,24 @@ std::shared_ptr<GraphFunction> ObjectFactory::createGraphFunction(const std::str
 std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
     assertIndex();
 
-    if (tokens[index] == "$") {
+    if (tokens[index].type == TokenType::Dolar) {
         return createArgumentNode();
-    } else if (Utils::isDigit(tokens[index].front()) || 
-               Utils::isDash(tokens[index].front()) || 
-               Utils::isOpenSquareBracket(tokens[index].front())) {
-        return createLiteralNode();
-    } else if (Utils::isLetter(tokens[index].front())) {
+    } else if (tokens[index].type == TokenType::Word) {
         return createCompositeNode();
+    } else if (tokens[index].type == TokenType::Number ||
+               tokens[index].type == TokenType::Dash ||
+               tokens[index].type == TokenType::OpenSquareBracket) {
+        return createLiteralNode();
     }
 
-    throw std::invalid_argument("invalid token for function node");
+    throw std::invalid_argument("invalid function body token");
 }
 
 std::unique_ptr<ArgumentNode> ObjectFactory::createArgumentNode() {
     index++;
     assertIndex();
 
-    size_t id = Utils::toSizeType(tokens[index++]);
+    size_t id = Utils::toSizeType(tokens[index++].payload);
     argIds.insert(id);
     return ArgumentNode::of(id);
 }
@@ -186,15 +190,15 @@ std::unique_ptr<LiteralNode> ObjectFactory::createLiteralNode() {
 }
 
 std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
-    std::string funcName = std::move(tokens[index++]);
+    std::string funcName = std::move(tokens[index++].payload);
 
     assertIndex();
-    if (tokens[index++] != "(") {
+    if (tokens[index++].type != TokenType::OpenCircleBracket) {
         throw std::invalid_argument("function name must be followed by a circle bracket");
     }
 
     assertIndex();
-    if (tokens[index] == ")") {
+    if (tokens[index].type == TokenType::CloseCircleBracket) {
         index++;
         auto func = environment->getFunction(funcName, 0);
         if (!func) {
@@ -209,8 +213,7 @@ std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
 
     while (true) {
         assertIndex();
-
-        if (tokens[index] == ")") {
+        if (tokens[index].type == TokenType::CloseCircleBracket) {
             index++;
             auto func = environment->getFunction(funcName, argNodes.size());
             if (!func) {
@@ -221,8 +224,8 @@ std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
             return std::make_unique<CompositeNode>(func, std::move(argNodes));
         }
 
-        if (tokens[index++] != ",") {
-            throw std::invalid_argument("function arguments must be separated by commas");
+        if (tokens[index++].type != TokenType::Comma) {
+            throw std::invalid_argument("function arguments must be separated by comma");
         }
         argNodes.push_back(createFunctionNode());
     }

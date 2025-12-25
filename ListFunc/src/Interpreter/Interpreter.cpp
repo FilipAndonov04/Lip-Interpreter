@@ -1,6 +1,6 @@
 #include "Interpreter.h"
-#include "Interpreter/InputParsing/Tokenizer.h"
-#include "Interpreter/InputParsing/ObjectFactory.h"
+#include "Interpreter/InputParsing/Tokenizer/Tokenizer.h"
+#include "Interpreter/InputParsing/Factory/ObjectFactory.h"
 #include "Expression/Expression.h"
 #include "Value/Value.h"
 
@@ -18,7 +18,7 @@ void Interpreter::interpret(std::string_view line) {
             return;
         }
 
-        if (tokens[0] == "def") {
+        if (tokens[0].payload == "def") {
             handleFunctionDefinition(std::move(tokens));
         } else {
             handleExpressionEvaluation(std::move(tokens));
@@ -41,13 +41,13 @@ void Interpreter::setCurrentEnvironment(std::unique_ptr<Environment>&& environme
     currentEnvironment = std::move(environment);
 }
 
-void Interpreter::handleFunctionDefinition(std::vector<std::string>&& tokens) {
+void Interpreter::handleFunctionDefinition(std::vector<Token>&& tokens) {
     if (tokens.size() < 6) {
         throw std::invalid_argument("invalid function definition");
     }
 
-    std::string name = std::move(tokens[1]);
-    size_t argCount = Utils::toSizeType(tokens[3]);
+    std::string name = std::move(tokens[1].payload);
+    size_t argCount = Utils::toSizeType(tokens[3].payload);
 
     std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
 
@@ -60,7 +60,7 @@ void Interpreter::handleFunctionDefinition(std::vector<std::string>&& tokens) {
     std::cout << "defining function <" << name << '(' << argCount << ")>\n";
 }
 
-void Interpreter::handleExpressionEvaluation(std::vector<std::string>&& tokens) const {
+void Interpreter::handleExpressionEvaluation(std::vector<Token>&& tokens) const {
     ObjectFactory factory(std::move(tokens), *currentEnvironment);
 
     auto expr = factory.createExpression();

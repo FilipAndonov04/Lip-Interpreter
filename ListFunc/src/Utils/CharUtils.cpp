@@ -30,10 +30,6 @@ bool isUnderscore(char ch) {
     return ch == '_';
 }
 
-bool isDash(char ch) {
-    return ch == '-';
-}
-
 bool isLetterOrUnderscore(char ch) {
     return isLetter(ch) || isUnderscore(ch);
 }
@@ -47,9 +43,8 @@ bool isWhitespace(char ch) {
 }
 
 bool isSign(char ch) {
-    return isOpenCircleBracket(ch) || isCloseCircleBracket(ch) || isOpenSquareBracket(ch) ||
-        isCloseSquareBracket(ch) || isOpenCurlyBracket(ch) || isCloseCurlyBracket(ch) ||
-        isEqualSign(ch) || isDolarSign(ch) || isComma(ch) || isDot(ch) || isDoubleQuote(ch);
+    return isBracket(ch) || isEqualSign(ch) || isDolarSign(ch) || 
+        isComma(ch) || isDot(ch) || isDash(ch) || isQuote(ch);
 }
 
 bool isOpenCircleBracket(char ch) {
@@ -76,6 +71,11 @@ bool isCloseCurlyBracket(char ch) {
     return ch == '}';
 }
 
+bool isBracket(char ch) {
+    return isOpenCircleBracket(ch) || isCloseCircleBracket(ch) || isOpenSquareBracket(ch) ||
+        isCloseSquareBracket(ch) || isOpenCurlyBracket(ch) || isCloseCurlyBracket(ch);
+}
+
 bool isEqualSign(char ch) {
     return ch == '=';
 }
@@ -92,12 +92,20 @@ bool isDot(char ch) {
     return ch == '.';
 }
 
+bool isDash(char ch) {
+    return ch == '-';
+}
+
 bool isSingleQuote(char ch) {
     return ch == '\'';
 }
 
 bool isDoubleQuote(char ch) {
     return ch == '\"';
+}
+
+bool isQuote(char ch) {
+    return isSingleQuote(ch) || isDoubleQuote(ch);
 }
 
 int toInt(char ch) {

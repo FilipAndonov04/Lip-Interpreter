@@ -9,8 +9,6 @@ bool isLetter(char ch);
 bool isDigitOrLetter(char ch);
 
 bool isUnderscore(char ch);
-bool isDash(char ch);
-
 bool isLetterOrUnderscore(char ch);
 bool isDigitOrLetterOrUnderscore(char ch);
 
@@ -24,14 +22,17 @@ bool isOpenSquareBracket(char ch);
 bool isCloseSquareBracket(char ch);
 bool isOpenCurlyBracket(char ch);
 bool isCloseCurlyBracket(char ch);
+bool isBracket(char ch);
 
 bool isEqualSign(char ch);
 bool isDolarSign(char ch);
 bool isComma(char ch);
 bool isDot(char ch);
+bool isDash(char ch);
 
 bool isSingleQuote(char ch);
 bool isDoubleQuote(char ch);
+bool isQuote(char ch);
 
 int toInt(char ch);
 
