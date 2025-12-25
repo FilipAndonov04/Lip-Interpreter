@@ -9,17 +9,19 @@
 (*) add warnings
 (*) add check for undef of embedded function
 
-(*) clean up value list class
 (*) add value wrapper
-
-(*) add FunctionObject type
 
 (*) clean up embedded functions
 (*) clean up interpreter
+(*) clean up value list class
 
 (*) add const variable
 (*) add static variables
 
 (*) different embedded functions based on difficulty
 
-(?) make LiteranNode take Expr instead of Literal
+(?) prefix embedded functions with emb_
+
+(?) immutable variables
+(?) add FunctionObject type (not very functional)
+(?) add using argument as function

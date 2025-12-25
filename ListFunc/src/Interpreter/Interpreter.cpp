@@ -9,7 +9,7 @@
 #include <iostream>
 
 void Interpreter::interpret(std::string_view line) {
-    if (line.empty() || line.substr(0, 2) == "//") {
+    if (line.empty() || line.starts_with("//")) {
         return;
     }
 
@@ -31,9 +31,6 @@ void Interpreter::interpret(std::string_view line) {
             createVariable(std::move(tokens));
         } else if (tokens[0].payload == KEYWORD_DELETE_VARIABLE) {
             deleteVariable(std::move(tokens));
-        } else if (tokens[0].type == TokenType::Word &&
-                   tokens.size() >= 2 && tokens[1].type == TokenType::Equal) {
-            assignVariable(std::move(tokens));
         } else {
             evaluateExpression(std::move(tokens));
         }
@@ -145,46 +142,25 @@ void Interpreter::createVariable(std::vector<Token>&& tokens) {
         throw std::invalid_argument("<" + varName + "> is a language keyword");
     } else if (currentEnvironment->containsFunction(varName)) {
         throw std::invalid_argument("there exists a function <" + varName + ">");
-    } else if (currentEnvironment->containsVariable(varName)) {
-        throw std::invalid_argument("there is already a variable <" + varName + ">");
     }
 
     std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
 
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 3);
     auto expr = factory.createExpression();
-    nextEnvironment->addVariable(varName, expr->evaluate());
+    auto value = expr->evaluate();
+    
+    bool isAdded = nextEnvironment->containsVariable(varName) ? 
+        nextEnvironment->replaceVariable(varName, std::move(value)) : 
+        nextEnvironment->addVariable(varName, std::move(value));
+    if (!isAdded) {
+        throw std::invalid_argument("variable creation failed");
+    }
 
     nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
     currentEnvironment = std::move(nextEnvironment);
 
     std::cout << "creating variable <" << varName << "> with value " << 
-        currentEnvironment->getVariable(varName)->toString() << '\n';
-}
-
-void Interpreter::assignVariable(std::vector<Token>&& tokens) {
-    if (!isValidVariableAssignment(tokens)) {
-        throw std::invalid_argument("assigning variable must be in the following format: "
-                                    "<var_name> = <expr>");
-    }
-
-    std::string varName = std::move(tokens[0].payload);
-    if (!currentEnvironment->containsVariable(varName)) {
-        throw std::invalid_argument("variable <" + varName + "> does not exist");
-    }
-
-    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
-
-    ObjectFactory factory(std::move(tokens), *nextEnvironment, 2);
-    auto expr = factory.createExpression();
-    if (!nextEnvironment->replaceVariable(varName, expr->evaluate())) {
-        throw std::invalid_argument("variable assignment failed");
-    }
-
-    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
-    currentEnvironment = std::move(nextEnvironment);
-
-    std::cout << "assigning variable <" << varName << "> to " <<
         currentEnvironment->getVariable(varName)->toString() << '\n';
 }
 
@@ -286,18 +262,6 @@ bool Interpreter::isValidVariableCreation(const std::vector<Token>& tokens) cons
     } else if (tokens[1].type != TokenType::Word) {
         return false;
     } else if (tokens[2].type != TokenType::Equal) {
-        return false;
-    }
-
-    return true;
-}
-
-bool Interpreter::isValidVariableAssignment(const std::vector<Token>& tokens) const {
-    if (tokens.size() <= 2) {
-        return false;
-    } else if (tokens[0].type != TokenType::Word) {
-        return false;
-    } else if (tokens[1].type != TokenType::Equal) {
         return false;
     }
 
