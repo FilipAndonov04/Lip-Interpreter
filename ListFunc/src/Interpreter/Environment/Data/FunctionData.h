@@ -7,7 +7,6 @@ class Function;
 
 struct FunctionData {
 	std::unique_ptr<const Function> function;
-	std::string name;
-	std::string description;
 	bool isEmbedded;
+	std::string description;
 };

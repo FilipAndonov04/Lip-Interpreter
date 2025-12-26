@@ -19,7 +19,8 @@ private:
 	void undefineFunction(std::vector<Token>&& tokens);
 	
 	void createVariable(std::vector<Token>&& tokens);
-	void deleteVariable(std::vector<Token>&& tokens);
+	void createConstVariable(std::vector<Token>&& tokens);
+	void removeVariable(std::vector<Token>&& tokens);
 
 	void evaluateExpression(std::vector<Token>&& tokens) const;
 
@@ -28,7 +29,8 @@ private:
 	bool isValidFunctionUndefinition(const std::vector<Token>& tokens) const;
 
 	bool isValidVariableCreation(const std::vector<Token>& tokens) const;
-	bool isValidVariableDeletion(const std::vector<Token>& tokens) const;
+	bool isValidConstVariableCreation(const std::vector<Token>& tokens) const;
+	bool isValidVariableRemoval(const std::vector<Token>& tokens) const;
 
 	bool isKeyword(std::string_view word);
 
@@ -37,7 +39,8 @@ private:
 	static constexpr const char KEYWORD_UNDEFINE_FUNCTION[] = "undef";
 	
 	static constexpr const char KEYWORD_CREATE_VARIABLE[] = "let";
-	static constexpr const char KEYWORD_DELETE_VARIABLE[] = "delete";
+	static constexpr const char KEYWORD_CREATE_CONST_VARIABLE[] = "const";
+	static constexpr const char KEYWORD_REMOVE_VARIABLE[] = "rm";
 
 	std::unique_ptr<Environment> currentEnvironment = std::make_unique<Environment>();
 };

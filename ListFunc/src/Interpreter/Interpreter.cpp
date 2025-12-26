@@ -29,8 +29,10 @@ void Interpreter::interpret(std::string_view line) {
             undefineFunction(std::move(tokens));
         } else if (tokens[0].payload == KEYWORD_CREATE_VARIABLE) {
             createVariable(std::move(tokens));
-        } else if (tokens[0].payload == KEYWORD_DELETE_VARIABLE) {
-            deleteVariable(std::move(tokens));
+        } else if (tokens[0].payload == KEYWORD_CREATE_CONST_VARIABLE) {
+            createConstVariable(std::move(tokens));
+        } else if (tokens[0].payload == KEYWORD_REMOVE_VARIABLE) {
+            removeVariable(std::move(tokens));
         } else {
             evaluateExpression(std::move(tokens));
         }
@@ -144,6 +146,11 @@ void Interpreter::createVariable(std::vector<Token>&& tokens) {
         throw std::invalid_argument("there exists a function <" + varName + ">");
     }
 
+    auto varData = currentEnvironment->getVariableData(varName);
+    if (varData && varData->isConst) {
+        throw std::invalid_argument("there exists a constant <" + varName + ">");
+    }
+
     std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
 
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 3);
@@ -151,8 +158,8 @@ void Interpreter::createVariable(std::vector<Token>&& tokens) {
     auto value = expr->evaluate();
     
     bool isAdded = nextEnvironment->containsVariable(varName) ? 
-        nextEnvironment->replaceVariable(varName, std::move(value)) : 
-        nextEnvironment->addVariable(varName, std::move(value));
+        nextEnvironment->replaceVariable(varName, std::move(value), false) : 
+        nextEnvironment->addVariable(varName, std::move(value), false);
     if (!isAdded) {
         throw std::invalid_argument("variable creation failed");
     }
@@ -164,26 +171,67 @@ void Interpreter::createVariable(std::vector<Token>&& tokens) {
         currentEnvironment->getVariable(varName)->toString() << '\n';
 }
 
-void Interpreter::deleteVariable(std::vector<Token>&& tokens) {
-    if (!isValidVariableDeletion(tokens)) {
-        throw std::invalid_argument(std::string("deleting variable must be in the following format: ") +
-                                    KEYWORD_DELETE_VARIABLE + " <var_name>");
+void Interpreter::createConstVariable(std::vector<Token>&& tokens) {
+    if (!isValidConstVariableCreation(tokens)) {
+        throw std::invalid_argument(std::string("creating constant must be in the following format: ") +
+                                    KEYWORD_CREATE_CONST_VARIABLE + " <const_name> = <expr>");
     }
 
-    std::string varName = std::move(tokens[1].payload);
-    if (!currentEnvironment->containsVariable(varName)) {
-        throw std::invalid_argument("variable <" + varName + "> does not exist");
+    std::string constName = std::move(tokens[1].payload);
+    if (isKeyword(constName)) {
+        throw std::invalid_argument("<" + constName + "> is a language keyword");
+    } else if (currentEnvironment->containsFunction(constName)) {
+        throw std::invalid_argument("there exists a function <" + constName + ">");
+    }
+
+    auto varData = currentEnvironment->getVariableData(constName);
+    if (varData && varData->isConst) {
+        throw std::invalid_argument("there exists a constant <" + constName + ">");
     }
 
     std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
-    if (!nextEnvironment->removeVariable(varName)) {
-        throw std::invalid_argument("variable deletion failed");
+
+    ObjectFactory factory(std::move(tokens), *nextEnvironment, 3);
+    auto expr = factory.createExpression();
+    auto value = expr->evaluate();
+
+    bool isAdded = nextEnvironment->containsVariable(constName) ?
+        nextEnvironment->replaceVariable(constName, std::move(value), true) :
+        nextEnvironment->addVariable(constName, std::move(value), true);
+    if (!isAdded) {
+        throw std::invalid_argument("constant creation failed");
     }
 
     nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
     currentEnvironment = std::move(nextEnvironment);
 
-    std::cout << "deleting variable <" << varName << ">\n";
+    std::cout << "creating constant <" << constName << "> with value " <<
+        currentEnvironment->getVariable(constName)->toString() << '\n';
+}
+
+void Interpreter::removeVariable(std::vector<Token>&& tokens) {
+    if (!isValidVariableRemoval(tokens)) {
+        throw std::invalid_argument(std::string("removing variable must be in the following format: ") +
+                                    KEYWORD_REMOVE_VARIABLE + " <var_name>");
+    }
+
+    std::string varName = std::move(tokens[1].payload);
+    auto varData = currentEnvironment->getVariableData(varName);
+    if (varData && varData->isConst) {
+        throw std::invalid_argument("cannot remove a constant");
+    } else if (!varData) {
+        throw std::invalid_argument("variable <" + varName + "> does not exist");
+    }
+
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+    if (!nextEnvironment->removeVariable(varName)) {
+        throw std::invalid_argument("variable removal failed");
+    }
+
+    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
+    currentEnvironment = std::move(nextEnvironment);
+
+    std::cout << "removing variable <" << varName << ">\n";
 }
 
 void Interpreter::evaluateExpression(std::vector<Token>&& tokens) const {
@@ -257,7 +305,8 @@ bool Interpreter::isValidFunctionUndefinition(const std::vector<Token>& tokens) 
 bool Interpreter::isValidVariableCreation(const std::vector<Token>& tokens) const {
     if (tokens.size() <= 3) {
         return false;
-    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_CREATE_VARIABLE) {
+    } else if (tokens[0].type != TokenType::Word || 
+               tokens[0].payload != KEYWORD_CREATE_VARIABLE) {
         return false;
     } else if (tokens[1].type != TokenType::Word) {
         return false;
@@ -268,10 +317,25 @@ bool Interpreter::isValidVariableCreation(const std::vector<Token>& tokens) cons
     return true;
 }
 
-bool Interpreter::isValidVariableDeletion(const std::vector<Token>& tokens) const {
+bool Interpreter::isValidConstVariableCreation(const std::vector<Token>& tokens) const {
+    if (tokens.size() <= 3) {
+        return false;
+    } else if (tokens[0].type != TokenType::Word || 
+               tokens[0].payload != KEYWORD_CREATE_CONST_VARIABLE) {
+        return false;
+    } else if (tokens[1].type != TokenType::Word) {
+        return false;
+    } else if (tokens[2].type != TokenType::Equal) {
+        return false;
+    }
+
+    return true;
+}
+
+bool Interpreter::isValidVariableRemoval(const std::vector<Token>& tokens) const {
     if (tokens.size() != 2) {
         return false;
-    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_DELETE_VARIABLE) {
+    } else if (tokens[0].type != TokenType::Word || tokens[0].payload != KEYWORD_REMOVE_VARIABLE) {
         return false;
     } else if (tokens[1].type != TokenType::Word) {
         return false;
@@ -283,5 +347,5 @@ bool Interpreter::isValidVariableDeletion(const std::vector<Token>& tokens) cons
 bool Interpreter::isKeyword(std::string_view word) {
     return word == KEYWORD_DEFINE_FUNCTION || word == KEYWORD_REDEFINE_FUNCTION || 
         word == KEYWORD_UNDEFINE_FUNCTION ||  word == KEYWORD_CREATE_VARIABLE || 
-        word == KEYWORD_DELETE_VARIABLE;
+        word == KEYWORD_CREATE_CONST_VARIABLE || word == KEYWORD_REMOVE_VARIABLE;
 }

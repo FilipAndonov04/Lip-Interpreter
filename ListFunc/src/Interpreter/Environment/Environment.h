@@ -1,11 +1,10 @@
 #pragma once
+#include "Data/FunctionData.h"
+#include "Data/VariableData.h"
 
 #include <string>
 #include <memory>
 #include <unordered_map>
-
-class Function;
-class Value;
 
 class Environment {
 public:
@@ -22,11 +21,11 @@ public:
 	
 	const Function* getFunction(const std::string& name, size_t argCount) const;
 	const Value* getVariable(const std::string& name) const;
+	const VariableData* getVariableData(const std::string& name) const;
 	
 	bool addFunction(const std::string& name, const std::shared_ptr<Function>& function);
 	bool addFunction(const std::string& name, std::shared_ptr<Function>&& function);
-	bool addVariable(const std::string& name, const std::shared_ptr<Value>& value);
-	bool addVariable(const std::string& name, std::shared_ptr<Value>&& value);
+	bool addVariable(const std::string& name, std::unique_ptr<Value>&& value, bool isConst);
 
 	bool removeFunctions(const std::string& name);
 	bool removeFunction(const std::string& name, size_t argCount);
@@ -34,15 +33,15 @@ public:
 
 	bool replaceFunction(const std::string& name, const std::shared_ptr<Function>& newFunction);
 	bool replaceFunction(const std::string& name, std::shared_ptr<Function>&& newFunction);
-	bool replaceVariable(const std::string& name, const std::shared_ptr<Value>& newValue);
-	bool replaceVariable(const std::string& name, std::shared_ptr<Value>&& newValue);
+	bool replaceVariable(const std::string& name, std::unique_ptr<Value>&& newValue, bool isConst);
 
 	const Environment* getPreviousEnvironment() const;
+	Environment* getPreviousEnvironment();
 	void setPreviousEnvironment(std::unique_ptr<Environment>&& environment);
 
 private:
 	std::unordered_map<std::string, std::vector<std::shared_ptr<Function>>> functions;
-	std::unordered_map<std::string, std::shared_ptr<Value>> variables;
+	std::unordered_map<std::string, std::shared_ptr<const VariableData>> variables;
 
 	std::unique_ptr<Environment> previous;
 };

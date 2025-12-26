@@ -45,8 +45,13 @@ const Function* Environment::getFunction(const std::string& name, size_t argCoun
 }
 
 const Value* Environment::getVariable(const std::string& name) const {
-	auto var = variables.find(name);
-	return var != variables.end() ? var->second.get() : nullptr;
+	auto varData = getVariableData(name);
+	return varData ? varData->value.get() : nullptr;
+}
+
+const VariableData* Environment::getVariableData(const std::string& name) const {
+	auto varData = variables.find(name);
+	return varData != variables.end() ? varData->second.get() : nullptr;
 }
 
 bool Environment::addFunction(const std::string& name, const std::shared_ptr<Function>& function) {
@@ -89,21 +94,12 @@ bool Environment::addFunction(const std::string& name, std::shared_ptr<Function>
 	return true;
 }
 
-bool Environment::addVariable(const std::string& name, const std::shared_ptr<Value>& value) {
+bool Environment::addVariable(const std::string& name, std::unique_ptr<Value>&& value, bool isConst) {
 	if (containsVariable(name) || containsFunction(name)) {
 		return false;
 	}
 
-	variables[name] = value;
-	return true;
-}
-
-bool Environment::addVariable(const std::string& name, std::shared_ptr<Value>&& value) {
-	if (containsVariable(name) || containsFunction(name)) {
-		return false;
-	}
-
-	variables[name] = std::move(value);
+	variables[name] = std::make_shared<VariableData>(std::move(value), isConst);
 	return true;
 }
 
@@ -141,12 +137,16 @@ bool Environment::removeFunction(const std::string& name, size_t argCount) {
 }
 
 bool Environment::removeVariable(const std::string& name) {
-	auto var = variables.find(name);
-	if (var == variables.end()) {
+	auto varData = variables.find(name);
+	if (varData == variables.end()) {
 		return false;
 	}
 
-	variables.erase(var);
+	if (varData->second->isConst) {
+		return false;
+	}
+
+	variables.erase(varData);
 	return true;
 }
 
@@ -192,27 +192,26 @@ bool Environment::replaceFunction(const std::string& name, std::shared_ptr<Funct
 	return true;
 }
 
-bool Environment::replaceVariable(const std::string& name, const std::shared_ptr<Value>& newValue) {
-	auto var = variables.find(name);
-	if (var == variables.end()) {
+bool Environment::replaceVariable(const std::string& name, std::unique_ptr<Value>&& newValue, bool isConst) {
+	auto varDataByName = variables.find(name);
+	if (varDataByName == variables.end()) {
 		return false;
 	}
 
-	var->second = newValue;
-	return true;
-}
-
-bool Environment::replaceVariable(const std::string& name, std::shared_ptr<Value>&& newValue) {
-	auto var = variables.find(name);
-	if (var == variables.end()) {
+	auto& varData = varDataByName->second;
+	if (varData->isConst) {
 		return false;
 	}
 
-	var->second = std::move(newValue);
+	varData = std::make_shared<VariableData>(std::move(newValue), isConst);
 	return true;
 }
 
 const Environment* Environment::getPreviousEnvironment() const {
+	return previous.get();
+}
+
+Environment* Environment::getPreviousEnvironment() {
 	return previous.get();
 }
 
