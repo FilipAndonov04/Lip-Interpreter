@@ -76,8 +76,7 @@ void Interpreter::defineFunction(std::vector<Token>&& tokens) {
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 6);
     auto func = factory.createFunction(funcName, argCount);
 
-    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
-    currentEnvironment = std::move(nextEnvironment);
+    setNextEnvironment(std::move(nextEnvironment));
 
     std::cout << "defining function <" << funcName << '(' << argCount << ")>\n";
 }
@@ -103,8 +102,7 @@ void Interpreter::redefineFunction(std::vector<Token>&& tokens) {
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 6);
     auto func = factory.createFunction(funcName, argCount);
 
-    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
-    currentEnvironment = std::move(nextEnvironment);
+    setNextEnvironment(std::move(nextEnvironment));
 
     std::cout << "redefining function <" << funcName << '(' << argCount << ")>\n";
 }
@@ -127,8 +125,7 @@ void Interpreter::undefineFunction(std::vector<Token>&& tokens) {
         throw std::invalid_argument("function undefining failed");
     }
 
-    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
-    currentEnvironment = std::move(nextEnvironment);
+    setNextEnvironment(std::move(nextEnvironment));
 
     std::cout << "undefining function <" << funcName << '(' << argCount << ")>\n";
 }
@@ -164,8 +161,7 @@ void Interpreter::createVariable(std::vector<Token>&& tokens) {
         throw std::invalid_argument("variable creation failed");
     }
 
-    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
-    currentEnvironment = std::move(nextEnvironment);
+    setNextEnvironment(std::move(nextEnvironment));
 
     std::cout << "creating variable <" << varName << "> with value " << 
         currentEnvironment->getVariable(varName)->toString() << '\n';
@@ -202,8 +198,7 @@ void Interpreter::createConstVariable(std::vector<Token>&& tokens) {
         throw std::invalid_argument("constant creation failed");
     }
 
-    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
-    currentEnvironment = std::move(nextEnvironment);
+    setNextEnvironment(std::move(nextEnvironment));
 
     std::cout << "creating constant <" << constName << "> with value " <<
         currentEnvironment->getVariable(constName)->toString() << '\n';
@@ -228,8 +223,7 @@ void Interpreter::removeVariable(std::vector<Token>&& tokens) {
         throw std::invalid_argument("variable removal failed");
     }
 
-    nextEnvironment->setPreviousEnvironment(std::move(currentEnvironment));
-    currentEnvironment = std::move(nextEnvironment);
+    setNextEnvironment(std::move(nextEnvironment));
 
     std::cout << "removing variable <" << varName << ">\n";
 }
@@ -348,4 +342,9 @@ bool Interpreter::isKeyword(std::string_view word) {
     return word == KEYWORD_DEFINE_FUNCTION || word == KEYWORD_REDEFINE_FUNCTION || 
         word == KEYWORD_UNDEFINE_FUNCTION ||  word == KEYWORD_CREATE_VARIABLE || 
         word == KEYWORD_CREATE_CONST_VARIABLE || word == KEYWORD_REMOVE_VARIABLE;
+}
+
+void Interpreter::setNextEnvironment(std::unique_ptr<Environment>&& next) {
+    next->setPreviousEnvironment(std::move(currentEnvironment));
+    currentEnvironment = std::move(next);
 }

@@ -34,6 +34,8 @@ private:
 
 	bool isKeyword(std::string_view word);
 
+	void setNextEnvironment(std::unique_ptr<Environment>&& next);
+
 	static constexpr const char KEYWORD_DEFINE_FUNCTION[] = "def";
 	static constexpr const char KEYWORD_REDEFINE_FUNCTION[] = "redef";
 	static constexpr const char KEYWORD_UNDEFINE_FUNCTION[] = "undef";

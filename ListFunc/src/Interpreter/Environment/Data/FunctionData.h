@@ -6,7 +6,6 @@
 class Function;
 
 struct FunctionData {
-	std::unique_ptr<const Function> function;
+	std::shared_ptr<const Function> function;
 	bool isEmbedded;
-	std::string description;
 };

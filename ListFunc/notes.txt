@@ -1,6 +1,3 @@
-(*) add Function metadata (isEmbedded, description)
-(*) add Variable metadata (name)
-
 (*) add command line args parsing
 (*) add file work mode
 (*) add saving function to file and loading them from file
@@ -15,10 +12,13 @@
 (*) clean up interpreter
 (*) clean up value list class
 
-(*) add const variable
-(*) add static variables
+(*) more efficient environment states
+
+(*) add more Function metadata (description)
 
 (*) different embedded functions based on difficulty
+
+(?) replace FunctionData shr_ptr with unq_ptr
 
 (?) prefix embedded functions with emb_
 
