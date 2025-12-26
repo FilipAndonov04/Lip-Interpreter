@@ -3,8 +3,6 @@
 #include "Expression/Expression.h"
 #include "Value/Number/RealNumber.h"
 
-#include <stdexcept>
-
 std::unique_ptr<Value> FuncBool::operator()(const std::vector<const Expression*>& args) const {
 	assertArgCount(1, args.size(), NAME);
 

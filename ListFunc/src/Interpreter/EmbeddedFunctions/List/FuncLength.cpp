@@ -15,5 +15,5 @@ std::unique_ptr<Value> FuncLength::operator()(const std::vector<const Expression
     }
 
     auto l = getList(*arg1);
-    return RealNumber::of(l->length());
+    return RealNumber::of(static_cast<double>(l->length()));
 }
