@@ -226,6 +226,8 @@
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h" />
     <ClInclude Include="src\Function\Graph\Node\Expression\ExpressionNode.h" />
     <ClInclude Include="src\Function\Wrapper\WrapperFunction.hpp" />
+    <ClInclude Include="src\Interpreter\Environment\Data\FunctionData.h" />
+    <ClInclude Include="src\Interpreter\Environment\Data\VariableData.h" />
     <ClInclude Include="src\Interpreter\InputParsing\Factory\ObjectFactory.h" />
     <ClInclude Include="src\Interpreter\InputParsing\Tokenizer\Token.h" />
     <ClInclude Include="src\Interpreter\InputParsing\Tokenizer\TokenType.h" />
