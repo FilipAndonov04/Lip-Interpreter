@@ -149,6 +149,8 @@
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncBool.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncInt.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\EmbeddedUtils.cpp" />
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Function\FuncCompose.cpp" />
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Function\FuncThen.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncConcat.cpp" />
@@ -207,6 +209,8 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncBool.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncInt.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\EmbeddedUtils.h" />
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Function\FuncCompose.h" />
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Function\FuncThen.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncConcat.h" />

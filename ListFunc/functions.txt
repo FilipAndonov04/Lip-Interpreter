@@ -9,3 +9,6 @@ fac(5)
 def do_n_times(2) = if(lt($1, 1), 1, and(do_n_times(sub($1, 1), $2), $2()))
 
 const pi = 3.1415
+
+def inc(1) = add($1, 1)
+def sqr(1) = mul($1, $1)

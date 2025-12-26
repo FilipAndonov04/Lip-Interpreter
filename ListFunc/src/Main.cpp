@@ -43,6 +43,9 @@
 #include "Interpreter/EmbeddedFunctions/StringAndList/FuncConcat.h"
 #include "Interpreter/EmbeddedFunctions/StringAndList/FuncReverse.h"
 
+#include "Interpreter/EmbeddedFunctions/Function/FuncCompose.h"
+#include "Interpreter/EmbeddedFunctions/Function/FuncThen.h"
+
 #include "Utils/StringUtils.h"
 
 #include <iostream>
@@ -129,7 +132,10 @@ Interpreter setUpFunctions() {
 	env.addFunction(FuncConcat::NAME, std::make_unique<WrapperFunction<FuncConcat>>(2));
 	env.addFunction(FuncReverse::NAME, std::make_unique<WrapperFunction<FuncReverse>>(1));
 
-	// extra
+	env.addFunction(FuncCompose::NAME, std::make_unique<WrapperFunction<FuncCompose>>(2));
+	env.addFunction(FuncThen::NAME, std::make_unique<WrapperFunction<FuncThen>>(2));
+
+	// extra work
 	env.addFunction("work", std::make_unique<WrapperFunction<Worker>>(0));
 
 	return inter;
