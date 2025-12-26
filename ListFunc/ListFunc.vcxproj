@@ -148,6 +148,7 @@
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncNotEqual.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncBool.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncInt.cpp" />
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\EmbeddedUtils.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncConcat.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncNotEqual.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncBool.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Conversion\FuncInt.h" />
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\EmbeddedUtils.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncConcat.h" />

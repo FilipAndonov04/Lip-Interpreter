@@ -1,16 +1,18 @@
 #include "FuncHead.h"
+#include "Interpreter/EmbeddedFunctions/EmbeddedUtils.h"
 #include "Expression/Expression.h"
 #include "Value/List/List.h"
 
 #include <stdexcept>
 
 std::unique_ptr<Value> FuncHead::operator()(const std::vector<const Expression*>& args) const {
+    assertArgCount(1, args.size(), NAME);
+    
     auto arg1 = args[0]->evaluate();
-
-    if (arg1->type() != ValueType::List) {
-        throw std::invalid_argument("head argument must be a list");
+    if (!isList(*arg1)) {
+        throw std::invalid_argument(NAME + " takes a list as an argument");
     }
 
-    auto l1 = static_cast<List*>(arg1.get());
-    return l1->front();
+    auto l = getList(*arg1);
+    return l->popFrontAndGet();
 }

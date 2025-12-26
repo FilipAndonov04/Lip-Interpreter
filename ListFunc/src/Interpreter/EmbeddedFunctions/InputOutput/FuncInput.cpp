@@ -1,4 +1,5 @@
 #include "FuncInput.h"
+#include "Interpreter/EmbeddedFunctions/EmbeddedUtils.h"
 #include "Expression/Expression.h"
 #include "Value/Value.h"
 #include "Interpreter/InputParsing/Tokenizer/Tokenizer.h"
@@ -11,6 +12,8 @@ FuncInput::FuncInput(Interpreter& interpreter)
 	: interpreter(&interpreter) {}
 
 std::unique_ptr<Value> FuncInput::operator()(const std::vector<const Expression*>& args) const {
+	assertArgCount(0, args.size(), NAME);
+	
 	std::cout << "> ";
 
 	std::string line;

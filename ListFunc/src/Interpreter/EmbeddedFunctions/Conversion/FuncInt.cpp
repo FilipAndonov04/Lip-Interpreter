@@ -1,16 +1,18 @@
 #include "FuncInt.h"
+#include "Interpreter/EmbeddedFunctions/EmbeddedUtils.h"
 #include "Expression/Expression.h"
 #include "Value/Number/RealNumber.h"
 
 #include <stdexcept>
 
 std::unique_ptr<Value> FuncInt::operator()(const std::vector<const Expression*>& args) const {
-	auto arg1 = args[0]->evaluate();
+	assertArgCount(1, args.size(), NAME);
 
-	if (arg1->type() != ValueType::Number) {
-		throw std::invalid_argument("if's first argument is real number");
+	auto arg1 = args[0]->evaluate();
+	auto num1 = getNumber(*arg1);
+	if (!num1) {
+		throw std::invalid_argument(NAME + " takes a number as an argument argument");
 	}
 
-	auto n1 = static_cast<const RealNumber*>(arg1.get());
-	return RealNumber::of(static_cast<int>(n1->getValue()));
+	return RealNumber::of(static_cast<int>(num1->getValue()));
 }

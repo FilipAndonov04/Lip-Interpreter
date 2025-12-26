@@ -1,4 +1,5 @@
 #include "FuncSqrt.h"
+#include "Interpreter/EmbeddedFunctions/EmbeddedUtils.h"
 #include "Expression/Expression.h"
 #include "Value/Number/RealNumber.h"
 
@@ -6,12 +7,17 @@
 #include <cmath>
 
 std::unique_ptr<Value> FuncSqrt::operator()(const std::vector<const Expression*>& args) const {
-	auto arg1 = args[0]->evaluate();
+	assertArgCount(1, args.size(), NAME);
 
-	if (arg1->type() != ValueType::Number) {
-		throw std::invalid_argument("sqrt takes 1 real number as argument");
+	auto arg1 = args[0]->evaluate();
+	auto num1 = getNumber(*arg1);
+	if (!num1) {
+		throw std::invalid_argument(NAME + " takes a non-negative number as an argument");
 	}
 
-	auto n1 = static_cast<const RealNumber*>(arg1.get());
-	return RealNumber::of(sqrt(n1->getValue()));
+	if (num1->getValue() < 0.0) {
+		throw std::invalid_argument(NAME + " takes a non-negative number as an argument");
+	}
+
+	return RealNumber::of(sqrt(num1->getValue()));
 }

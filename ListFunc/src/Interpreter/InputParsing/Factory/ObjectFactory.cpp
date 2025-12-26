@@ -203,25 +203,14 @@ std::shared_ptr<GraphFunction> ObjectFactory::createGraphFunction(const std::str
 std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
     assertIndex(index);
 
-    if (tokens[index].type == TokenType::Dolar && 
-        (index == tokens.size() - 2 || 
-         tokens[index + 2].type != TokenType::OpenCircleBracket)) {
-        return createArgumentNode();
-    } else if (tokens[index].type == TokenType::Number ||
-               tokens[index].type == TokenType::Dash ||
-               tokens[index].type == TokenType::SingleQuote ||
-               tokens[index].type == TokenType::DoubleQuote ||
-               tokens[index].type == TokenType::OpenSquareBracket ||
-               tokens[index].type == TokenType::Word &&
-               (index == tokens.size() - 1 || 
-                tokens[index + 1].type != TokenType::OpenCircleBracket)) {
-        return createExpressionNode();
-    } else if (tokens[index].type == TokenType::Word && index != tokens.size() - 1 &&
-               tokens[index + 1].type == TokenType::OpenCircleBracket) {
+    if (tokens[index].type == TokenType::Word && index != tokens.size() - 1 && 
+        tokens[index + 1].type == TokenType::OpenCircleBracket || 
+        tokens[index].type == TokenType::Dolar && index < tokens.size() - 2 &&
+        tokens[index + 2].type == TokenType::OpenCircleBracket) {
         return createCompositeNode();
     }
 
-    throw std::invalid_argument("invalid function body token");
+    return createLeafNode();
 }
 
 std::unique_ptr<LeafNode> ObjectFactory::createLeafNode() {

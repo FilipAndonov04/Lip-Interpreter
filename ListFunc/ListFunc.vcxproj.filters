@@ -168,6 +168,9 @@
     <ClCompile Include="src\Expression\Value\ValueExpression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\EmbeddedUtils.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h">
@@ -351,6 +354,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Function\Graph\Node\Leaf\LeafNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\EmbeddedUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

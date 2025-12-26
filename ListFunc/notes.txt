@@ -1,5 +1,5 @@
-(*) add FunctionObject type
 (*) implement arguments as functions via CompositeArgumentNode $1(...)
+(*) add embedded functions for function objects
 
 (*) add command line args parsing
 (*) add file work mode
@@ -15,6 +15,7 @@
 
 (*) add value wrapper
 
+(*) clean up function 
 (*) clean up embedded functions
 (*) clean up interpreter
 (*) enhance List interface

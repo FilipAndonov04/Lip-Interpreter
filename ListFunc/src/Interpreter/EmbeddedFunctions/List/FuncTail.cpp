@@ -1,17 +1,19 @@
 #include "FuncTail.h"
+#include "Interpreter/EmbeddedFunctions/EmbeddedUtils.h"
 #include "Expression/Expression.h"
 #include "Value/List/List.h"
 
 #include <stdexcept>
 
 std::unique_ptr<Value> FuncTail::operator()(const std::vector<const Expression*>& args) const {
-    auto arg1 = args[0]->evaluate();
+    assertArgCount(1, args.size(), NAME);
     
-    if (arg1->type() != ValueType::List) {
-        throw std::invalid_argument("tail argument must be a list");
+    auto arg1 = args[0]->evaluate();
+    if (!isList(*arg1)) {
+        throw std::invalid_argument(NAME + " takes a list as an argument");
     }
 
-    auto l1 = static_cast<List*>(arg1.get());
-    l1->popFront();
+    auto l = getList(*arg1);
+    l->popFront();
     return arg1;
 }
