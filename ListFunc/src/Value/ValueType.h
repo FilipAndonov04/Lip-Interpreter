@@ -2,6 +2,7 @@
 
 enum class ValueType {
 	Number,
+	String,
 	List,
-	String
+	FunctionObject
 };

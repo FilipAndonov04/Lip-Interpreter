@@ -177,6 +177,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Utils\CharUtils.cpp" />
     <ClCompile Include="src\Utils\StringUtils.cpp" />
+    <ClCompile Include="src\Value\FunctionObject\FunctionObject.cpp" />
     <ClCompile Include="src\Value\List\Concrete\ConcreteList.cpp" />
     <ClCompile Include="src\Value\List\Lazy\Finite\FiniteList.cpp" />
     <ClCompile Include="src\Value\List\Lazy\Infinite\InfiniteList.cpp" />
@@ -236,6 +237,7 @@
     <ClInclude Include="src\Interpreter\Environment\Environment.h" />
     <ClInclude Include="src\Utils\CharUtils.h" />
     <ClInclude Include="src\Utils\StringUtils.h" />
+    <ClInclude Include="src\Value\FunctionObject\FunctionObject.h" />
     <ClInclude Include="src\Value\List\Concrete\ConcreteList.h" />
     <ClInclude Include="src\Value\List\Lazy\Finite\FiniteList.h" />
     <ClInclude Include="src\Value\List\Lazy\Infinite\InfiniteList.h" />

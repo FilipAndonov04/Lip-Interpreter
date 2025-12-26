@@ -1,3 +1,6 @@
+(*) add FunctionObject type
+(*) add using argument as function
+
 (*) add command line args parsing
 (*) add file work mode
 (*) add saving function to file and loading them from file
@@ -16,12 +19,11 @@
 
 (*) add more Function metadata (description)
 
+(*) more embedded functions (read/write, multi threading, ...)
 (*) different embedded functions based on difficulty
+
+(*) write readme.md
 
 (?) replace FunctionData shr_ptr with unq_ptr
 
 (?) prefix embedded functions with emb_
-
-(?) immutable variables
-(?) add FunctionObject type (not very functional)
-(?) add using argument as function
