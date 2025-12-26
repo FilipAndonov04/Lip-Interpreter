@@ -10,6 +10,10 @@ ValueType FunctionObject::type() const {
 }
 
 std::unique_ptr<Value> FunctionObject::cloneValue() const {
+    return cloneFunctionObject();
+}
+
+std::unique_ptr<FunctionObject> FunctionObject::cloneFunctionObject() const {
     return of(function);
 }
 

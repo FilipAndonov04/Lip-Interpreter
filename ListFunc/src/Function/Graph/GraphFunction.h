@@ -1,6 +1,5 @@
 #pragma once
 #include "Function/Function.h"
-#include "Interpreter/Environment/Environment.h"
 
 class FunctionNode;
 

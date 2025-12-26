@@ -13,6 +13,7 @@ public:
 	ValueType type() const override;
 
 	std::unique_ptr<Value> cloneValue() const override;
+	std::unique_ptr<FunctionObject> cloneFunctionObject() const;
 
 	std::string toString() const override;
 

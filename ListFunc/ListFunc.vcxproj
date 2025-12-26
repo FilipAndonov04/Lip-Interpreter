@@ -135,8 +135,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Expression\Call\Function\FunctionCall.cpp" />
-    <ClCompile Include="src\Expression\Call\Variable\VariableCall.cpp" />
+    <ClCompile Include="src\Expression\FunctionCall\FunctionCall.cpp" />
+    <ClCompile Include="src\Expression\Value\ValueExpression.cpp" />
+    <ClCompile Include="src\Expression\Variable\VariableExpression.cpp" />
     <ClCompile Include="src\Expression\Literal\List\ListLiteral.cpp" />
     <ClCompile Include="src\Expression\Literal\Number\NumberLiteral.cpp" />
     <ClCompile Include="src\Expression\Literal\String\StringLiteral.cpp" />
@@ -167,9 +168,9 @@
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncSqrt.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Math\FuncSubtract.cpp" />
     <ClCompile Include="src\Function\Graph\GraphFunction.cpp" />
-    <ClCompile Include="src\Function\Graph\Node\Argument\ArgumentNode.cpp" />
+    <ClCompile Include="src\Function\Graph\Node\Leaf\Argument\ArgumentNode.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Composite\CompositeNode.cpp" />
-    <ClCompile Include="src\Function\Graph\Node\Expression\ExpressionNode.cpp" />
+    <ClCompile Include="src\Function\Graph\Node\Leaf\Expression\ExpressionNode.cpp" />
     <ClCompile Include="src\Interpreter\Interpreter.cpp" />
     <ClCompile Include="src\Interpreter\InputParsing\Tokenizer\Tokenizer.cpp" />
     <ClCompile Include="src\Interpreter\InputParsing\Factory\ObjectFactory.cpp" />
@@ -187,15 +188,16 @@
     <ClCompile Include="src\Value\String\String.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Expression\Call\Call.h" />
-    <ClInclude Include="src\Expression\Call\Variable\VariableCall.h" />
+    <ClInclude Include="src\Expression\Value\ValueExpression.h" />
+    <ClInclude Include="src\Expression\Variable\VariableExpression.h" />
     <ClInclude Include="src\Expression\Expression.h" />
-    <ClInclude Include="src\Expression\Call\Function\FunctionCall.h" />
+    <ClInclude Include="src\Expression\FunctionCall\FunctionCall.h" />
     <ClInclude Include="src\Expression\Literal\List\ListLiteral.h" />
     <ClInclude Include="src\Expression\Literal\Literal.h" />
     <ClInclude Include="src\Expression\Literal\Number\NumberLiteral.h" />
     <ClInclude Include="src\Expression\Literal\String\StringLiteral.h" />
     <ClInclude Include="src\Function\Function.h" />
+    <ClInclude Include="src\Function\Graph\Node\Leaf\LeafNode.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterThan.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncGreaterOrEqual.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Comparison\FuncLessOrEqual.h" />
@@ -222,10 +224,10 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncSqrt.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Math\FuncSubtract.h" />
     <ClInclude Include="src\Function\Graph\GraphFunction.h" />
-    <ClInclude Include="src\Function\Graph\Node\Argument\ArgumentNode.h" />
+    <ClInclude Include="src\Function\Graph\Node\Leaf\Argument\ArgumentNode.h" />
     <ClInclude Include="src\Function\Graph\Node\Composite\CompositeNode.h" />
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h" />
-    <ClInclude Include="src\Function\Graph\Node\Expression\ExpressionNode.h" />
+    <ClInclude Include="src\Function\Graph\Node\Leaf\Expression\ExpressionNode.h" />
     <ClInclude Include="src\Function\Wrapper\WrapperFunction.hpp" />
     <ClInclude Include="src\Interpreter\Environment\Data\FunctionData.h" />
     <ClInclude Include="src\Interpreter\Environment\Data\VariableData.h" />

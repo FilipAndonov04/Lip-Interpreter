@@ -1,6 +1,6 @@
 #include "Environment.h"
 #include "Function/Function.h"
-#include "Value/Value.h"
+#include "Value/FunctionObject/FunctionObject.h"
 
 #include <stdexcept>
 #include <algorithm>
@@ -57,6 +57,45 @@ const Value* Environment::getVariable(const std::string& name) const {
 const VariableData* Environment::getVariableData(const std::string& name) const {
 	auto varData = variables.find(name);
 	return varData != variables.end() ? varData->second.get() : nullptr;
+}
+
+std::unique_ptr<Value> Environment::getVariableOrFunctionObject(const std::string& name) const {
+	if (auto var = getVariable(name)) {
+		return var->cloneValue();
+	}
+
+	return getFunctionObject(name);
+}
+
+std::unique_ptr<Value> Environment::getFunctionObject(const std::string& name) const {
+	auto funcs = functions.find(name);
+	if (funcs != functions.end() && funcs->second.size() == 1) {
+		return FunctionObject::of(funcs->second[0]->function.get());
+	}
+
+	auto var = getVariable(name);
+	if (var && var->type() == ValueType::FunctionObject) {
+		auto funcObj = static_cast<const FunctionObject*>(var);
+		return funcObj->cloneFunctionObject();
+	}
+
+	return nullptr;
+}
+
+std::unique_ptr<Value> Environment::getFunctionObject(const std::string& name, 
+															   size_t argCount) const {
+	auto func = getFunction(name, argCount);
+	if (func) {
+		return FunctionObject::of(func);
+	}
+
+	auto var = getVariable(name);
+	if (var && var->type() == ValueType::FunctionObject) {
+		auto funcObj = static_cast<const FunctionObject*>(var);
+		return funcObj->cloneFunctionObject();
+	}
+
+	return nullptr;
 }
 
 bool Environment::addFunction(const std::string& name, 

@@ -1,5 +1,5 @@
 (*) add FunctionObject type
-(*) add using argument as function
+(*) implement arguments as functions via CompositeArgumentNode $1(...)
 
 (*) add command line args parsing
 (*) add file work mode
@@ -9,11 +9,16 @@
 (*) add warnings
 (*) add check for undef of embedded function
 
+(*) replace LazyList elements with vector instead of unq_ptr to List
+
+(*) clean up Environment
+
 (*) add value wrapper
 
 (*) clean up embedded functions
 (*) clean up interpreter
-(*) clean up value list class
+(*) enhance List interface
+(*) clean up List class
 
 (*) more efficient environment states
 

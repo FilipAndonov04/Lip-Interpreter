@@ -1,17 +1,24 @@
 #include "FunctionCall.h"
-#include "Value/Value.h"
-#include "Function/Function.h"
+#include "Value/FunctionObject/FunctionObject.h"
 
-FunctionCall::FunctionCall(const Function* function)
-    : function(function) {}
+#include <stdexcept>
 
-FunctionCall::FunctionCall(const Function* function,
+FunctionCall::FunctionCall(std::unique_ptr<Expression>&& function)
+    : function(std::move(function)) {}
+
+FunctionCall::FunctionCall(std::unique_ptr<Expression>&& function,
                            std::vector<std::unique_ptr<Expression>>&& args)
-    : function(function), args(std::move(args)) {}
+    : function(std::move(function)), args(std::move(args)) {}
 
 
 std::unique_ptr<Value> FunctionCall::evaluate() const {
-    return function->call(getArgs());
+    auto val = function->evaluate();
+    if (val->type() != ValueType::FunctionObject) {
+        throw std::invalid_argument("function in function call is not a function");
+    }
+
+    auto func = static_cast<const FunctionObject*>(val.get());
+    return func->call(getArgs());
 }
 
 std::unique_ptr<Expression> FunctionCall::clone() const {
@@ -22,11 +29,11 @@ std::unique_ptr<Expression> FunctionCall::clone() const {
         clonedArgs.push_back(arg->clone());
     }
 
-    return std::make_unique<FunctionCall>(function, std::move(clonedArgs));
+    return std::make_unique<FunctionCall>(function->clone(), std::move(clonedArgs));
 }
 
 std::string FunctionCall::toString() const {
-    std::string s = "(" + std::string("<insert name>") + ", " + "(";
+    std::string s = "(" + function->toString() + ", " + "(";
 
     for (size_t i = 0; i < args.size(); i++) {
         s.append(args[i]->toString()).append(i != args.size() - 1 ? ", " : "");
@@ -34,10 +41,6 @@ std::string FunctionCall::toString() const {
 
     s.append("))");
     return s;
-}
-
-const Function* FunctionCall::getFunction() const {
-    return function;
 }
 
 std::vector<const Expression*> FunctionCall::getArgs() const {

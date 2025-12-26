@@ -18,12 +18,6 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Function\Graph\Node\Literal\LiteralNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Function\Graph\Node\Argument\ArgumentNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Function\Function.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -34,9 +28,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\Environment\Environment.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Expression\Call\Function\FunctionCall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\InputParsing\Factory\ObjectFactory.cpp">
@@ -135,9 +126,6 @@
     <ClCompile Include="src\Expression\Literal\List\ListLiteral.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Literal\Literal.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Value\List\Concrete\ConcreteList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -162,7 +150,22 @@
     <ClCompile Include="src\Value\String\String.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Expression\Call\Variable\VariableCall.cpp">
+    <ClCompile Include="src\Expression\FunctionCall\FunctionCall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Expression\Variable\VariableExpression.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Function\Graph\Node\Leaf\Argument\ArgumentNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Function\Graph\Node\Leaf\Expression\ExpressionNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Value\FunctionObject\FunctionObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Expression\Value\ValueExpression.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -170,13 +173,7 @@
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Function\Graph\Node\Literal\LiteralNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Expression\Expression.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Function\Graph\Node\Argument\ArgumentNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Function\Graph\Node\Composite\CompositeNode.h">
@@ -195,9 +192,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Interpreter\Environment\Environment.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Expression\Call\Function\FunctionCall.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Interpreter\InputParsing\Tokenizer\Tokenizer.h">
@@ -287,9 +281,6 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Call\Call.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Expression\Literal\Literal.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -335,7 +326,31 @@
     <ClInclude Include="src\Interpreter\InputParsing\Tokenizer\Token.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Expression\Call\Variable\VariableCall.h">
+    <ClInclude Include="src\Expression\Variable\VariableExpression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expression\FunctionCall\FunctionCall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Function\Graph\Node\Leaf\Argument\ArgumentNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Function\Graph\Node\Leaf\Expression\ExpressionNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\Environment\Data\FunctionData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\Environment\Data\VariableData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Value\FunctionObject\FunctionObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Expression\Value\ValueExpression.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Function\Graph\Node\Leaf\LeafNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

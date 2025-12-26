@@ -4,16 +4,23 @@
 
 #include <stdexcept>
 
-std::unique_ptr<Value> FuncOr::operator()(const std::vector<const Expression*>& args) const {
-	auto arg1 = args[0]->evaluate();
-	auto arg2 = args[1]->evaluate();
+static bool toBool(const Value& value);
 
-	if (arg1->type() != ValueType::Number ||
-		arg2->type() != ValueType::Number) {
-		throw std::invalid_argument("or takes 2 real numbers as arguments");
+std::unique_ptr<Value> FuncOr::operator()(const std::vector<const Expression*>& args) const {
+	auto val1 = args[0]->evaluate();
+	if (toBool(*val1)) {
+		return RealNumber::of(1);
 	}
 
-	auto n1 = static_cast<const RealNumber*>(arg1.get());
-	auto n2 = static_cast<const RealNumber*>(arg2.get());
-	return RealNumber::of(n1->getValue() || n2->getValue());
+	auto val2 = args[1]->evaluate();
+	return RealNumber::of(toBool(*val2));
+}
+
+bool toBool(const Value& value) {
+	if (value.type() == ValueType::Number) {
+		auto num = static_cast<const RealNumber*>(&value);
+		return num->getValue();
+	}
+
+	return false;
 }

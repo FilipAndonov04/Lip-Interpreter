@@ -1,11 +1,11 @@
 #pragma once
-#include "Expression/Call/Call.h"
+#include "Expression/Expression.h"
 
 class Value;
 
-class VariableCall final : public Call {
+class VariableExpression final : public Expression {
 public:
-	explicit VariableCall(const Value* variable); 
+	explicit VariableExpression(const Value* variable); 
 	
 	std::unique_ptr<Value> evaluate() const override;
 
@@ -16,7 +16,7 @@ public:
 	const Value* getVariable() const;
 
 public:
-	static std::unique_ptr<VariableCall> of(const Value* variable);
+	static std::unique_ptr<VariableExpression> of(const Value* variable);
 
 private:
 	const Value* variable;

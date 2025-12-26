@@ -1,5 +1,5 @@
 #include "LazyList.h"
-#include "Expression/Expression.h"
+#include "Expression/Value/ValueExpression.h"
 #include "Function/Function.h"
 #include "Value/List/Concrete/ConcreteList.h"
 
@@ -17,14 +17,6 @@ void LazyList::cacheElement(size_t index) const {
 		index = length() - 1;
 	}
 
-	struct ValueExpr : Expression {
-		ValueExpr(std::unique_ptr<Value>&& value) : value(std::move(value)) {}
-		mutable std::unique_ptr<Value> value;
-
-		std::unique_ptr<Value> evaluate() const override { return std::move(value); }
-		std::unique_ptr<Expression> clone() const override { return nullptr; }
-	};
-
 	if (initialElement) {
 		cachedElements->pushBack(initialElement->evaluate());
 		initialElement.reset();
@@ -32,7 +24,7 @@ void LazyList::cacheElement(size_t index) const {
 
 	std::vector<const Expression*> args(1);
 	for (size_t lastIndex = cachedElements->length() - 1; lastIndex < index; lastIndex++) {
-		auto expr = std::make_unique<ValueExpr>(cachedElements->at(lastIndex));
+		auto expr = std::make_unique<ValueExpression>(cachedElements->at(lastIndex));
 		args[0] = expr.get();
 
 		cachedElements->pushBack(step->call(args));

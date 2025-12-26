@@ -1,14 +1,13 @@
 #pragma once
-#include "Expression/Call/Call.h"
+#include "Expression/Expression.h"
 
 #include <vector>
 
-class Function;
-
-class FunctionCall final : public Call {
+class FunctionCall final : public Expression {
 public:
-	explicit FunctionCall(const Function* function);
-	FunctionCall(const Function* function, std::vector<std::unique_ptr<Expression>>&& args);
+	explicit FunctionCall(std::unique_ptr<Expression>&& function);
+	FunctionCall(std::unique_ptr<Expression>&& function, 
+				 std::vector<std::unique_ptr<Expression>>&& args);
 
 	std::unique_ptr<Value> evaluate() const override;
 
@@ -16,10 +15,9 @@ public:
 
 	std::string toString() const override;
 
-	const Function* getFunction() const;
 	std::vector<const Expression*> getArgs() const;
 
 private:
-	const Function* function;
+	std::unique_ptr<Expression> function;
 	std::vector<std::unique_ptr<Expression>> args;
 };

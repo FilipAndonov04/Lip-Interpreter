@@ -1,7 +1,7 @@
 #pragma once
-#include "Function/Graph/Node/FunctionNode.h"
+#include "Function/Graph/Node/Leaf/LeafNode.h"
 
-class ArgumentNode final : public FunctionNode {
+class ArgumentNode final : public LeafNode {
 public:
 	explicit ArgumentNode(size_t argId);
 

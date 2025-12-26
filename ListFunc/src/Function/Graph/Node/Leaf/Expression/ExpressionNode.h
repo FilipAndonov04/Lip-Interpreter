@@ -1,7 +1,7 @@
 #pragma once
-#include "Function/Graph/Node/FunctionNode.h"
+#include "Function/Graph/Node/Leaf/LeafNode.h"
 
-class ExpressionNode final : public FunctionNode {
+class ExpressionNode final : public LeafNode {
 public:
 	explicit ExpressionNode(std::unique_ptr<Expression>&& expression);
 

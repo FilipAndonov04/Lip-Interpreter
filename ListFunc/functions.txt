@@ -6,6 +6,6 @@ fac(4)
 fac(5)
 
 // does $2 $1 times
-def do_n_times(2) = if(lt($1, 1), 1, and(while(sub($1, 1), $2), $2))
+def do_n_times(2) = if(lt($1, 1), 1, and(do_n_times(sub($1, 1), $2), $2()))
 
 const pi = 3.1415

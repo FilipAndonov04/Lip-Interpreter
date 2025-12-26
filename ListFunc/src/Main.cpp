@@ -3,10 +3,10 @@
 
 #include "Value/Number/RealNumber.h"
 #include "Value/List/Concrete/ConcreteList.h"
-#include "Expression/Call/Function/FunctionCall.h"
+#include "Expression/FunctionCall/FunctionCall.h"
 #include "Function/Graph/GraphFunction.h"
-#include "Function/Graph/Node/Argument/ArgumentNode.h"
-#include "Function/Graph/Node/Expression/ExpressionNode.h"
+#include "Function/Graph/Node/Leaf/Argument/ArgumentNode.h"
+#include "Function/Graph/Node/Leaf/Expression/ExpressionNode.h"
 #include "Function/Graph/Node/Composite/CompositeNode.h"
 
 #include "Interpreter/EmbeddedFunctions/Math/FuncAdd.h"

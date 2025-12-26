@@ -23,6 +23,10 @@ public:
 	const FunctionData* getFunctionData(const std::string& name, size_t argCount) const;
 	const Value* getVariable(const std::string& name) const;
 	const VariableData* getVariableData(const std::string& name) const;
+
+	std::unique_ptr<Value> getVariableOrFunctionObject(const std::string& name) const;
+	std::unique_ptr<Value> getFunctionObject(const std::string& name) const;
+	std::unique_ptr<Value> getFunctionObject(const std::string& name, size_t argCount) const;
 	
 	bool addFunction(const std::string& name, const std::shared_ptr<Function>& function, 
 					 bool isEmbedded = false);
