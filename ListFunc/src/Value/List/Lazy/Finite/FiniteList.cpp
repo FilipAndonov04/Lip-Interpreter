@@ -21,6 +21,13 @@ std::unique_ptr<Value> FiniteList::at(size_t index) const {
     return cachedElements->at(index);
 }
 
+void FiniteList::set(size_t index, std::unique_ptr<Value>&& element) {
+    assertAccessIndex(index);
+
+    cacheElement(index + 1);
+    cachedElements->set(index, std::move(element));
+}
+
 void FiniteList::insert(size_t index, std::unique_ptr<Value>&& element) {
     assertInsertIndex(index);
 

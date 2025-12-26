@@ -10,6 +10,9 @@ class String;
 class List;
 class FunctionObject;
 
+constexpr double EPSILON = 1e-3;
+constexpr size_t MAX_LIST_COMPARISON_LENGTH = 10000;
+
 void assertArgCount(size_t expected, size_t actual, const std::string& name);
 
 bool isNumber(const Value& value);

@@ -19,6 +19,10 @@ const std::string& String::getString() const {
     return string;
 }
 
+std::string& String::getString() {
+    return string;
+}
+
 void String::setString(std::string string) {
     this->string = std::move(string);
 }

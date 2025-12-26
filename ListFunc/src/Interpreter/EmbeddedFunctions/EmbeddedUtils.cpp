@@ -6,13 +6,10 @@
 
 #include <stdexcept>
 
-static constexpr double EPSILON = 1e-3;
-static constexpr size_t MAX_LIST_COMPARISON_LENGTH = 10000;
-
 void assertArgCount(size_t expected, size_t actual, const std::string& name) {
     if (expected != actual) {
         throw std::invalid_argument(name + " expected " + std::to_string(expected) +
-                                    "arguments, but was called with " + std::to_string(actual));
+                                    " arguments, but was called with " + std::to_string(actual));
     }
 }
 
@@ -72,7 +69,7 @@ bool toBool(const Value& value) {
     } else if (auto list = getList(value)) {
         return !list->isEmpty();
     } else if (auto func = getFunctionObject(value)) {
-        return false;
+        return true;
     }
 
     return false;
@@ -84,7 +81,7 @@ std::string toString(const Value& value) {
 
 int compare(const Value& value1, const Value& value2) {
     if (value1.type() != value2.type()) {
-        throw std::invalid_argument("not comparable types");
+        throw std::invalid_argument("non-comparable types");
     }
 
     auto n1 = getNumber(value1);
@@ -119,5 +116,5 @@ int compare(const Value& value1, const Value& value2) {
         return 0;
     }
 
-    throw std::invalid_argument("not comparable types");
+    throw std::invalid_argument("non-comparable types");
 }

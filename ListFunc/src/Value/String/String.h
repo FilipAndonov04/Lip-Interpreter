@@ -13,6 +13,7 @@ public:
 	std::string toString() const override;
 
 	const std::string& getString() const;
+	std::string& getString();
 	void setString(std::string string);
 
 public:

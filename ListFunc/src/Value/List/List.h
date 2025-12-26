@@ -8,6 +8,8 @@ public:
 	virtual std::unique_ptr<Value> at(size_t index) const = 0;
 	virtual std::unique_ptr<Value> back() const;
 
+	virtual void set(size_t index, std::unique_ptr<Value>&& element) = 0;
+
 	virtual void insert(size_t index, std::unique_ptr<Value>&& element) = 0;
 	virtual void pushBack(std::unique_ptr<Value>&& element);
 	virtual void erase(size_t index) = 0;

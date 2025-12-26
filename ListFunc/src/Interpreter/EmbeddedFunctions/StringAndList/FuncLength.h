@@ -8,7 +8,7 @@ class Expression;
 class Value;
 
 struct FuncLength {
-	static inline const std::string NAME{"length"};
+	static inline const std::string NAME{"len"};
 
 	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const;
 };

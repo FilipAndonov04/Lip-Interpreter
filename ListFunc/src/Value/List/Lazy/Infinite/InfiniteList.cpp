@@ -20,6 +20,15 @@ std::unique_ptr<Value> InfiniteList::at(size_t index) const {
     return cachedElements->at(index);
 }
 
+std::unique_ptr<Value> InfiniteList::back() const {
+    throw std::logic_error("infinite list does not have a last element");
+}
+
+void InfiniteList::set(size_t index, std::unique_ptr<Value>&& element) {
+    cacheElement(index + 1);
+    cachedElements->set(index, std::move(element));
+}
+
 void InfiniteList::insert(size_t index, std::unique_ptr<Value>&& element) {
     cacheElement(index);
     cachedElements->insert(index, std::move(element));

@@ -13,6 +13,12 @@ std::unique_ptr<Value> ConcreteList::at(size_t index) const {
     return elements[index]->cloneValue();
 }
 
+void ConcreteList::set(size_t index, std::unique_ptr<Value>&& element) {
+    assertAccessIndex(index);
+
+    elements[index] = std::move(element);
+}
+
 void ConcreteList::insert(size_t index, std::unique_ptr<Value>&& element) {
     assertInsertIndex(index);
 

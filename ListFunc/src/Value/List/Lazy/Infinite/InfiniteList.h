@@ -9,7 +9,10 @@ public:
 	size_t length() const override;
 
 	std::unique_ptr<Value> at(size_t index) const override;
+	std::unique_ptr<Value> back() const override;
 
+	void set(size_t index, std::unique_ptr<Value>&& element) override;
+	
 	void insert(size_t index, std::unique_ptr<Value>&& element) override;
 	void pushBack(std::unique_ptr<Value>&& element) override;
 	void erase(size_t index) override;

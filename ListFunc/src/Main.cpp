@@ -37,9 +37,11 @@
 
 #include "Interpreter/EmbeddedFunctions/List/FuncHead.h"
 #include "Interpreter/EmbeddedFunctions/List/FuncTail.h"
-#include "Interpreter/EmbeddedFunctions/List/FuncLength.h"
-#include "Interpreter/EmbeddedFunctions/List/FuncConcat.h"
 #include "Interpreter/EmbeddedFunctions/List/FuncList.h"
+
+#include "Interpreter/EmbeddedFunctions/StringAndList/FuncLength.h"
+#include "Interpreter/EmbeddedFunctions/StringAndList/FuncConcat.h"
+#include "Interpreter/EmbeddedFunctions/StringAndList/FuncReverse.h"
 
 #include "Utils/StringUtils.h"
 
@@ -86,39 +88,46 @@ Interpreter setUpFunctions() {
 	Interpreter inter;
 	Environment& env = inter.getCurrentEnvironment();
 
-	env.addFunction("add", std::make_unique<WrapperFunction<FuncAdd>>(2));
-	env.addFunction("sub", std::make_unique<WrapperFunction<FuncSubtract>>(2));
-	env.addFunction("mul", std::make_unique<WrapperFunction<FuncMultiply>>(2));
-	env.addFunction("div", std::make_unique<WrapperFunction<FuncDivide>>(2));
-	env.addFunction("mod", std::make_unique<WrapperFunction<FuncMod>>(2));
-	env.addFunction("sqrt", std::make_unique<WrapperFunction<FuncSqrt>>(1));
+	env.addFunction(FuncAdd::NAME, std::make_unique<WrapperFunction<FuncAdd>>(2));
+	env.addFunction(FuncSubtract::NAME, std::make_unique<WrapperFunction<FuncSubtract>>(2));
+	env.addFunction(FuncMultiply::NAME, std::make_unique<WrapperFunction<FuncMultiply>>(2));
+	env.addFunction(FuncDivide::NAME, std::make_unique<WrapperFunction<FuncDivide>>(2));
+	env.addFunction(FuncMod::NAME, std::make_unique<WrapperFunction<FuncMod>>(2));
+	env.addFunction(FuncSqrt::NAME, std::make_unique<WrapperFunction<FuncSqrt>>(1));
 
-	env.addFunction("not", std::make_unique<WrapperFunction<FuncNot>>(1));
-	env.addFunction("and", std::make_unique<WrapperFunction<FuncAnd>>(2));
-	env.addFunction("or", std::make_unique<WrapperFunction<FuncOr>>(2));
+	env.addFunction(FuncNot::NAME, std::make_unique<WrapperFunction<FuncNot>>(1));
+	env.addFunction(FuncAnd::NAME, std::make_unique<WrapperFunction<FuncAnd>>(2));
+	env.addFunction(FuncOr::NAME, std::make_unique<WrapperFunction<FuncOr>>(2));
 
-	env.addFunction("eq", std::make_unique<WrapperFunction<FuncEqual>>(2));
-	env.addFunction("lt", std::make_unique<WrapperFunction<FuncLessThan>>(2));
-	env.addFunction("ne", std::make_unique<WrapperFunction<FuncNotEqual>>(2));
-	env.addFunction("le", std::make_unique<WrapperFunction<FuncLessOrEqual>>(2));
-	env.addFunction("gt", std::make_unique<WrapperFunction<FuncGreaterThan>>(2));
-	env.addFunction("ge", std::make_unique<WrapperFunction<FuncGreaterOrEqual>>(2));
+	env.addFunction(FuncEqual::NAME, std::make_unique<WrapperFunction<FuncEqual>>(2));
+	env.addFunction(FuncLessThan::NAME, std::make_unique<WrapperFunction<FuncLessThan>>(2));
+	env.addFunction(FuncNotEqual::NAME, std::make_unique<WrapperFunction<FuncNotEqual>>(2));
+	env.addFunction(FuncLessOrEqual::NAME, std::make_unique<WrapperFunction<FuncLessOrEqual>>(2));
+	env.addFunction(FuncGreaterThan::NAME, std::make_unique<WrapperFunction<FuncGreaterThan>>(2));
+	env.addFunction(FuncGreaterOrEqual::NAME, std::make_unique<WrapperFunction<FuncGreaterOrEqual>>(2));
 
-	env.addFunction("if", std::make_unique<WrapperFunction<FuncIf>>(3));
+	env.addFunction(FuncIf::NAME, std::make_unique<WrapperFunction<FuncIf>>(3));
 
-	env.addFunction("int", std::make_unique<WrapperFunction<FuncInt>>(1));
-	env.addFunction("bool", std::make_unique<WrapperFunction<FuncBool>>(1));
+	env.addFunction(FuncInt::NAME, std::make_unique<WrapperFunction<FuncInt>>(1));
+	env.addFunction(FuncInt::NAME, std::make_unique<WrapperFunction<FuncBool>>(1));
 
-	env.addFunction("input", std::make_unique<WrapperFunction<FuncInput>>(0, FuncInput{inter}));
-	env.addFunction("print", std::make_unique<WrapperFunction<FuncPrint>>(1));
+	env.addFunction(FuncInput::NAME, std::make_unique<WrapperFunction<FuncInput>>(0, FuncInput{inter}));
+	env.addFunction(FuncPrint::NAME, std::make_unique<WrapperFunction<FuncPrint>>(0));
+	env.addFunction(FuncPrint::NAME, std::make_unique<WrapperFunction<FuncPrint>>(1));
+	env.addFunction(FuncPrint::NAME, std::make_unique<WrapperFunction<FuncPrint>>(2));
+	env.addFunction(FuncPrint::NAME, std::make_unique<WrapperFunction<FuncPrint>>(3));
+	env.addFunction(FuncPrint::NAME, std::make_unique<WrapperFunction<FuncPrint>>(4));
+	env.addFunction(FuncPrint::NAME, std::make_unique<WrapperFunction<FuncPrint>>(5));
 
-	env.addFunction("head", std::make_unique<WrapperFunction<FuncHead>>(1));
-	env.addFunction("tail", std::make_unique<WrapperFunction<FuncTail>>(1));
-	env.addFunction("len", std::make_unique<WrapperFunction<FuncLength>>(1));
-	env.addFunction("concat", std::make_unique<WrapperFunction<FuncConcat>>(2));
-	env.addFunction("list", std::make_unique<WrapperFunction<FuncList>>(3));
-	env.addFunction("list", std::make_unique<WrapperFunction<FuncList>>(2));
-	env.addFunction("list", std::make_unique<WrapperFunction<FuncList>>(1));
+	env.addFunction(FuncHead::NAME, std::make_unique<WrapperFunction<FuncHead>>(1));
+	env.addFunction(FuncTail::NAME, std::make_unique<WrapperFunction<FuncTail>>(1));
+	env.addFunction(FuncList::NAME, std::make_unique<WrapperFunction<FuncList>>(3));
+	env.addFunction(FuncList::NAME, std::make_unique<WrapperFunction<FuncList>>(2));
+	env.addFunction(FuncList::NAME, std::make_unique<WrapperFunction<FuncList>>(1));
+
+	env.addFunction(FuncLength::NAME, std::make_unique<WrapperFunction<FuncLength>>(1));
+	env.addFunction(FuncConcat::NAME, std::make_unique<WrapperFunction<FuncConcat>>(2));
+	env.addFunction(FuncReverse::NAME, std::make_unique<WrapperFunction<FuncReverse>>(1));
 
 	// extra
 	env.addFunction("work", std::make_unique<WrapperFunction<Worker>>(0));

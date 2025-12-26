@@ -151,9 +151,9 @@
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\EmbeddedUtils.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.cpp" />
-    <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncConcat.cpp" />
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncConcat.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncHead.cpp" />
-    <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncLength.cpp" />
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncLength.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncList.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncTail.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Logical\FuncAnd.cpp" />
@@ -172,6 +172,7 @@
     <ClCompile Include="src\Function\Graph\Node\Leaf\Argument\ArgumentNode.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Composite\CompositeNode.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Leaf\Expression\ExpressionNode.cpp" />
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncReverse.cpp" />
     <ClCompile Include="src\Interpreter\Interpreter.cpp" />
     <ClCompile Include="src\Interpreter\InputParsing\Tokenizer\Tokenizer.cpp" />
     <ClCompile Include="src\Interpreter\InputParsing\Factory\ObjectFactory.cpp" />
@@ -208,9 +209,9 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\EmbeddedUtils.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.h" />
-    <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncConcat.h" />
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncConcat.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncHead.h" />
-    <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncLength.h" />
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncLength.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncList.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncTail.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Logical\FuncNot.h" />
@@ -231,6 +232,7 @@
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h" />
     <ClInclude Include="src\Function\Graph\Node\Leaf\Expression\ExpressionNode.h" />
     <ClInclude Include="src\Function\Wrapper\WrapperFunction.hpp" />
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncReverse.h" />
     <ClInclude Include="src\Interpreter\Environment\Data\FunctionData.h" />
     <ClInclude Include="src\Interpreter\Environment\Data\VariableData.h" />
     <ClInclude Include="src\Interpreter\InputParsing\Factory\ObjectFactory.h" />
