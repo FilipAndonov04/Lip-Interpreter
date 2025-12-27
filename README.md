@@ -140,7 +140,7 @@ Function arguments are referenced as $1, $2, $3, ...
 
 Examples:
 ```
-def id(1) = $1
+def ref(1) = $1
 def add3(3) = add(add($1, $2), $3)
 def pi(0) = 3.1415
 
