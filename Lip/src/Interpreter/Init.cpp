@@ -1,11 +1,5 @@
 #include "Init.h"
 #include "Value/Number/RealNumber.h"
-#include "Value/List/Concrete/ConcreteList.h"
-#include "Expression/FunctionCall/FunctionCall.h"
-#include "Function/Graph/GraphFunction.h"
-#include "Function/Graph/Node/Leaf/Argument/ArgumentNode.h"
-#include "Function/Graph/Node/Leaf/Expression/ExpressionNode.h"
-#include "Function/Graph/Node/Composite/CompositeNode.h"
 
 #include "Interpreter/EmbeddedFunctions/Math/FuncAdd.h"
 #include "Interpreter/EmbeddedFunctions/Math/FuncSubtract.h"
@@ -40,6 +34,7 @@
 #include "Interpreter/EmbeddedFunctions/StringAndList/FuncLength.h"
 #include "Interpreter/EmbeddedFunctions/StringAndList/FuncConcat.h"
 #include "Interpreter/EmbeddedFunctions/StringAndList/FuncReverse.h"
+#include "Interpreter/EmbeddedFunctions/StringAndList/FuncAppend.h"
 
 #include "Interpreter/EmbeddedFunctions/Function/FuncCompose.h"
 #include "Interpreter/EmbeddedFunctions/Function/FuncThen.h"
@@ -100,6 +95,7 @@ Interpreter initInterpreter() {
 	env.addFunction(FuncLength::NAME, std::make_unique<WrapperFunction<FuncLength>>(1));
 	env.addFunction(FuncConcat::NAME, std::make_unique<WrapperFunction<FuncConcat>>(2));
 	env.addFunction(FuncReverse::NAME, std::make_unique<WrapperFunction<FuncReverse>>(1));
+	env.addFunction(FuncAppend::NAME, std::make_unique<WrapperFunction<FuncAppend>>(2));
 
 	env.addFunction(FuncCompose::NAME, std::make_unique<WrapperFunction<FuncCompose>>(2));
 	env.addFunction(FuncThen::NAME, std::make_unique<WrapperFunction<FuncThen>>(2));

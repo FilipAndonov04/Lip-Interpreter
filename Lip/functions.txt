@@ -18,4 +18,4 @@ def print1(1) = print($1)
 
 def for_each(2) = if($1, and($2(head($1)), for_each(tail($1), $2)), 1)
 
-def map(2) = if($1, concat([$2(head($1))], map(tail($1), $2)), [])
+def map(2) = if($1, concat(append([], $2(head($1))), map(tail($1), $2)), [])

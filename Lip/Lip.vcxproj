@@ -154,6 +154,7 @@
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Function\FuncThen.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.cpp" />
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncAppend.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncConcat.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncHead.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncLength.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Function\FuncThen.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.h" />
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncAppend.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncConcat.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncHead.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncLength.h" />
