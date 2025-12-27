@@ -75,26 +75,26 @@ Evaluation follows a call-by-expression model:
 
 ### Arithmetic
 
-`add` equivalent to `a + b`,<br>
-`sub` equivalent to `a - b`,<br>
-`mul` equivalent to `a * b`,<br>
-`div` equivalent to `a / b`,<br>
-`mod` equivalent to `a % b`,<br>
+`add` equivalent to `a + b`<br>
+`sub` equivalent to `a - b`<br>
+`mul` equivalent to `a * b`<br>
+`div` equivalent to `a / b`<br>
+`mod` equivalent to `a % b`<br>
 `sqrt` equivalent to `sqrt(a)`
 
 ### Comparison
 
-`eq` equivalent to `a == b`,<br>
-`ne` equivalent to `a != b`,<br>
-`lt` equivalent to `a < b`,<br>
-`le` equivalent to `a <= b`,<br>
-`gt` equivalent to `a > b`,<br>
+`eq` equivalent to `a == b`<br>
+`ne` equivalent to `a != b`<br>
+`lt` equivalent to `a < b`<br>
+`le` equivalent to `a <= b`<br>
+`gt` equivalent to `a > b`<br>
 `ge` equivalent to `a >= b`
 
 ### Logic
 
-`not` equivalent to `!(a)`,<br>
-`and` equivalent to `a && b`,<br>
+`not` equivalent to `!(a)`<br>
+`and` equivalent to `a && b`<br>
 `or` equivalent to `a || b`
 
 ### Control Flow
@@ -103,31 +103,37 @@ Evaluation follows a call-by-expression model:
 
 Only the selected branch is evaluated.
 
+### Conversion
+
+`int` casts a real number to an integer<br>
+`bool` casts an expression to its boolean interpretation
+
 ### String
 
-`length` returns the element count,<br>
-`concat` joins two lists together,<br>
+`length` returns the element count<br>
+`concat` joins two lists together<br>
 `reverse` reverses the characters of the string
 
 ### List
 
-`length` returns the element count,<br>
-`head` returns the first element,<br>
-`tail` returns the list without the first element,<br>
-`concat` joins two lists together,<br>
-`list` generates (lazy) lists based on initial element and step, infinite if no element count is provided,<br>
+`length` returns the element count<br>
+`head` returns the first element<br>
+`tail` returns the list without the first element<br>
+`concat` joins two lists together<br>
+`list` generates (lazy) lists based on initial element and step, infinite if no element count is provided<br>
 `reverse` reverses the elements of the list
 
 ### Function Object
 
-Explained below:<br>
 `comp`<br>
 `then`
 
+These functions are explained in another section below
+
 ### I/O
 
-`input()` reads number from `stdin`,<br>
-`print(expr)` prints value and returns `1`
+`input()` reads an expression from `stdin`<br>
+`print(<exprs>)` prints the expressions to `stdout` and returns `1`
 
 ## Function Definitions
 
