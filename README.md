@@ -1,12 +1,12 @@
-# ListFunc Interpreter
+# Lip Interpreter
 
-ListFunc is a small functional programming language and interpreter implemented in C++, designed to explore core concepts of functional languages such as first-class functions, lazy evaluation, recursion, higher-order functions, and expression-based control flow.
+Lip is a small functional programming language and interpreter implemented in C++, designed to explore core concepts of functional languages such as first-class functions, lazy evaluation, recursion, higher-order functions, and expression-based control flow.
 
 The interpreter supports both interactive (REPL) execution and file-based execution, and the language is powerful enough to express non-trivial programs such as recursive algorithms, function composition, higher-order list processing, and user-defined control structures.
 
 ## Language Overview
 
-ListFunc is an expression-oriented, functional language with the following core characteristics:
+Lip is an expression-oriented, functional language with the following core characteristics:
 * Everything is evaluated as an expression
 * Functions are first-class values
 * Functions can be passed as arguments and returned as results
@@ -56,7 +56,7 @@ Evaluation follows a call-by-expression model:
 `mod` equivalent to `a % b`,<br>
 `sqrt` equivalent to `sqrt(a)`
 
-### Comparison and Logic
+### Comparison
 
 `eq` equivalent to `a == b`,<br>
 `ne` equivalent to `a != b`,<br>
@@ -64,6 +64,12 @@ Evaluation follows a call-by-expression model:
 `le` equivalent to `a <= b`,<br>
 `gt` equivalent to `a > b`,<br>
 `ge` equivalent to `a >= b`
+
+### Logic
+
+`not` equivalent to `!(a)`,<br>
+`and` equivalent to `a && b`,<br>
+`or` equivalent to `a || b`
 
 ### Control Flow
 
