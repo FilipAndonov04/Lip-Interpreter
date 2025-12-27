@@ -24,11 +24,13 @@ int main(int argc, const char** argv) {
 		while (std::getline(ifs, line)) {
 			inter.interpret(line);
 		}
+
+		return 0;
 	}
 
 	// load some prewritten functions
 	bool hasCacheFile = true;
-	const char* cacheFuncFile = "functions.txt";
+	const char* cacheFuncFile = "my-funcs.lip";
 	if (hasCacheFile) {
 		std::ifstream ifs(cacheFuncFile);
 		if (!ifs.is_open()) {

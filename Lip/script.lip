@@ -1,0 +1,13 @@
+def print1(1) = print($1)
+
+def do_inc(2) = if( lt($1, 1), 1, and( do_inc(sub($1, 1), $2) , $2($1)) )
+def do_dec(2) = if( lt($1, 1), 1, and( $2($1), do_dec(sub($1, 1), $2)) )
+
+// $1 = list, $2 = func
+def for_each(2) = if($1, and( $2(head($1)) , for_each(tail($1), $2) ) , 1)
+
+// $1 = list, $2 = func
+// ([1, 2, 3], sqr) -> [1, 4, 9]  [ $1($2) ]  append([], $2(head($1)))
+def map(2) = if ($1, concat(append([], $2(head($1))), map(tail($1), $2) ), [])
+
+def fac(1) = if(le(int($1), 0), 1, mul(int($1), fac(sub($1, 1))))

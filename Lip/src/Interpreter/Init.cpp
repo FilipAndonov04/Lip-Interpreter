@@ -30,6 +30,7 @@
 #include "Interpreter/EmbeddedFunctions/List/FuncHead.h"
 #include "Interpreter/EmbeddedFunctions/List/FuncTail.h"
 #include "Interpreter/EmbeddedFunctions/List/FuncList.h"
+#include "Interpreter/EmbeddedFunctions/List/FuncGenerate.h"
 
 #include "Interpreter/EmbeddedFunctions/StringAndList/FuncLength.h"
 #include "Interpreter/EmbeddedFunctions/StringAndList/FuncConcat.h"
@@ -91,6 +92,8 @@ Interpreter initInterpreter() {
 	env.addFunction(FuncList::NAME, std::make_unique<WrapperFunction<FuncList>>(3));
 	env.addFunction(FuncList::NAME, std::make_unique<WrapperFunction<FuncList>>(2));
 	env.addFunction(FuncList::NAME, std::make_unique<WrapperFunction<FuncList>>(1));
+	env.addFunction(FuncGenerate::NAME, std::make_unique<WrapperFunction<FuncGenerate>>(2));
+	env.addFunction(FuncGenerate::NAME, std::make_unique<WrapperFunction<FuncGenerate>>(3));
 
 	env.addFunction(FuncLength::NAME, std::make_unique<WrapperFunction<FuncLength>>(1));
 	env.addFunction(FuncConcat::NAME, std::make_unique<WrapperFunction<FuncConcat>>(2));
