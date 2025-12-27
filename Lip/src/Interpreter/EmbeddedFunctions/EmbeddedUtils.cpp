@@ -113,7 +113,7 @@ double compare(const Value& value1, const Value& value2) {
 
         const auto length = std::min(l1->length(), MAX_LIST_COMPARISON_LENGTH);
         for (size_t i = 0; i < length; i++) {
-            int cmp = compare(*l1->at(i), *l2->at(i));
+            double cmp = compare(*l1->at(i), *l2->at(i));
             if (cmp != 0) {
                 return cmp;
             }
