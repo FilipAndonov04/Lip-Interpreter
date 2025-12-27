@@ -33,4 +33,4 @@ FunctionObject* getFunctionObject(Value& value);
 bool toBool(const Value& value);
 std::string toString(const Value& value);
 
-int compare(const Value& value1, const Value& value2);
+double compare(const Value& value1, const Value& value2);

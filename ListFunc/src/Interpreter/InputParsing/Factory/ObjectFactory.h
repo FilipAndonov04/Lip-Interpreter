@@ -53,6 +53,10 @@ private:
 	std::unique_ptr<CompositeNode> createCompositeNode();
 
 	std::unique_ptr<Expression> createExpressionNoFuncCall();
+	std::unique_ptr<FunctionNode> createCompositeNodeFunc(const std::string& payload, 
+															  TokenType type,
+															  size_t argCount);
+	std::vector<std::unique_ptr<FunctionNode>> createCompositeNodeArgs();
 
 	size_t getCloseCircleBracketIndex(size_t index);
 

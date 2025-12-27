@@ -8,7 +8,7 @@ class Expression;
 class Value;
 
 struct FuncCompose {
-	static inline const std::string NAME{"compose"};
+	static inline const std::string NAME{"comp"};
 
 	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const;
 };

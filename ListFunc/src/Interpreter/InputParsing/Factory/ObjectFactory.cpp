@@ -244,34 +244,23 @@ std::unique_ptr<ExpressionNode> ObjectFactory::createExpressionNode() {
 }
 
 std::unique_ptr<CompositeNode> ObjectFactory::createCompositeNode() {
-    auto functionNode = createLeafNode();
-
-    assertIndex(index);
-    if (tokens[index++].type != TokenType::OpenCircleBracket) {
-        throw std::invalid_argument("function name must be followed by a circle bracket");
-    }
-
-    assertIndex(index);
-    if (tokens[index].type == TokenType::CloseCircleBracket) {
+    if (tokens[index].type == TokenType::Dolar) {
         index++;
-        return std::make_unique<CompositeNode>(std::move(functionNode));
     }
+    const auto& funcPayload = tokens[index].payload;
+    auto type = tokens[index++].type;
+    auto argNodes = createCompositeNodeArgs();
+    auto funcNode = createCompositeNodeFunc(funcPayload, type, argNodes.size());
 
-    std::vector<std::unique_ptr<FunctionNode>> argNodes;
-    argNodes.push_back(createFunctionNode());
+    auto compositeNode = std::make_unique<CompositeNode>(std::move(funcNode), 
+                                                         std::move(argNodes));
 
-    while (true) {
-        assertIndex(index);
-        if (tokens[index].type == TokenType::CloseCircleBracket) {
-            index++;
-            return std::make_unique<CompositeNode>(std::move(functionNode), std::move(argNodes));
-        }
-
-        if (tokens[index++].type != TokenType::Comma) {
-            throw std::invalid_argument("function arguments must be separated by comma");
-        }
-        argNodes.push_back(createFunctionNode());
+    while (index < tokens.size() && tokens[index].type == TokenType::OpenCircleBracket) {
+        argNodes = createCompositeNodeArgs();
+        compositeNode = std::make_unique<CompositeNode>(std::move(compositeNode), 
+                                                        std::move(argNodes));
     }
+    return compositeNode;
 }
 
 std::unique_ptr<Expression> ObjectFactory::createExpressionNoFuncCall() {
@@ -282,6 +271,59 @@ std::unique_ptr<Expression> ObjectFactory::createExpressionNoFuncCall() {
     }
 
     return createLiteral();
+}
+
+std::unique_ptr<FunctionNode> ObjectFactory::createCompositeNodeFunc(const std::string& payload,
+                                                                     TokenType type,
+                                                                     size_t argCount) {
+    if (type == TokenType::Number) {
+        size_t id = Utils::toSizeType(payload);
+        argIds.insert(id);
+        return ArgumentNode::of(id);
+    } else if (type == TokenType::Word) {
+        if (auto func = environment->getFunction(payload, argCount)) {
+            return ExpressionNode::of(ValueExpression::of(FunctionObject::of(func)));
+        } 
+
+        auto var = environment->getVariable(payload);
+        if (var && var->type() == ValueType::FunctionObject) {
+            return ExpressionNode::of(VariableExpression::of(var));
+        }
+
+        throw std::invalid_argument("undefined function in function body");
+    }
+
+    throw std::invalid_argument("invalid function body");
+}
+
+std::vector<std::unique_ptr<FunctionNode>> ObjectFactory::createCompositeNodeArgs() {
+    assertIndex(index);
+    if (tokens[index++].type != TokenType::OpenCircleBracket) {
+        throw std::invalid_argument("function name must be followed by a circle bracket");
+    }
+
+    std::vector<std::unique_ptr<FunctionNode>> argNodes;
+
+    assertIndex(index);
+    if (tokens[index].type == TokenType::CloseCircleBracket) {
+        index++;
+        return argNodes;
+    }
+
+    argNodes.push_back(createFunctionNode());
+
+    while (true) {
+        assertIndex(index);
+        if (tokens[index].type == TokenType::CloseCircleBracket) {
+            index++;
+            return argNodes;
+        }
+
+        if (tokens[index++].type != TokenType::Comma) {
+            throw std::invalid_argument("function arguments must be separated by comma");
+        }
+        argNodes.push_back(createFunctionNode());
+    }
 }
 
 size_t ObjectFactory::getCloseCircleBracketIndex(size_t index) {

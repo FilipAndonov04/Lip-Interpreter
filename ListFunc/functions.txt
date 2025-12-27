@@ -6,9 +6,14 @@ fac(4)
 fac(5)
 
 // does $2 $1 times
-def do_n_times(2) = if(lt($1, 1), 1, and(do_n_times(sub($1, 1), $2), $2()))
+def do_inc(2) = if(lt($1, 1), 1, and(do_inc(sub($1, 1), $2), $2($1)))
+def do_dec(2) = if(lt($1, 1), 1, and($2($1), do_dec(sub($1, 1), $2)))
 
 const pi = 3.1415
 
 def inc(1) = add($1, 1)
 def sqr(1) = mul($1, $1)
+
+def print1(1) = print($1)
+
+def for_each(2) = if($1, and($2(head($1)), for_each(tail($1), $2)), 1)

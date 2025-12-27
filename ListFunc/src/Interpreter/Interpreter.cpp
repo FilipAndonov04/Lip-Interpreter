@@ -235,7 +235,7 @@ void Interpreter::evaluateExpression(std::vector<Token>&& tokens) const {
     auto res = expr->evaluate();
 
     //std::cout << res->toString() << " <- " << expr->toString() << '\n';
-    std::cout << res->toString() << '\n';
+    std::cout << "res = " << res->toString() << '\n';
 }
 
 bool Interpreter::isValidFunctionDefinition(const std::vector<Token>& tokens) const {

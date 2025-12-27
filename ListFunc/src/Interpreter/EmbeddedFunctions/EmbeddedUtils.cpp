@@ -69,7 +69,7 @@ bool toBool(const Value& value) {
     } else if (auto list = getList(value)) {
         return !list->isEmpty();
     } else if (auto func = getFunctionObject(value)) {
-        return true;
+        throw std::invalid_argument("functions are not convertable to bool");
     }
 
     return false;
@@ -79,9 +79,14 @@ std::string toString(const Value& value) {
     return value.toString();
 }
 
-int compare(const Value& value1, const Value& value2) {
+double compare(const Value& value1, const Value& value2) {
+    if (value1.type() == ValueType::FunctionObject ||
+        value2.type() == ValueType::FunctionObject) {
+        throw std::invalid_argument("functions cannot be compared");
+    }
+
     if (value1.type() != value2.type()) {
-        throw std::invalid_argument("non-comparable types");
+        throw std::invalid_argument("comparing non-comparable types");
     }
 
     auto n1 = getNumber(value1);
@@ -90,7 +95,7 @@ int compare(const Value& value1, const Value& value2) {
         if (std::abs(n1->getValue() - n2->getValue()) < EPSILON) {
             return 0;
         }
-        return static_cast<int>(n1->getValue() - n2->getValue());
+        return n1->getValue() - n2->getValue();
     }
 
     auto s1 = getString(value1);
@@ -103,7 +108,7 @@ int compare(const Value& value1, const Value& value2) {
     if (l1) {
         auto l2 = getList(value2);
         if (l1->length() != l2->length()) {
-            return static_cast<int>(l1->length() - l2->length());
+            return l1->length() - l2->length();
         }
 
         const auto length = std::min(l1->length(), MAX_LIST_COMPARISON_LENGTH);
@@ -116,5 +121,5 @@ int compare(const Value& value1, const Value& value2) {
         return 0;
     }
 
-    throw std::invalid_argument("non-comparable types");
+    throw std::invalid_argument("comparing non-comparable types");
 }
