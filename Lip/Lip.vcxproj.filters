@@ -177,7 +177,7 @@
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Function\FuncCompose.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Function\FuncThen.cpp">
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\Function\FuncAndThen.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Interpreter\Init.cpp">
@@ -383,7 +383,7 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Function\FuncCompose.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Function\FuncThen.h">
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\Function\FuncAndThen.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Interpreter\Init.h">

@@ -38,7 +38,7 @@
 #include "Interpreter/EmbeddedFunctions/StringAndList/FuncAppend.h"
 
 #include "Interpreter/EmbeddedFunctions/Function/FuncCompose.h"
-#include "Interpreter/EmbeddedFunctions/Function/FuncThen.h"
+#include "Interpreter/EmbeddedFunctions/Function/FuncAndThen.h"
 
 #include "Function/Wrapper/WrapperFunction.hpp"
 
@@ -101,7 +101,7 @@ Interpreter initInterpreter() {
 	env.addFunction(FuncAppend::NAME, std::make_unique<WrapperFunction<FuncAppend>>(2));
 
 	env.addFunction(FuncCompose::NAME, std::make_unique<WrapperFunction<FuncCompose>>(2));
-	env.addFunction(FuncThen::NAME, std::make_unique<WrapperFunction<FuncThen>>(2));
+	env.addFunction(FuncAndThen::NAME, std::make_unique<WrapperFunction<FuncAndThen>>(2));
 
 	// extra work
 	env.addFunction("work", std::make_unique<WrapperFunction<Worker>>(0));
