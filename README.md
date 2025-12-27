@@ -23,6 +23,13 @@ Lip is an expression-oriented, functional language with the following core chara
 Used for arithmetic, comparisons, and boolean-like conditions<br>
 `0` is treated as `false`, non-zero as `true`
 
+### Strings
+
+Strings can be written using single or double quotes: `'abc'`, `"hello world"`
+
+Both quote styles are equivalent<br>
+Strings may contain spaces<br>
+
 ### Lists
 
 Lists may contain expressions, not just values
@@ -33,6 +40,25 @@ Literal lists:<br>
 Supports infinite lazy lists via generators
 
 Lists are evaluate to `false` if empty, `true` otherwise
+
+### Function Objects
+
+In Lip, functions are first-class values.<br>
+This means functions can be:<br>
+* stored in variables
+* passed as arguments to other functions
+* returned as results
+* called dynamically via expressions
+
+A function object represents a callable value together with its defining environment.
+
+A function name evaluates to a function object, not a call.
+```
+def inc(1) = add($1, 1)
+
+let f = inc
+f(10) -> 11
+```
 
 ## Expressions and Evaluation
 
@@ -77,13 +103,26 @@ Evaluation follows a call-by-expression model:
 
 Only the selected branch is evaluated.
 
-### Lists
+### String
 
-`length` returns the element count,
-`head` returns the first element,
-`tail` returns the list without the first element,
-`concat` joins two lists together,
-`list` generates (lazy) lists based on initial element and step, infinite if no element count is provided
+`length` returns the element count,<br>
+`concat` joins two lists together,<br>
+`reverse` reverses the characters of the string
+
+### List
+
+`length` returns the element count,<br>
+`head` returns the first element,<br>
+`tail` returns the list without the first element,<br>
+`concat` joins two lists together,<br>
+`list` generates (lazy) lists based on initial element and step, infinite if no element count is provided,<br>
+`reverse` reverses the elements of the list
+
+### Function Object
+
+Explained below:<br>
+`comp`<br>
+`then`
 
 ### I/O
 
@@ -152,6 +191,16 @@ Example:
 ```
 def call(2) = $1($2)
 call(fac, 4) -> 24
+```
+
+## Functions Returning Functions
+
+Functions may return other functions
+```
+def ref(1) = $1
+
+ref(add)(3, 4) -> 7
+ref(ref(add))(3, 4) -> 7
 ```
 
 ## Function Composition
