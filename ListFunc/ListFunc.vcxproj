@@ -175,6 +175,7 @@
     <ClCompile Include="src\Function\Graph\Node\Composite\CompositeNode.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Leaf\Expression\ExpressionNode.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncReverse.cpp" />
+    <ClCompile Include="src\Interpreter\Init.cpp" />
     <ClCompile Include="src\Interpreter\Interpreter.cpp" />
     <ClCompile Include="src\Interpreter\InputParsing\Tokenizer\Tokenizer.cpp" />
     <ClCompile Include="src\Interpreter\InputParsing\Factory\ObjectFactory.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="src\Interpreter\Interpreter.h" />
     <ClInclude Include="src\Interpreter\InputParsing\Tokenizer\Tokenizer.h" />
     <ClInclude Include="src\Interpreter\Environment\Environment.h" />
+    <ClInclude Include="src\Interpreter\Init.h" />
     <ClInclude Include="src\Utils\CharUtils.h" />
     <ClInclude Include="src\Utils\StringUtils.h" />
     <ClInclude Include="src\Value\FunctionObject\FunctionObject.h" />

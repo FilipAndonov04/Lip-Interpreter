@@ -5,7 +5,7 @@ lt a < b
 
 (*) derived
 def my_not(1) = if($1, 0, 1)
-def my_add(2) = if($1, $2, 0)
+def my_and(2) = if($1, $2, 0)
 def my_or(2) = if($1, 1, $2)
 
 def my_bool(1) = if($1, 1, 0)
@@ -14,4 +14,4 @@ def my_add(2) = sub($1, sub(0, $2))
 
 def my_eq(2) = if(sub($1, $2), 0, 1)
 def my_ne(2) = if(sub($1, $2), 1, 0)
-def my_le(2) = if(le($1, $2), 1, my_eq($1, $2))
+def my_le(2) = if(lt($1, $2), 1, my_eq($1, $2))

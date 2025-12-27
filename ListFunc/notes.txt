@@ -1,5 +1,4 @@
-(*) implement arguments as functions via CompositeArgumentNode $1(...)
-(*) add embedded functions for function objects
+(*) write readme.md
 
 (*) add command line args parsing
 (*) add file work mode
@@ -9,12 +8,9 @@
 (*) add warnings
 (*) add check for undef of embedded function
 
-(*) replace LazyList elements with vector instead of unq_ptr to List
+(*) stop infinite recursion
 
 (*) clean up Environment
-
-(*) add value wrapper
-
 (*) clean up function 
 (*) clean up embedded functions
 (*) clean up interpreter
@@ -23,12 +19,14 @@
 
 (*) more efficient environment states
 
+(*) replace LazyList elements with vector instead of unq_ptr to List
+
+(*) add value wrapper
+
 (*) add more Function metadata (description)
+(*) more embedded functions (read/write to file, functionObjects, strings, lists, multi threading, ...)
 
-(*) more embedded functions (read/write, multi threading, ...)
 (*) different embedded functions based on difficulty
-
-(*) write readme.md
 
 (?) replace FunctionData shr_ptr with unq_ptr
 
