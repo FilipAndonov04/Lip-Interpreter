@@ -43,7 +43,7 @@ Lists are evaluate to `false` if empty, `true` otherwise
 
 ### Function Objects
 
-In Lip, functions are first-class values.<br>
+In Lip, functions are first-class values<br>
 This means functions can be:<br>
 * stored in variables
 * passed as arguments to other functions
@@ -227,7 +227,7 @@ then(inc, sqr)(3) -> 16
 
 ## Higher-Order Functions
 
-Functions may accept other functions as arguments and apply them dynamically.
+Functions may accept other functions as arguments and apply them dynamically
 
 Example: higher-order recursion
 ```
