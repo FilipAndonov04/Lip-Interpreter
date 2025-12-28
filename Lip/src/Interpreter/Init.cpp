@@ -77,7 +77,7 @@ Interpreter initInterpreter() {
 	env.addFunction(FuncIf::NAME, std::make_unique<WrapperFunction<FuncIf>>(3));
 
 	env.addFunction(FuncInt::NAME, std::make_unique<WrapperFunction<FuncInt>>(1));
-	env.addFunction(FuncInt::NAME, std::make_unique<WrapperFunction<FuncBool>>(1));
+	env.addFunction(FuncBool::NAME, std::make_unique<WrapperFunction<FuncBool>>(1));
 
 	env.addFunction(FuncInput::NAME, std::make_unique<WrapperFunction<FuncInput>>(0, FuncInput{inter}));
 	env.addFunction(FuncPrint::NAME, std::make_unique<WrapperFunction<FuncPrint>>(0));

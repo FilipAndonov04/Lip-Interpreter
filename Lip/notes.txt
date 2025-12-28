@@ -1,8 +1,14 @@
-(*) write readme.md
-
 (*) add command line args parsing
 (*) add file work mode
-(*) add saving function to file and loading them from file
+
+(*) more embedded functions (
+		read/write to file,
+		functionObjects,
+		strings,
+		lists,
+		multi threading,
+		networking
+	)
 
 (*) add help command
 (*) add warnings
@@ -10,24 +16,26 @@
 
 (*) stop infinite recursion
 
+(*) formalize language grammer
+
 (*) clean up Environment
-(*) clean up function 
+(*) add more Function metadata (description)
+(*) clean up Function
 (*) clean up embedded functions
 (*) clean up interpreter
 (*) enhance List interface
 (*) clean up List class
+(*) replace LazyList elements with vector instead of unq_ptr to List
+
+(*) add saving function to file and loading them from file
 
 (*) more efficient environment states
 
-(*) replace LazyList elements with vector instead of unq_ptr to List
-
 (*) add value wrapper
-
-(*) add more Function metadata (description)
-(*) more embedded functions (read/write to file, functionObjects, strings, lists, multi threading, ...)
-
 (*) different embedded functions based on difficulty
 
 (?) replace FunctionData shr_ptr with unq_ptr
 
 (?) prefix embedded functions with emb_
+
+(?) move Utils into static library

@@ -13,9 +13,17 @@ const pi = 3.1415
 
 def inc(1) = add($1, 1)
 def sqr(1) = mul($1, $1)
+def is_even(1) = eq(mod($1, 2), 0)
 
 def print1(1) = print($1)
 
 def for_each(2) = if($1, and($2(head($1)), for_each(tail($1), $2)), 1)
 
 def map(2) = if($1, concat(append([], $2(head($1))), map(tail($1), $2)), [])
+
+def filter(2) = if($1, concat( if( $2(head($1)), append([], head($1)), [] ), filter(tail($1), $2) ), [])
+
+def x_and_f_of_x(2) = append(append([], $1), $2($1))
+
+// init, cond, step, body
+def while(4) = if($2($1), and($4($1), while($3($1), $2, $3, $4)), 1)
