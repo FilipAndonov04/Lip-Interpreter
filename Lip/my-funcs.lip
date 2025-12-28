@@ -5,9 +5,6 @@ fac(3)
 fac(4)
 fac(5)
 
-// does $2 $1 times
-def do_inc(2) = if(lt($1, 1), 1, and(do_inc(sub($1, 1), $2), $2($1)))
-def do_dec(2) = if(lt($1, 1), 1, and($2($1), do_dec(sub($1, 1), $2)))
 
 const pi = 3.1415
 
@@ -17,13 +14,22 @@ def is_even(1) = eq(mod($1, 2), 0)
 
 def print1(1) = print($1)
 
+def x_and_f_of_x(2) = append(append([], $1), $2($1))
+
+// num, func -> func(1), func(2), ..., func(num)
+def do_inc(2) = if(lt($1, 1), 1, and(do_inc(sub($1, 1), $2), $2($1)))
+
+// num, func -> func(num), func(num - 1), ..., func(1)
+def do_dec(2) = if(lt($1, 1), 1, and($2($1), do_dec(sub($1, 1), $2)))
+
+// list, func
 def for_each(2) = if($1, and($2(head($1)), for_each(tail($1), $2)), 1)
 
+// list, trans
 def map(2) = if($1, concat(append([], $2(head($1))), map(tail($1), $2)), [])
 
-def filter(2) = if($1, concat( if( $2(head($1)), append([], head($1)), [] ), filter(tail($1), $2) ), [])
-
-def x_and_f_of_x(2) = append(append([], $1), $2($1))
+// list, cond
+def filter(2) = if($1, concat(if($2(head($1)), append([],head($1)), []), filter(tail($1), $2)), [])
 
 // init, cond, step, body
 def while(4) = if($2($1), and($4($1), while($3($1), $2, $3, $4)), 1)
