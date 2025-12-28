@@ -50,9 +50,9 @@ This means functions can be:<br>
 * returned as results
 * called dynamically via expressions
 
-A function object represents a callable value together with its defining environment.
+A function object represents a callable value together with its defining environment
 
-A function name evaluates to a function object, not a call.
+A function name evaluates to a function object, not a call
 ```
 def inc(1) = add($1, 1)
 
@@ -101,7 +101,7 @@ Evaluation follows a call-by-expression model:
 
 `if(condition, thenExpr, elseExpr)`
 
-Only the selected branch is evaluated.
+Only the selected branch is evaluated
 
 ### Conversion
 
@@ -248,24 +248,25 @@ Applies a function to every number from `1` to `$1` in increasing order (from `1
 
 `let a = 10`
 
+Once a variable is created, it cannot be reassigned
+
 ### Shadowing (no mutation)
 
 `let a = 5`
 
-Creates a new binding that shadows the old one.
+Creates a new binding that shadows the old one
 
 ### Constants
 
 `const pi = 3.1415`
 
-Cannot be reassigned<br>
-Cannot be shadowed or removed (by design)
+Cannot be shadowed or removed
 
 ### Variable removal
 
 `rm a`
 
-Removes the binding of a variable.
+Removes the binding of a variable
 
 ## Environments and Scoping
 
@@ -295,7 +296,8 @@ Separate hierarchies for:
 * Values
 * Functions
 
-Supports lazy lists with caching<br>
+Supports lazy lists with caching
+
 Recursion implemented via environment chaining<br>
 
 ## Goals of the Project
@@ -306,7 +308,7 @@ This project was created to:
 * explore first-class functions and closures
 * design a minimal but expressive interpreter
 
-It is not intended to be fast or production-ready, but to be correct, expressive, and educational.
+It is not intended to be fast or production-ready, but to be correct, expressive, and educational
 
 ## Future Extensions
 
