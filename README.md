@@ -28,7 +28,7 @@ Used for arithmetic, comparisons, and boolean-like conditions<br>
 Strings can be written using single or double quotes: `'abc'`, `"hello world"`
 
 Both quote styles are equivalent<br>
-Strings may contain spaces<br>
+Strings may contain spaces
 
 ### Lists
 
@@ -62,9 +62,9 @@ f(10) -> 11
 
 ## Expressions and Evaluation
 
-The language distinguishes between:<br>
-Expressions — syntax trees that can be evaluated<br>
-Values — results of evaluation (numbers, strings, lists, functions)<br>
+The language distinguishes between:
+* Expressions - syntax trees that can be evaluated
+* Values - results of evaluation (numbers, strings, lists, functions)
 
 Evaluation follows a call-by-expression model:
 * Function arguments are passed as expressions
@@ -216,7 +216,7 @@ The language includes function combinators:
 `comp(f, g)(x)` does f(g(x))<br>
 `then(f, g)(x)` does g(f(x))
 
-Example:<br>
+Example:
 ```
 def inc(1) = add($1, 1)
 def sqr(1) = mul($1, $1)
@@ -230,17 +230,15 @@ then(inc, sqr)(3) -> 16
 Functions may accept other functions as arguments and apply them dynamically
 
 Example: higher-order recursion
+
+for_each applies a function to every element of a list, supporting lazy and infinite lists
 ```
 def for_each(2) = if($1, and($2(head($1)), for_each(tail($1), $2)), 1)
 ```
-
-Applies a function to every element of a list, supporting lazy and infinite lists<br>
-
+do_inc applies a function to every number from `1` to `$1` in increasing order (from `1` to `$1`)
 ```
 def do_inc(2) = if(lt($1, 1), 1, and(do_inc(sub($1, 1), $2), $2($1)))
 ```
-
-Applies a function to every number from `1` to `$1` in increasing order (from `1` to `$1`)
 
 ## Variables and Bindings
 
@@ -258,9 +256,9 @@ Creates a new binding that shadows the old one
 
 ### Constants
 
-`const pi = 3.1415`
+`const PI = 3.1415`
 
-Cannot be shadowed or removed
+Variable that cannot be shadowed or removed
 
 ### Variable removal
 
@@ -272,7 +270,7 @@ Removes the binding of a variable
 
 The language uses lexical (static) scoping<br>
 Environments are immutable and chained<br>
-Function closures capture the environment they were defined in<br>
+Function closures capture the environment they were defined in
 
 ## Comments
 
