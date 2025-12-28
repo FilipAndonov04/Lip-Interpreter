@@ -281,7 +281,7 @@ Single-line comments are supported:
 // this is a comment
 ```
 
-### Execution Modes
+## Execution Modes
 
 REPL mode — evaluate expressions interactively<br>
 File mode — execute a file and print results
