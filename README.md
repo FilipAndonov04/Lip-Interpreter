@@ -28,7 +28,7 @@ Used for arithmetic, comparisons, and boolean-like conditions<br>
 Strings can be written using single or double quotes: `'abc'`, `"hello world"`
 
 Both quote styles are equivalent<br>
-Strings may contain spaces<br>
+Strings may contain spaces
 
 ### Lists
 
@@ -43,16 +43,16 @@ Lists are evaluate to `false` if empty, `true` otherwise
 
 ### Function Objects
 
-In Lip, functions are first-class values.<br>
+In Lip, functions are first-class values<br>
 This means functions can be:<br>
 * stored in variables
 * passed as arguments to other functions
 * returned as results
 * called dynamically via expressions
 
-A function object represents a callable value together with its defining environment.
+A function object represents a callable value together with its defining environment
 
-A function name evaluates to a function object, not a call.
+A function name evaluates to a function object, not a call
 ```
 def inc(1) = add($1, 1)
 
@@ -62,9 +62,9 @@ f(10) -> 11
 
 ## Expressions and Evaluation
 
-The language distinguishes between:<br>
-Expressions — syntax trees that can be evaluated<br>
-Values — results of evaluation (numbers, strings, lists, functions)<br>
+The language distinguishes between:
+* Expressions - syntax trees that can be evaluated
+* Values - results of evaluation (numbers, strings, lists, functions)
 
 Evaluation follows a call-by-expression model:
 * Function arguments are passed as expressions
@@ -101,7 +101,7 @@ Evaluation follows a call-by-expression model:
 
 `if(condition, thenExpr, elseExpr)`
 
-Only the selected branch is evaluated.
+Only the selected branch is evaluated
 
 ### Conversion
 
@@ -216,7 +216,7 @@ The language includes function combinators:
 `comp(f, g)(x)` does f(g(x))<br>
 `then(f, g)(x)` does g(f(x))
 
-Example:<br>
+Example:
 ```
 def inc(1) = add($1, 1)
 def sqr(1) = mul($1, $1)
@@ -227,20 +227,18 @@ then(inc, sqr)(3) -> 16
 
 ## Higher-Order Functions
 
-Functions may accept other functions as arguments and apply them dynamically.
+Functions may accept other functions as arguments and apply them dynamically
 
 Example: higher-order recursion
+
+for_each applies a function to every element of a list, supporting lazy and infinite lists
 ```
 def for_each(2) = if($1, and($2(head($1)), for_each(tail($1), $2)), 1)
 ```
-
-Applies a function to every element of a list, supporting lazy and infinite lists<br>
-
+do_inc applies a function to every number from `1` to `$1` in increasing order (from `1` to `$1`)
 ```
 def do_inc(2) = if(lt($1, 1), 1, and(do_inc(sub($1, 1), $2), $2($1)))
 ```
-
-Applies a function to every number from `1` to `$1` in increasing order (from `1` to `$1`)
 
 ## Variables and Bindings
 
@@ -248,30 +246,31 @@ Applies a function to every number from `1` to `$1` in increasing order (from `1
 
 `let a = 10`
 
+Once a variable is created, it cannot be reassigned
+
 ### Shadowing (no mutation)
 
 `let a = 5`
 
-Creates a new binding that shadows the old one.
+Creates a new binding that shadows the old one
 
 ### Constants
 
-`const pi = 3.1415`
+`const PI = 3.1415`
 
-Cannot be reassigned<br>
-Cannot be shadowed or removed (by design)
+Variable that cannot be shadowed or removed
 
 ### Variable removal
 
 `rm a`
 
-Removes the binding of a variable.
+Removes the binding of a variable
 
 ## Environments and Scoping
 
 The language uses lexical (static) scoping<br>
 Environments are immutable and chained<br>
-Function closures capture the environment they were defined in<br>
+Function closures capture the environment they were defined in
 
 ## Comments
 
@@ -280,7 +279,7 @@ Single-line comments are supported:
 // this is a comment
 ```
 
-### Execution Modes
+## Execution Modes
 
 REPL mode — evaluate expressions interactively<br>
 File mode — execute a file and print results
@@ -295,7 +294,8 @@ Separate hierarchies for:
 * Values
 * Functions
 
-Supports lazy lists with caching<br>
+Supports lazy lists with caching
+
 Recursion implemented via environment chaining<br>
 
 ## Goals of the Project
@@ -306,7 +306,7 @@ This project was created to:
 * explore first-class functions and closures
 * design a minimal but expressive interpreter
 
-It is not intended to be fast or production-ready, but to be correct, expressive, and educational.
+It is not intended to be fast or production-ready, but to be correct, expressive, and educational
 
 ## Future Extensions
 
