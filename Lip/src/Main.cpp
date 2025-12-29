@@ -29,7 +29,7 @@ int main(int argc, const char** argv) {
 	}
 
 	// load some prewritten functions
-	bool hasCacheFile = true;
+	const bool hasCacheFile = false;
 	const char* cacheFuncFile = "my-funcs.lip";
 	if (hasCacheFile) {
 		std::ifstream ifs(cacheFuncFile);
