@@ -1,11 +1,7 @@
 (*) add command line args parsing
 (*) add file work mode
 
-(*) change FunctionObject to use FunctionData instead of Function
-(*) add vararg functions
-
-(*) change LazyList to use FunctionObject instead of Function
-(*) replace LazyList elements with vector instead of unq_ptr to List
+(*) make string understand special characters
 
 (*) add Future Value
 (*) add Socket Value

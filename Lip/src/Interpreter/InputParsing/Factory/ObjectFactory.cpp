@@ -40,7 +40,7 @@ std::unique_ptr<Expression> ObjectFactory::createExpression() {
 std::shared_ptr<FunctionData> ObjectFactory::createFunction(const std::string& name, uint8_t argCount) {
     argIds.clear();
 
-    auto func = std::make_shared<FunctionData>(nullptr, false, argCount, false);
+    auto func = std::make_shared<FunctionData>(nullptr, true, argCount, false);
     if (!environment->addFunction(name, func)) {
         throw std::invalid_argument("adding function failed");
     }

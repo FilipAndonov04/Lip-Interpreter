@@ -41,7 +41,7 @@ struct isFunctionContained {
 		: argCount(argCount) {}
 
 	bool operator()(const std::shared_ptr<const FunctionData>& fd) const {
-		return fd->hasArgCount || fd->argCount == argCount;
+		return !fd->hasArgCount || fd->argCount == argCount;
 	}
 };
 
