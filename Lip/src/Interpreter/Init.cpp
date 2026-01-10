@@ -29,6 +29,7 @@
 
 #include "Interpreter/EmbeddedFunctions/InputOutput/FuncInput.h"
 #include "Interpreter/EmbeddedFunctions/InputOutput/FuncPrint.h"
+#include "Interpreter/EmbeddedFunctions/InputOutput/FuncRead.h"
 
 #include "Interpreter/EmbeddedFunctions/List/FuncHead.h"
 #include "Interpreter/EmbeddedFunctions/List/FuncTail.h"
@@ -133,6 +134,7 @@ void initInputOutputModule(Interpreter& interpreter) {
 
 	env.addFunction(FuncInput::NAME, makeEmbeddedFunction<FuncInput>(FuncInput{interpreter}, true, 0));
 	env.addFunction(FuncPrint::NAME, makeEmbeddedFunction<FuncPrint>(false, 0));
+	env.addFunction(FuncRead::NAME, makeEmbeddedFunction<FuncRead>(true, 1));
 }
 
 template<typename EmbFunc>

@@ -155,6 +155,7 @@
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\Function\FuncPipe.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.cpp" />
+    <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncRead.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\List\FuncGenerate.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncAppend.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncConcat.cpp" />
@@ -219,6 +220,7 @@
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\Function\FuncPipe.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncPrint.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncInput.h" />
+    <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncRead.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\List\FuncGenerate.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncAppend.h" />
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncConcat.h" />
