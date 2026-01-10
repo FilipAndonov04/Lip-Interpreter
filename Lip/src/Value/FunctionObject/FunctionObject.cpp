@@ -4,12 +4,18 @@
 #include "Expression/Value/ValueExpression.h"
 
 #include <stdexcept>
+#include <algorithm>
+#include <iterator>
 
 FunctionObject::FunctionObject(const FunctionData* function) 
     : functions{function} {}
 
 FunctionObject::FunctionObject(std::vector<const FunctionData*> functions) 
     : functions(std::move(functions)) {}
+
+FunctionObject::FunctionObject(std::vector<const FunctionData*> functions, 
+                               std::vector<std::unique_ptr<Expression>> curryArgs)
+    : functions(std::move(functions)), curryArgs(std::move(curryArgs)) {}
 
 ValueType FunctionObject::type() const {
     return ValueType::FunctionObject;
@@ -20,7 +26,14 @@ std::unique_ptr<Value> FunctionObject::cloneValue() const {
 }
 
 std::unique_ptr<FunctionObject> FunctionObject::cloneFunctionObject() const {
-    return std::make_unique<FunctionObject>(functions);
+    std::vector<std::unique_ptr<Expression>> curryArgsClones;
+    curryArgsClones.reserve(curryArgs.size());
+
+    for (const auto& arg : curryArgs) {
+        curryArgsClones.push_back(arg->clone());
+    }
+
+    return std::make_unique<FunctionObject>(functions, std::move(curryArgsClones));
 }
 
 std::string FunctionObject::toString() const {
@@ -28,7 +41,14 @@ std::string FunctionObject::toString() const {
 }
 
 std::unique_ptr<Value> FunctionObject::call(const std::vector<const Expression*>& args) const {
-    auto res = functions[0]->function->call(args);
+    std::vector<const Expression*> allArgs;
+    allArgs.reserve(curryArgs.size() + args.size());
+
+    std::transform(curryArgs.begin(), curryArgs.end(), std::back_inserter(allArgs),
+                   [](const std::unique_ptr<Expression>& expr) { return expr.get(); });
+    std::copy(args.begin(), args.end(), std::back_inserter(allArgs));
+
+    auto res = functions[0]->function->call(allArgs);
     if (functions.size() == 1) {
         return res;
     }
@@ -65,6 +85,10 @@ void FunctionObject::pushBackFunction(const FunctionData* function) {
 
 void FunctionObject::pushFrontFunction(const FunctionData* function) {
     insertFunction(0, function);
+}
+
+void FunctionObject::pushBackArg(std::unique_ptr<Expression>&& arg) {
+    curryArgs.push_back(std::move(arg));
 }
 
 std::unique_ptr<FunctionObject> FunctionObject::of(const FunctionData* function) {

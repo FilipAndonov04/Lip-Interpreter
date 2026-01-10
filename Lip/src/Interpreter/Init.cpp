@@ -41,6 +41,7 @@
 
 #include "Interpreter/EmbeddedFunctions/Function/FuncCompose.h"
 #include "Interpreter/EmbeddedFunctions/Function/FuncPipe.h"
+#include "Interpreter/EmbeddedFunctions/Function/FuncCurry.h"
 
 #include "Function/Wrapper/WrapperFunction.hpp"
 
@@ -98,6 +99,7 @@ void initInterpreter(Interpreter& interpreter) {
 
 	env.addFunction(FuncCompose::NAME, std::make_shared<FunctionData>(std::make_unique<WrapperFunction<FuncCompose>>(), true, 0, true));
 	env.addFunction(FuncPipe::NAME, std::make_shared<FunctionData>(std::make_unique<WrapperFunction<FuncPipe>>(), true, 0, true));
+	env.addFunction(FuncCurry::NAME, std::make_shared<FunctionData>(std::make_unique<WrapperFunction<FuncCurry>>(), true, 0, true));
 
 	// extra work
 	env.addFunction("work", std::make_shared<FunctionData>(std::make_unique<WrapperFunction<Worker>>(), false, 0, true));

@@ -1,15 +1,17 @@
 #pragma once
 #include "Value/Value.h"
+#include "Expression/Expression.h"
 
 #include <vector>
 
 struct FunctionData;
-class Expression;
 
 class FunctionObject final : public Value {
 public:
 	explicit FunctionObject(const FunctionData* function);
 	explicit FunctionObject(std::vector<const FunctionData*> functions);
+	FunctionObject(std::vector<const FunctionData*> functions,
+				   std::vector<std::unique_ptr<Expression>> curryArgs);
 
 	ValueType type() const override;
 
@@ -27,9 +29,12 @@ public:
 	void pushBackFunction(const FunctionData* function);
 	void pushFrontFunction(const FunctionData* function);
 
+	void pushBackArg(std::unique_ptr<Expression>&& arg);
+
 public:
 	static std::unique_ptr<FunctionObject> of(const FunctionData* function);
 
 private:
 	std::vector<const FunctionData*> functions;
+	std::vector<std::unique_ptr<Expression>> curryArgs;
 };
