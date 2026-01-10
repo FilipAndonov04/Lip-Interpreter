@@ -123,7 +123,32 @@ std::unique_ptr<StringLiteral> ObjectFactory::createStringLiteral() {
         throw std::invalid_argument("invalid string token");
     }
 
-    std::string string = std::move(tokens[index++].payload);
+    std::string string;
+    for (size_t i = 0; i < tokens[index].payload.length(); i++) {
+        if (tokens[index].payload[i] != '\\') {
+            string.push_back(tokens[index].payload[i]);
+            continue;
+        }
+
+        if (i == tokens[index].payload.length() - 1) {
+            throw std::invalid_argument("\\ is a special symbol and cannot be used alone");
+        }
+
+        switch (tokens[index].payload[++i]) {
+        case '\\':
+            string.push_back('\\');
+            break;
+        case 'n':
+            string.push_back('\n');
+            break;
+        case 't':
+            string.push_back('\t');
+            break;
+        default:
+            throw std::invalid_argument("invalid escape character");
+        }
+    }
+    index++;
 
     assertIndex(index);
     if (tokens[index++].type != quoteType) {
