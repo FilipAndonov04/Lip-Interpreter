@@ -5,9 +5,6 @@
 #include "Value/String/String.h"
 
 #include <fstream>
-#include <iostream>
-
-int counter = 0;
 
 std::unique_ptr<Value> FuncRead::operator()(const std::vector<const Expression*>& args) const {
 	assertArgCount(1, args.size(), NAME);
@@ -15,7 +12,7 @@ std::unique_ptr<Value> FuncRead::operator()(const std::vector<const Expression*>
 	auto val = args[0]->evaluate();
 	auto filename = getString(*val);
 	if (!filename) {
-		throw std::invalid_argument(NAME + " takes a string as an argument");
+		throw std::invalid_argument(NAME + " takes a filename as an argument");
 	}
 
 	auto lines = std::make_unique<ConcreteList>();
@@ -29,8 +26,6 @@ std::unique_ptr<Value> FuncRead::operator()(const std::vector<const Expression*>
 	while (std::getline(ifs, line)) {
 		lines->pushBack(String::of(std::move(line)));
 	}
-
-	std::cout << "read file " << ++counter << " times\n";
 
 	return lines;
 }
