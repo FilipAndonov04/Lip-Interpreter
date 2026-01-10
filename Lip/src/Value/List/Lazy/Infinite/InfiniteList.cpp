@@ -8,7 +8,7 @@ InfiniteList::InfiniteList(std::unique_ptr<Expression>&& initialElement,
                            std::unique_ptr<FunctionObject>&& step)
     : LazyList(std::move(initialElement), std::move(step)) {}
 
-InfiniteList::InfiniteList(std::unique_ptr<List>&& cachedElements, 
+InfiniteList::InfiniteList(std::vector<std::unique_ptr<Value>>&& cachedElements,
                            std::unique_ptr<FunctionObject>&& step)
     : LazyList(std::move(cachedElements), std::move(step)) {}
 
@@ -19,7 +19,7 @@ size_t InfiniteList::length() const {
 
 std::unique_ptr<Value> InfiniteList::at(size_t index) const {
     cacheElement(index);
-    return cachedElements->at(index);
+    return cachedElements[index]->cloneValue();
 }
 
 std::unique_ptr<Value> InfiniteList::back() const {
@@ -28,12 +28,12 @@ std::unique_ptr<Value> InfiniteList::back() const {
 
 void InfiniteList::set(size_t index, std::unique_ptr<Value>&& element) {
     cacheElement(index + 1);
-    cachedElements->set(index, std::move(element));
+    cachedElements[index] = std::move(element);
 }
 
 void InfiniteList::insert(size_t index, std::unique_ptr<Value>&& element) {
     cacheElement(index);
-    cachedElements->insert(index, std::move(element));
+    cachedElements.insert(cachedElements.begin() + index, std::move(element));
 }
 
 void InfiniteList::pushBack(std::unique_ptr<Value>&& element) {}
@@ -46,7 +46,9 @@ void InfiniteList::popBack() {}
 
 std::unique_ptr<Value> InfiniteList::eraseAndGet(size_t index) {
     cacheElement(index + 1);
-    return cachedElements->eraseAndGet(index);
+    auto element =  std::move(cachedElements[index]);
+    cachedElements.erase(cachedElements.begin() + index);
+    return element;
 }
 
 std::unique_ptr<Value> InfiniteList::popBackAndGet() {
@@ -54,5 +56,5 @@ std::unique_ptr<Value> InfiniteList::popBackAndGet() {
 }
 
 std::unique_ptr<List> InfiniteList::cloneList() const {
-    return std::make_unique<InfiniteList>(cachedElements->cloneList(), step->cloneFunctionObject());
+    return std::make_unique<InfiniteList>(cloneCachedElements(), step->cloneFunctionObject());
 }
