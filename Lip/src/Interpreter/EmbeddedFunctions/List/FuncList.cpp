@@ -8,7 +8,7 @@
 
 #include <stdexcept>
 
-static struct StepAddConst {
+struct StepAddConst {
     std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const {
         auto arg1 = args[0]->evaluate();
         auto n1 = getNumber(*arg1);
@@ -26,7 +26,7 @@ std::unique_ptr<Value> FuncList::operator()(const std::vector<const Expression*>
             throw std::invalid_argument(NAME + " takes a number as a first argument");
         }
         
-        auto step = std::make_unique<WrapperFunction<StepAddConst>>(1, StepAddConst{1});
+        auto step = std::make_unique<WrapperFunction<StepAddConst>>(StepAddConst{1});
         return std::make_unique<InfiniteList>(args[0]->clone(), std::move(step));
     } else if (args.size() == 2) {
         auto arg1 = args[0]->evaluate();
@@ -40,7 +40,7 @@ std::unique_ptr<Value> FuncList::operator()(const std::vector<const Expression*>
             throw std::invalid_argument(NAME + " takes a number as a second argument");
         }
 
-        auto step = std::make_unique<WrapperFunction<StepAddConst>>(1, StepAddConst{n2->getValue()});
+        auto step = std::make_unique<WrapperFunction<StepAddConst>>(StepAddConst{n2->getValue()});
         return std::make_unique<InfiniteList>(args[0]->clone(), std::move(step));
     } else if (args.size() == 3) {
         auto arg1 = args[0]->evaluate();
@@ -65,7 +65,7 @@ std::unique_ptr<Value> FuncList::operator()(const std::vector<const Expression*>
             throw std::invalid_argument(NAME + " takes a non-negative integer as a third argument");
         }
 
-        auto step = std::make_unique<WrapperFunction<StepAddConst>>(1, StepAddConst{n2->getValue()});
+        auto step = std::make_unique<WrapperFunction<StepAddConst>>(StepAddConst{n2->getValue()});
         return std::make_unique<FiniteList>(args[0]->clone(), std::move(step), i3);
     }
 

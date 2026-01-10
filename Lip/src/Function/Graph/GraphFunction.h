@@ -5,8 +5,8 @@ class FunctionNode;
 
 class GraphFunction final : public Function {
 public:
-	explicit GraphFunction(size_t argCount);
-	GraphFunction(size_t argCount, std::unique_ptr<FunctionNode>&& graphRoot);
+	GraphFunction() = default;
+	explicit GraphFunction(std::unique_ptr<FunctionNode>&& graphRoot);
 
 	std::unique_ptr<Function> clone() const override;
 

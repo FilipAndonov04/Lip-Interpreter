@@ -3,14 +3,11 @@
 #include "Expression/Expression.h"
 #include "Value/Value.h"
 
-GraphFunction::GraphFunction(size_t argCount)
-    : Function(argCount) {}
-
-GraphFunction::GraphFunction(size_t argCount, std::unique_ptr<FunctionNode>&& graphRoot)
-    : Function(argCount), graphRoot(std::move(graphRoot)) {}
+GraphFunction::GraphFunction(std::unique_ptr<FunctionNode>&& graphRoot)
+    : graphRoot(std::move(graphRoot)) {}
 
 std::unique_ptr<Function> GraphFunction::clone() const {
-    return std::make_unique<GraphFunction>(getArgCount(), graphRoot->clone());
+    return std::make_unique<GraphFunction>(graphRoot->clone());
 }
 
 void GraphFunction::setGraphRoot(std::unique_ptr<FunctionNode>&& graphRoot) {

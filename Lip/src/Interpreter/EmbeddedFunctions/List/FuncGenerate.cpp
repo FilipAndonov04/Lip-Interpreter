@@ -1,5 +1,6 @@
 #include "FuncGenerate.h"
 #include "Interpreter/EmbeddedFunctions/EmbeddedUtils.h"
+#include "Interpreter/Environment/Data/FunctionData.h"
 #include "Expression/Expression.h"
 #include "Value/List/Lazy/Finite/FiniteList.h"
 #include "Value/List/Lazy/Infinite/InfiniteList.h"
@@ -17,7 +18,7 @@ std::unique_ptr<Value> FuncGenerate::operator()(const std::vector<const Expressi
             throw std::invalid_argument(NAME + " takes a function as a second argument");
         }
 
-        return std::make_unique<InfiniteList>(args[0]->clone(), f2->getFunctions()[0]->clone());
+        return std::make_unique<InfiniteList>(args[0]->clone(), f2->getFunctions()[0]->function->clone());
     } else if (args.size() == 3) {
         auto arg2 = args[1]->evaluate();
         auto f2 = getFunctionObject(*arg2);
@@ -36,7 +37,7 @@ std::unique_ptr<Value> FuncGenerate::operator()(const std::vector<const Expressi
             throw std::invalid_argument(NAME + " takes a non-negative integer as a third argument");
         }
 
-        return std::make_unique<FiniteList>(args[0]->clone(), f2->getFunctions()[0]->clone(), i3);
+        return std::make_unique<FiniteList>(args[0]->clone(), f2->getFunctions()[0]->function->clone(), i3);
     }
 
     throw std::invalid_argument(NAME + " expects 2 or 3 arguments, but was called with " +

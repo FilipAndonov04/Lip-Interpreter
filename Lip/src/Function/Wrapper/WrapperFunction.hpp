@@ -5,8 +5,8 @@
 template <typename Func>
 class WrapperFunction final : public Function {
 public:
-	explicit WrapperFunction(size_t argCount);
-	WrapperFunction(size_t argCount, Func func);
+	WrapperFunction() = default;
+	explicit WrapperFunction(Func func);
 
 	std::unique_ptr<Function> clone() const override;
 
@@ -18,16 +18,12 @@ private:
 };
 
 template<typename Func>
-inline WrapperFunction<Func>::WrapperFunction(size_t argCount) 
-	: Function(argCount) {}
-
-template<typename Func>
-inline WrapperFunction<Func>::WrapperFunction(size_t argCount, Func func) 
-	: Function(argCount), func(std::move(func)) {}
+inline WrapperFunction<Func>::WrapperFunction(Func func) 
+	: func(std::move(func)) {}
 
 template<typename Func>
 inline std::unique_ptr<Function> WrapperFunction<Func>::clone() const {
-	return std::make_unique<WrapperFunction>(getArgCount(), func);
+	return std::make_unique<WrapperFunction>(func);
 }
 
 template<typename Func>

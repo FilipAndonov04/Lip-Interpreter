@@ -1,4 +1,4 @@
 #pragma once
 #include "Interpreter/Interpreter.h"
 
-Interpreter initInterpreter();
+void initInterpreter(Interpreter& interpreter);

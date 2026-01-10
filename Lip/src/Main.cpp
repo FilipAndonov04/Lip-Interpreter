@@ -12,7 +12,9 @@ int main(int argc, const char** argv) {
 		std::cerr << "invalid usage, correct format:\n" << argv[0] << " [filename]\n";
 	}
 
-	Interpreter inter = initInterpreter();
+	Interpreter inter;
+	initInterpreter(inter);
+	
 	if (argc == 2) {
 		std::ifstream ifs(argv[1]);
 		if (!ifs.is_open()) {
@@ -29,7 +31,7 @@ int main(int argc, const char** argv) {
 	}
 
 	// load some prewritten functions
-	const bool hasCacheFile = false;
+	const bool hasCacheFile = true;
 	const char* cacheFuncFile = "my-funcs.lip";
 	if (hasCacheFile) {
 		std::ifstream ifs(cacheFuncFile);
@@ -49,7 +51,7 @@ int main(int argc, const char** argv) {
 		std::getline(std::cin, line);
 		std::cout << Utils::DEFAULT;
 
-		if (line == "quit") {
+		if (line == "exit") {
 			break;
 		}
 

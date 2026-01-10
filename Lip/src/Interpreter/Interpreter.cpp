@@ -152,11 +152,11 @@ void Interpreter::createVariable(std::vector<Token>&& tokens) {
 
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 3);
     auto expr = factory.createExpression();
-    auto value = expr->evaluate();
+    auto var = std::make_unique<VariableData>(expr->evaluate(), false);
     
     bool isAdded = nextEnvironment->containsVariable(varName) ? 
-        nextEnvironment->replaceVariable(varName, std::move(value), false) : 
-        nextEnvironment->addVariable(varName, std::move(value), false);
+        nextEnvironment->replaceVariable(varName, std::move(var)) :
+        nextEnvironment->addVariable(varName, std::move(var));
     if (!isAdded) {
         throw std::invalid_argument("variable creation failed");
     }
@@ -189,11 +189,11 @@ void Interpreter::createConstVariable(std::vector<Token>&& tokens) {
 
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 3);
     auto expr = factory.createExpression();
-    auto value = expr->evaluate();
-
-    bool isAdded = nextEnvironment->containsVariable(constName) ?
-        nextEnvironment->replaceVariable(constName, std::move(value), true) :
-        nextEnvironment->addVariable(constName, std::move(value), true);
+    auto var = std::make_unique<VariableData>(expr->evaluate(), true);
+    
+    bool isAdded = nextEnvironment->containsVariable(constName) ? 
+        nextEnvironment->replaceVariable(constName, std::move(var)) :
+        nextEnvironment->addVariable(constName, std::move(var));
     if (!isAdded) {
         throw std::invalid_argument("constant creation failed");
     }

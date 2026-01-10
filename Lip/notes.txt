@@ -1,13 +1,23 @@
 (*) add command line args parsing
 (*) add file work mode
 
+(*) change FunctionObject to use FunctionData instead of Function
+(*) add vararg functions
+
+(*) change LazyList to use FunctionData instead of Function
+
+(*) add Future Value
+(*) add Socket Value
+
 (*) more embedded functions (
+		collections - filter, map, for_each, all_of, flaten, sort, heap, set, ...,
+		type checking - is_num, is_list, is_str, is_func, is_int, is_bool, ...,
 		read/write to file,
-		functionObjects,
 		strings,
 		lists,
-		multi threading,
-		networking
+		functionObjects,
+		multi threading - async(func, args...) -> Future,
+		networking - open, bind, listen, accept, connect, close, send, recv
 	)
 
 (*) add help command
@@ -18,24 +28,30 @@
 
 (*) formalize language grammer
 
+(*) remove VariableExpression
 (*) clean up Environment
 (*) add more Function metadata (description)
 (*) clean up Function
 (*) clean up embedded functions
-(*) clean up interpreter
+(*) clean up Interpreter
 (*) enhance List interface
 (*) clean up List class
 (*) replace LazyList elements with vector instead of unq_ptr to List
 
-(*) add saving function to file and loading them from file
-
 (*) more efficient environment states
 
-(*) add value wrapper
-(*) different embedded functions based on difficulty
+(*) add saving function to file and loading them from file
+(*) different embedded functions based on options
 
 (?) replace FunctionData shr_ptr with unq_ptr
+
+(?) add Error Value
+(?) add assert emb function
+
+(?) add value wrapper
 
 (?) prefix embedded functions with emb_
 
 (?) move Utils into static library
+
+(?) add Null Value

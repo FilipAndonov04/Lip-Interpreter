@@ -3,13 +3,13 @@
 
 #include <vector>
 
-class Function;
+struct FunctionData;
 class Expression;
 
 class FunctionObject final : public Value {
 public:
-	explicit FunctionObject(const Function* function);
-	explicit FunctionObject(std::vector<const Function*> functions);
+	explicit FunctionObject(const FunctionData* function);
+	explicit FunctionObject(std::vector<const FunctionData*> functions);
 
 	ValueType type() const override;
 
@@ -21,14 +21,15 @@ public:
 	std::unique_ptr<Value> call(const std::vector<const Expression*>& args) const;
 	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const;
 
-	const std::vector<const Function*>& getFunctions() const;
-	void addFunction(size_t index, const Function* function);
-	void pushBackFunction(const Function* function);
-	void pushFrontFunction(const Function* function);
+	const std::vector<const FunctionData*>& getFunctions() const;
+
+	void insertFunction(size_t index, const FunctionData* function);
+	void pushBackFunction(const FunctionData* function);
+	void pushFrontFunction(const FunctionData* function);
 
 public:
-	static std::unique_ptr<FunctionObject> of(const Function* function);
+	static std::unique_ptr<FunctionObject> of(const FunctionData* function);
 
 private:
-	std::vector<const Function*> functions;
+	std::vector<const FunctionData*> functions;
 };

@@ -8,7 +8,7 @@ class Value;
 
 class Function {
 public:
-	Function(size_t argCount);
+	Function() = default;
 	Function(const Function&) = delete;
 	Function& operator=(const Function&) = delete;
 	virtual ~Function() = default;
@@ -18,11 +18,6 @@ public:
 	std::unique_ptr<Value> call(const std::vector<const Expression*>& args) const;
 	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const;
 
-	size_t getArgCount() const;
-
 protected:
 	virtual std::unique_ptr<Value> callImpl(const std::vector<const Expression*>& args) const = 0;
-
-private:
-	size_t argCount;
 };

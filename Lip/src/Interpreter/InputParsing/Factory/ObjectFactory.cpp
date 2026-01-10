@@ -11,8 +11,9 @@
 #include "Function/Graph/Node/Leaf/Expression/ExpressionNode.h"
 #include "Function/Graph/Node/Composite/CompositeNode.h"
 
-#include "Interpreter/Environment/Environment.h"
 #include "Interpreter/InputParsing/Tokenizer/Token.h"
+#include "Interpreter/Environment/Environment.h"
+#include "Interpreter/Environment/Data/FunctionData.h"
 
 #include "Value/FunctionObject/FunctionObject.h"
 
@@ -36,8 +37,22 @@ std::unique_ptr<Expression> ObjectFactory::createExpression() {
     return createLiteral();
 }
 
-std::shared_ptr<Function> ObjectFactory::createFunction(const std::string& name, size_t argCount) {
-    return createGraphFunction(name, argCount);
+std::shared_ptr<FunctionData> ObjectFactory::createFunction(const std::string& name, uint8_t argCount) {
+    argIds.clear();
+
+    auto func = std::make_shared<FunctionData>(nullptr, false, argCount, false);
+    if (!environment->addFunction(name, func)) {
+        throw std::invalid_argument("adding function failed");
+    }
+
+    func->function = createGraphFunction(name, argCount);
+
+    if (argIds.size() != argCount || !argIds.empty() &&
+        *std::max_element(argIds.begin(), argIds.end()) != argCount) {
+        throw std::invalid_argument("invalid argument count in function definition");
+    }
+
+    return func;
 }
 
 size_t ObjectFactory::getCurrentIndex() const {
@@ -182,22 +197,8 @@ std::vector<std::unique_ptr<Expression>> ObjectFactory::createFunctionCallArgs()
     }
 }
 
-std::shared_ptr<GraphFunction> ObjectFactory::createGraphFunction(const std::string& name, size_t argCount) {
-    argIds.clear();
-
-    auto func = std::make_shared<GraphFunction>(argCount);
-    if (!environment->addFunction(name, func)) {
-        throw std::invalid_argument("adding function failed");
-    }
-
-    auto root = createFunctionNode();
-    if (argIds.size() != argCount || !argIds.empty() && 
-        *std::max_element(argIds.begin(), argIds.end()) != argCount) {
-        throw std::invalid_argument("invalid argument count in function definition");
-    }
-
-    func->setGraphRoot(std::move(root));
-    return func;
+std::unique_ptr<GraphFunction> ObjectFactory::createGraphFunction(const std::string& name, size_t argCount) {
+    return std::make_unique<GraphFunction>(createFunctionNode());
 }
 
 std::unique_ptr<FunctionNode> ObjectFactory::createFunctionNode() {
@@ -275,13 +276,13 @@ std::unique_ptr<Expression> ObjectFactory::createExpressionNoFuncCall() {
 
 std::unique_ptr<FunctionNode> ObjectFactory::createCompositeNodeFunc(const std::string& payload,
                                                                      TokenType type,
-                                                                     size_t argCount) {
+                                                                     uint8_t argCount) {
     if (type == TokenType::Number) {
         size_t id = Utils::toSizeType(payload);
         argIds.insert(id);
         return ArgumentNode::of(id);
     } else if (type == TokenType::Word) {
-        if (auto func = environment->getFunction(payload, argCount)) {
+        if (auto func = environment->getFunctionData(payload, argCount)) {
             return ExpressionNode::of(ValueExpression::of(FunctionObject::of(func)));
         } 
 

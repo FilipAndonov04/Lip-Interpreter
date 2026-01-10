@@ -13,6 +13,7 @@ class StringLiteral;
 class FunctionCall;
 class VariableExpression;
 
+struct FunctionData;
 class Function;
 class GraphFunction;
 
@@ -29,7 +30,7 @@ public:
 	ObjectFactory(std::vector<Token> tokens, Environment& environment, size_t index = 0);
 
 	std::unique_ptr<Expression> createExpression();
-	std::shared_ptr<Function> createFunction(const std::string& name, size_t argCount);
+	std::shared_ptr<FunctionData> createFunction(const std::string& name, uint8_t argCount);
 
 	size_t getCurrentIndex() const;
 
@@ -44,7 +45,7 @@ private:
 	std::unique_ptr<Expression> createFunctionCallFunction(const std::string& funcName, size_t argCount);
 	std::vector<std::unique_ptr<Expression>> createFunctionCallArgs();
 
-	std::shared_ptr<GraphFunction> createGraphFunction(const std::string& name, size_t argCount);
+	std::unique_ptr<GraphFunction> createGraphFunction(const std::string& name, size_t argCount);
 
 	std::unique_ptr<FunctionNode> createFunctionNode();
 	std::unique_ptr<LeafNode> createLeafNode();
@@ -53,9 +54,9 @@ private:
 	std::unique_ptr<CompositeNode> createCompositeNode();
 
 	std::unique_ptr<Expression> createExpressionNoFuncCall();
-	std::unique_ptr<FunctionNode> createCompositeNodeFunc(const std::string& payload, 
-															  TokenType type,
-															  size_t argCount);
+	std::unique_ptr<FunctionNode> createCompositeNodeFunc(const std::string& payload,
+														  TokenType type,
+														  uint8_t argCount);
 	std::vector<std::unique_ptr<FunctionNode>> createCompositeNodeArgs();
 
 	size_t getCloseCircleBracketIndex(size_t index);
@@ -74,5 +75,5 @@ private:
 	size_t index;
 	Environment* environment;
 
-	std::unordered_set<size_t> argIds;
+	std::unordered_set<uint8_t> argIds;
 };

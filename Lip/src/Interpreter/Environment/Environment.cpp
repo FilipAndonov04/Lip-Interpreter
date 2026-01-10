@@ -21,7 +21,7 @@ bool Environment::containsFunction(const std::string& name) const {
 	return functions.find(name) != functions.end();
 }
 
-bool Environment::containsFunction(const std::string& name, size_t argCount) const {
+bool Environment::containsFunction(const std::string& name, uint8_t argCount) const {
 	return getFunction(name, argCount);
 }
 
@@ -29,23 +29,31 @@ bool Environment::containsVariable(const std::string& name) const {
 	return getVariable(name);
 }
 
-const Function* Environment::getFunction(const std::string& name, size_t argCount) const {
+const Function* Environment::getFunction(const std::string& name, uint8_t argCount) const {
 	auto funcData = getFunctionData(name, argCount);
 	return funcData ? funcData->function.get() : nullptr;
 }
 
-const FunctionData* Environment::getFunctionData(const std::string& name, size_t argCount) const {
+struct isFunctionContained {
+	uint8_t argCount;
+
+	isFunctionContained(uint8_t argCount)
+		: argCount(argCount) {}
+
+	bool operator()(const std::shared_ptr<const FunctionData>& fd) const {
+		return fd->anyArgCount || fd->argCount == argCount;
+	}
+};
+
+const FunctionData* Environment::getFunctionData(const std::string& name, uint8_t argCount) const {
 	auto funcDatasByName = functions.find(name);
 	if (funcDatasByName == functions.end()) {
 		return nullptr;
 	}
 
 	const auto& container = funcDatasByName->second;
-	auto hasSameArgCount = [argCount](const std::shared_ptr<const FunctionData>& fd) {
-		return fd->function->getArgCount() == argCount;
-	};
 
-	auto funcData = std::find_if(container.cbegin(), container.cend(), hasSameArgCount);
+	auto funcData = std::find_if(container.cbegin(), container.cend(), isFunctionContained{argCount});
 	return funcData != container.end() ? funcData->get() : nullptr;
 }
 
@@ -70,7 +78,7 @@ std::unique_ptr<Value> Environment::getVariableOrFunctionObject(const std::strin
 std::unique_ptr<Value> Environment::getFunctionObject(const std::string& name) const {
 	auto funcs = functions.find(name);
 	if (funcs != functions.end() && funcs->second.size() == 1) {
-		return FunctionObject::of(funcs->second[0]->function.get());
+		return FunctionObject::of(funcs->second[0].get());
 	}
 
 	auto var = getVariable(name);
@@ -84,7 +92,7 @@ std::unique_ptr<Value> Environment::getFunctionObject(const std::string& name) c
 
 std::unique_ptr<Value> Environment::getFunctionObject(const std::string& name, 
 															   size_t argCount) const {
-	auto func = getFunction(name, argCount);
+	auto func = getFunctionData(name, argCount);
 	if (func) {
 		return FunctionObject::of(func);
 	}
@@ -98,55 +106,46 @@ std::unique_ptr<Value> Environment::getFunctionObject(const std::string& name,
 	return nullptr;
 }
 
-bool Environment::addFunction(const std::string& name, 
-							  const std::shared_ptr<Function>& function, bool isEmbedded) {
+bool Environment::addFunction(const std::string& name, const std::shared_ptr<FunctionData>& functionData) {
 	if (containsVariable(name)) {
 		return false;
 	}
 
-	auto& container = functions[name];
+	auto& funcDatas = functions[name];
 
-	auto hasSameArgCount = [argCount = function->getArgCount()](const std::shared_ptr<const FunctionData>& fd) {
-		return fd->function->getArgCount() == argCount;
-	};
-
-	auto funcData = std::find_if(container.begin(), container.end(), hasSameArgCount);
-	if (funcData != container.end()) {
+	auto funcData = std::find_if(funcDatas.begin(), funcDatas.end(), 
+								 isFunctionContained{functionData->argCount});
+	if (funcData != funcDatas.end()) {
 		return false;
 	}
 
-	container.push_back(std::make_shared<FunctionData>(function, isEmbedded));
+	funcDatas.push_back(functionData);
 	return true;
 }
 
-bool Environment::addFunction(const std::string& name, 
-							  std::shared_ptr<Function>&& function, bool isEmbedded) {
+bool Environment::addFunction(const std::string& name, std::shared_ptr<FunctionData>&& functionData) {
 	if (containsVariable(name)) {
 		return false;
 	}
 
-	auto& container = functions[name];
+	auto& funcDatas = functions[name];
 
-	auto hasSameArgCount = [argCount = function->getArgCount()](const std::shared_ptr<const FunctionData>& fd) {
-		return fd->function->getArgCount() == argCount;
-	};
-
-	auto funcData = std::find_if(container.begin(), container.end(), hasSameArgCount);
-	if (funcData != container.end()) {
+	auto funcData = std::find_if(funcDatas.begin(), funcDatas.end(), 
+								 isFunctionContained{functionData->argCount});
+	if (funcData != funcDatas.end()) {
 		return false;
 	}
 
-	container.push_back(std::make_shared<FunctionData>(std::move(function), isEmbedded));
+	funcDatas.push_back(std::move(functionData));
 	return true;
 }
 
-bool Environment::addVariable(const std::string& name, std::unique_ptr<Value>&& value, 
-							  bool isConst) {
+bool Environment::addVariable(const std::string& name, std::unique_ptr<VariableData>&& variableData) {
 	if (containsVariable(name) || containsFunction(name)) {
 		return false;
 	}
 
-	variables[name] = std::make_shared<VariableData>(std::move(value), isConst);
+	variables.insert({name, std::move(variableData)});
 	return true;
 }
 
@@ -168,7 +167,7 @@ bool Environment::removeFunction(const std::string& name, size_t argCount) {
 
 	auto& container = funcsByName->second;
 	auto hasSameArgCount = [argCount](const std::shared_ptr<const FunctionData>& fd) {
-		return fd->function->getArgCount() == argCount;
+		return fd->argCount == argCount;
 	};
 
 	auto funcData = std::find_if(container.begin(), container.end(), hasSameArgCount);
@@ -197,52 +196,7 @@ bool Environment::removeVariable(const std::string& name) {
 	return true;
 }
 
-bool Environment::replaceFunction(const std::string& name, 
-								  const std::shared_ptr<Function>& newFunction, bool isEmbedded) {
-	auto funcDatasByName = functions.find(name);
-	if (funcDatasByName == functions.end()) {
-		return false;
-	}
-
-	auto& container = funcDatasByName->second;
-	auto hasSameArgCount = [argCount = newFunction->getArgCount()](const std::shared_ptr<const FunctionData>& fd) {
-		return fd->function->getArgCount() == argCount;
-	};
-
-	auto funcData = std::find_if(container.begin(), container.end(), hasSameArgCount);
-	if (funcData == container.end()) {
-		return false;
-	}
-
-	container.erase(funcData);
-	container.push_back(std::make_shared<FunctionData>(newFunction, isEmbedded));
-	return true;
-}
-
-bool Environment::replaceFunction(const std::string& name, 
-								  std::shared_ptr<Function>&& newFunction, bool isEmbedded) {
-	auto funcDatasByName = functions.find(name);
-	if (funcDatasByName == functions.end()) {
-		return false;
-	}
-
-	auto& container = funcDatasByName->second;
-	auto hasSameArgCount = [argCount = newFunction->getArgCount()](const std::shared_ptr<const FunctionData>& fd) {
-		return fd->function->getArgCount() == argCount;
-	};
-
-	auto funcData = std::find_if(container.begin(), container.end(), hasSameArgCount);
-	if (funcData == container.end()) {
-		return false;
-	}
-
-	container.erase(funcData);
-	container.push_back(std::make_shared<FunctionData>(std::move(newFunction), isEmbedded));
-	return true;
-}
-
-bool Environment::replaceVariable(const std::string& name, std::unique_ptr<Value>&& newValue,
-								  bool isConst) {
+bool Environment::replaceVariable(const std::string& name, std::unique_ptr<VariableData>&& variableData) {
 	auto varDataByName = variables.find(name);
 	if (varDataByName == variables.end()) {
 		return false;
@@ -253,7 +207,7 @@ bool Environment::replaceVariable(const std::string& name, std::unique_ptr<Value
 		return false;
 	}
 
-	varData = std::make_shared<VariableData>(std::move(newValue), isConst);
+	varData = std::move(variableData);
 	return true;
 }
 
