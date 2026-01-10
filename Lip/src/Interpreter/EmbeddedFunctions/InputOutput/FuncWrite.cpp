@@ -23,7 +23,7 @@ std::unique_ptr<Value> FuncWrite::operator()(const std::vector<const Expression*
 		throw std::invalid_argument(NAME + " takes a number as a third argument");
 	}
 	
-	std::ofstream ofs(filename->getString(), toBool(*num3) ? std::ios::app : std::ios::trunc);
+	std::ofstream ofs(filename->getString(), toBool(*num3) ? std::ios::trunc : std::ios::app);
 	if (!ofs.is_open()) {
 		return RealNumber::of(0.0);
 	}
