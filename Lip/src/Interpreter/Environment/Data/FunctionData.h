@@ -6,7 +6,7 @@ class Function;
 
 struct FunctionData {
 	std::unique_ptr<const Function> function;
-	bool anyArgCount;
+	bool hasArgCount;
 	uint8_t argCount;
 	bool isEmbedded;
 };

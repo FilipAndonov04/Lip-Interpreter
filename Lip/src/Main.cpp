@@ -30,6 +30,8 @@ int main(int argc, const char** argv) {
 		return 0;
 	}
 
+	std::cout << Utils::DEFAULT;
+
 	// load some prewritten functions
 	const bool hasCacheFile = true;
 	const char* cacheFuncFile = "my-funcs.lip";

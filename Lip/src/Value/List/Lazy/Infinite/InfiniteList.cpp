@@ -1,13 +1,15 @@
 #include "InfiniteList.h"
 #include "Expression/Expression.h"
-#include "Function/Function.h"
+#include "Value/FunctionObject/FunctionObject.h"
 
 #include <stdexcept>
 
-InfiniteList::InfiniteList(std::unique_ptr<Expression>&& initialElement, std::unique_ptr<Function>&& step)
+InfiniteList::InfiniteList(std::unique_ptr<Expression>&& initialElement, 
+                           std::unique_ptr<FunctionObject>&& step)
     : LazyList(std::move(initialElement), std::move(step)) {}
 
-InfiniteList::InfiniteList(std::unique_ptr<List>&& cachedElements, std::unique_ptr<Function>&& step)
+InfiniteList::InfiniteList(std::unique_ptr<List>&& cachedElements, 
+                           std::unique_ptr<FunctionObject>&& step)
     : LazyList(std::move(cachedElements), std::move(step)) {}
 
 size_t InfiniteList::length() const {
@@ -52,5 +54,5 @@ std::unique_ptr<Value> InfiniteList::popBackAndGet() {
 }
 
 std::unique_ptr<List> InfiniteList::cloneList() const {
-    return std::make_unique<InfiniteList>(cachedElements->cloneList(), step->clone());
+    return std::make_unique<InfiniteList>(cachedElements->cloneList(), step->cloneFunctionObject());
 }

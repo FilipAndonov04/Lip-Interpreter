@@ -18,7 +18,8 @@ std::unique_ptr<Value> FuncGenerate::operator()(const std::vector<const Expressi
             throw std::invalid_argument(NAME + " takes a function as a second argument");
         }
 
-        return std::make_unique<InfiniteList>(args[0]->clone(), f2->getFunctions()[0]->function->clone());
+        arg2.release();
+        return std::make_unique<InfiniteList>(args[0]->clone(), std::unique_ptr<FunctionObject>(f2));
     } else if (args.size() == 3) {
         auto arg2 = args[1]->evaluate();
         auto f2 = getFunctionObject(*arg2);
@@ -37,7 +38,8 @@ std::unique_ptr<Value> FuncGenerate::operator()(const std::vector<const Expressi
             throw std::invalid_argument(NAME + " takes a non-negative integer as a third argument");
         }
 
-        return std::make_unique<FiniteList>(args[0]->clone(), f2->getFunctions()[0]->function->clone(), i3);
+        arg2.release();
+        return std::make_unique<FiniteList>(args[0]->clone(), std::unique_ptr<FunctionObject>(f2), i3);
     }
 
     throw std::invalid_argument(NAME + " expects 2 or 3 arguments, but was called with " +

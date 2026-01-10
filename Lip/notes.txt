@@ -4,7 +4,8 @@
 (*) change FunctionObject to use FunctionData instead of Function
 (*) add vararg functions
 
-(*) change LazyList to use FunctionData instead of Function
+(*) change LazyList to use FunctionObject instead of Function
+(*) replace LazyList elements with vector instead of unq_ptr to List
 
 (*) add Future Value
 (*) add Socket Value
@@ -36,7 +37,6 @@
 (*) clean up Interpreter
 (*) enhance List interface
 (*) clean up List class
-(*) replace LazyList elements with vector instead of unq_ptr to List
 
 (*) more efficient environment states
 

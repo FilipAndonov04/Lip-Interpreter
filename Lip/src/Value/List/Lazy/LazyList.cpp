@@ -1,13 +1,13 @@
 #include "LazyList.h"
 #include "Expression/Value/ValueExpression.h"
-#include "Function/Function.h"
+#include "Value/FunctionObject/FunctionObject.h"
 #include "Value/List/Concrete/ConcreteList.h"
 
-LazyList::LazyList(std::unique_ptr<Expression>&& initialElement, std::unique_ptr<Function>&& step)
+LazyList::LazyList(std::unique_ptr<Expression>&& initialElement, std::unique_ptr<FunctionObject>&& step)
 	: initialElement(std::move(initialElement)), step(std::move(step)), 
 	  cachedElements(std::make_unique<ConcreteList>()) {}
 
-LazyList::LazyList(std::unique_ptr<List>&& cachedElements, std::unique_ptr<Function>&& step) 
+LazyList::LazyList(std::unique_ptr<List>&& cachedElements, std::unique_ptr<FunctionObject>&& step) 
 	: cachedElements(std::move(cachedElements)), step(std::move(step)) {}
 
 void LazyList::cacheElement(size_t index) const {

@@ -1,13 +1,13 @@
 #include "FiniteList.h"
 #include "Expression/Expression.h"
-#include "Function/Function.h"
+#include "Value/FunctionObject/FunctionObject.h"
 
 FiniteList::FiniteList(std::unique_ptr<Expression>&& initialElement,
-                       std::unique_ptr<Function>&& step, size_t elementCount)
+                       std::unique_ptr<FunctionObject>&& step, size_t elementCount)
     : LazyList(std::move(initialElement), std::move(step)), elementCount(elementCount) {}
 
 FiniteList::FiniteList(std::unique_ptr<List>&& cachedElements, 
-                       std::unique_ptr<Function>&& step, size_t elementCount)
+                       std::unique_ptr<FunctionObject>&& step, size_t elementCount)
     : LazyList(std::move(cachedElements), std::move(step)), elementCount(elementCount) {}
 
 size_t FiniteList::length() const {
@@ -58,5 +58,5 @@ std::unique_ptr<Value> FiniteList::eraseAndGet(size_t index) {
 }
 
 std::unique_ptr<List> FiniteList::cloneList() const {
-    return std::make_unique<FiniteList>(cachedElements->cloneList(), step->clone(), elementCount);
+    return std::make_unique<FiniteList>(cachedElements->cloneList(), step->cloneFunctionObject(), elementCount);
 }

@@ -4,9 +4,9 @@
 class FiniteList final : public LazyList {
 public:
 	FiniteList(std::unique_ptr<Expression>&& initialElement,
-			   std::unique_ptr<Function>&& step, size_t elementCount);
+			   std::unique_ptr<FunctionObject>&& step, size_t elementCount);
 	FiniteList(std::unique_ptr<List>&& cachedElements, 
-			   std::unique_ptr<Function>&& step, size_t elementCount);
+			   std::unique_ptr<FunctionObject>&& step, size_t elementCount);
 
 	size_t length() const override;
 
