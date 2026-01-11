@@ -28,7 +28,7 @@ Used for arithmetic, comparisons, and boolean-like conditions<br>
 Strings can be written using single or double quotes: `'abc'`, `"hello world"`
 
 Both quote styles are equivalent<br>
-Strings may contain spaces
+Strings may contain spaces and escaped characters ('\n', '\t', ...)
 
 ### Lists
 
@@ -133,7 +133,9 @@ These functions are explained in another section below
 ### I/O
 
 `input()` reads an expression from `stdin`<br>
-`print(<exprs>)` prints the expressions to `stdout` and returns `1`
+`print(<exprs>)` prints the expressions to `stdout` and returns `1`<br>
+`read(<filename>)` reads the lines of a file<br>
+`write(<filename>, <expr>, <should_overwrite>)` writes an expression to a file, overrides or appends
 
 ## Function Definitions
 
@@ -240,6 +242,15 @@ do_inc applies a function to every number from `1` to `$1` in increasing order (
 def do_inc(2) = if(lt($1, 1), 1, and(do_inc(sub($1, 1), $2), $2($1)))
 ```
 
+## Currying and partial aplication
+
+Arguments may be bound to functions
+
+Example:
+```
+curry(add, 42)(1000) -> 1042
+```
+
 ## Variables and Bindings
 
 ### Variable creation
@@ -311,7 +322,6 @@ It is not intended to be fast or production-ready, but to be correct, expressive
 ## Future Extensions
 
 Possible future improvements:
-* Currying and partial application
 * Pipeline syntax sugar
 * Tail-call optimization
 
