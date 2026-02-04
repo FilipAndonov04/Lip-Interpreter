@@ -201,6 +201,12 @@
     <ClCompile Include="src\Interpreter\Environment\EnvironmentStack.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Interpreter\Environment\Data\VariableData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Interpreter\Environment\Data\FunctionData.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h">

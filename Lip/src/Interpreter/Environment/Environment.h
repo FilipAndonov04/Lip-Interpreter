@@ -1,6 +1,6 @@
 #pragma once
-#include "Data/FunctionData.h"
-#include "Data/VariableData.h"
+#include "Interpreter/Environment/Data/FunctionData.h"
+#include "Interpreter/Environment/Data/VariableData.h"
 
 #include <string>
 #include <memory>

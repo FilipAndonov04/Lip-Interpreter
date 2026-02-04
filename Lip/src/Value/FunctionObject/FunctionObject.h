@@ -4,7 +4,7 @@
 
 #include <vector>
 
-struct FunctionData;
+class FunctionData;
 
 class FunctionObject final : public Value {
 public:

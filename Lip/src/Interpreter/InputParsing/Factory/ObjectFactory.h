@@ -13,7 +13,7 @@ class StringLiteral;
 class FunctionCall;
 class VariableExpression;
 
-struct FunctionData;
+class FunctionData;
 class Function;
 class GraphFunction;
 

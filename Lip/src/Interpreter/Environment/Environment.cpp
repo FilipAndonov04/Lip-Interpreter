@@ -19,7 +19,7 @@ bool Environment::containsVariable(const std::string& name) const {
 
 const Function* Environment::getFunction(const std::string& name, uint8_t argCount) const {
 	auto funcData = getFunctionData(name, argCount);
-	return funcData ? funcData->function.get() : nullptr;
+	return funcData ? funcData->getFunction() : nullptr;
 }
 
 struct isFunctionContained {
@@ -29,7 +29,7 @@ struct isFunctionContained {
 		: argCount(argCount) {}
 
 	bool operator()(const std::shared_ptr<const FunctionData>& fd) const {
-		return !fd->hasArgCount || fd->argCount == argCount;
+		return fd->getIsVarArgs() || fd->getArgCount() == argCount;
 	}
 };
 
@@ -47,7 +47,7 @@ const FunctionData* Environment::getFunctionData(const std::string& name, uint8_
 
 const Value* Environment::getVariable(const std::string& name) const {
 	auto varData = getVariableData(name);
-	return varData ? varData->value.get() : nullptr;
+	return varData ? varData->getValue() : nullptr;
 }
 
 const VariableData* Environment::getVariableData(const std::string& name) const {
@@ -102,7 +102,7 @@ bool Environment::addFunction(const std::string& name, const std::shared_ptr<Fun
 	auto& funcDatas = functions[name];
 
 	auto funcData = std::find_if(funcDatas.begin(), funcDatas.end(), 
-								 isFunctionContained{functionData->argCount});
+								 isFunctionContained{functionData->getArgCount()});
 	if (funcData != funcDatas.end()) {
 		return false;
 	}
@@ -119,7 +119,7 @@ bool Environment::addFunction(const std::string& name, std::shared_ptr<FunctionD
 	auto& funcDatas = functions[name];
 
 	auto funcData = std::find_if(funcDatas.begin(), funcDatas.end(), 
-								 isFunctionContained{functionData->argCount});
+								 isFunctionContained{functionData->getArgCount()});
 	if (funcData != funcDatas.end()) {
 		return false;
 	}
@@ -155,7 +155,7 @@ bool Environment::removeFunction(const std::string& name, size_t argCount) {
 
 	auto& container = funcsByName->second;
 	auto hasSameArgCount = [argCount](const std::shared_ptr<const FunctionData>& fd) {
-		return fd->argCount == argCount;
+		return fd->getArgCount() == argCount;
 	};
 
 	auto funcData = std::find_if(container.begin(), container.end(), hasSameArgCount);
@@ -176,7 +176,7 @@ bool Environment::removeVariable(const std::string& name) {
 		return false;
 	}
 
-	if (varData->second->isConst) {
+	if (varData->second->getIsConst()) {
 		return false;
 	}
 
@@ -191,7 +191,7 @@ bool Environment::replaceVariable(const std::string& name, std::unique_ptr<Varia
 	}
 
 	auto& varData = varDataByName->second;
-	if (varData->isConst) {
+	if (varData->getIsConst()) {
 		return false;
 	}
 

@@ -48,7 +48,7 @@ std::unique_ptr<Value> FunctionObject::call(const std::vector<const Expression*>
                    [](const std::unique_ptr<Expression>& expr) { return expr.get(); });
     std::copy(args.begin(), args.end(), std::back_inserter(allArgs));
 
-    auto res = functions[0]->function->call(allArgs);
+    auto res = functions[0]->getFunction()->call(allArgs);
     if (functions.size() == 1) {
         return res;
     }
@@ -58,7 +58,7 @@ std::unique_ptr<Value> FunctionObject::call(const std::vector<const Expression*>
         auto expr = ValueExpression::of(std::move(res));
 
         valArgs[0] = expr.get();
-        res = std::move(functions[i]->function->call(valArgs));
+        res = std::move(functions[i]->getFunction()->call(valArgs));
     }
     return res;
 }

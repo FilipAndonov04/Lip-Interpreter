@@ -40,12 +40,12 @@ std::unique_ptr<Expression> ObjectFactory::createExpression() {
 std::shared_ptr<FunctionData> ObjectFactory::createFunction(const std::string& name, uint8_t argCount) {
     argIds.clear();
 
-    auto func = std::make_shared<FunctionData>(nullptr, true, argCount, false);
+    auto func = std::make_shared<FunctionData>(nullptr, false, argCount, false);
     if (!environment->addFunction(name, func)) {
         throw std::invalid_argument("adding function failed");
     }
 
-    func->function = createGraphFunction(name, argCount);
+    func->setFunction(createGraphFunction(name, argCount));
 
     if (argIds.size() != argCount || !argIds.empty() &&
         *std::max_element(argIds.begin(), argIds.end()) != argCount) {

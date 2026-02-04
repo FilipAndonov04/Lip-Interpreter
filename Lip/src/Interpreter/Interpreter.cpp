@@ -143,7 +143,7 @@ void Interpreter::createVariable(std::vector<Token>&& tokens) {
     }
 
     auto varData = getCurrentEnvironment().getVariableData(varName);
-    if (varData && varData->isConst) {
+    if (varData && varData->getIsConst()) {
         throw std::invalid_argument("there exists a constant <" + varName + ">");
     }
 
@@ -180,7 +180,7 @@ void Interpreter::createConstVariable(std::vector<Token>&& tokens) {
     }
 
     auto varData = getCurrentEnvironment().getVariableData(constName);
-    if (varData && varData->isConst) {
+    if (varData && varData->getIsConst()) {
         throw std::invalid_argument("there exists a constant <" + constName + ">");
     }
 
@@ -211,7 +211,7 @@ void Interpreter::removeVariable(std::vector<Token>&& tokens) {
 
     std::string varName = std::move(tokens[1].payload);
     auto varData = getCurrentEnvironment().getVariableData(varName);
-    if (varData && varData->isConst) {
+    if (varData && varData->getIsConst()) {
         throw std::invalid_argument("cannot remove a constant");
     } else if (!varData) {
         throw std::invalid_argument("variable <" + varName + "> does not exist");

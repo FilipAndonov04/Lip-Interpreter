@@ -181,6 +181,8 @@
     <ClCompile Include="src\Function\Graph\Node\Composite\CompositeNode.cpp" />
     <ClCompile Include="src\Function\Graph\Node\Leaf\Expression\ExpressionNode.cpp" />
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\StringAndList\FuncReverse.cpp" />
+    <ClCompile Include="src\Interpreter\Environment\Data\FunctionData.cpp" />
+    <ClCompile Include="src\Interpreter\Environment\Data\VariableData.cpp" />
     <ClCompile Include="src\Interpreter\Environment\EnvironmentStack.cpp" />
     <ClCompile Include="src\Interpreter\Init.cpp" />
     <ClCompile Include="src\Interpreter\Interpreter.cpp" />

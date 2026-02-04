@@ -7,7 +7,7 @@
 class Expression;
 class Value;
 
-struct FunctionData;
+class FunctionData;
 
 struct FuncList {
 	static inline const std::string NAME{"list"};
