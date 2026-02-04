@@ -125,8 +125,8 @@ Only the selected branch is evaluated
 
 ### Function Object
 
-`comp`<br>
-`then`
+`compose`<br>
+`and_then`
 
 These functions are explained in another section below
 
@@ -215,16 +215,16 @@ ref(ref(add))(3, 4) -> 7
 
 The language includes function combinators:
 
-`comp(f, g)(x)` does f(g(x))<br>
-`then(f, g)(x)` does g(f(x))
+`compose(f, g)(x)` does f(g(x))<br>
+`and_then(f, g)(x)` does g(f(x))
 
 Example:
 ```
 def inc(1) = add($1, 1)
 def sqr(1) = mul($1, $1)
 
-comp(inc, sqr)(3) -> 10
-then(inc, sqr)(3) -> 16
+compose(inc, sqr)(3) -> 10
+and_then(inc, sqr)(3) -> 16
 ```
 
 ## Higher-Order Functions
