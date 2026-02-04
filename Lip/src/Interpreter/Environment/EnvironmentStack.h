@@ -21,7 +21,6 @@ public:
 private:
 	void assertNotEmpty() const;
 
-private:
 	struct EnvironmentNode {
 		Environment environment;
 		std::unique_ptr<EnvironmentNode> prev;

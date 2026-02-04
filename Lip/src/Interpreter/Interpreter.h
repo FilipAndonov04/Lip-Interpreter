@@ -33,18 +33,8 @@ private:
 	bool isValidConstVariableCreation(const std::vector<Token>& tokens) const;
 	bool isValidVariableRemoval(const std::vector<Token>& tokens) const;
 
-	bool isKeyword(std::string_view word);
-
 	void pushEnvironment(const Environment& environment);
 	void pushEnvironment(Environment&& environment);
-
-	static constexpr const char KEYWORD_DEFINE_FUNCTION[] = "def";
-	static constexpr const char KEYWORD_REDEFINE_FUNCTION[] = "redef";
-	static constexpr const char KEYWORD_UNDEFINE_FUNCTION[] = "undef";
-	
-	static constexpr const char KEYWORD_CREATE_VARIABLE[] = "let";
-	static constexpr const char KEYWORD_CREATE_CONST_VARIABLE[] = "const";
-	static constexpr const char KEYWORD_REMOVE_VARIABLE[] = "rm";
 
 	EnvironmentStack environmentStack;
 };

@@ -11,7 +11,6 @@ class NumberLiteral;
 class ListLiteral;
 class StringLiteral;
 class FunctionCall;
-class VariableExpression;
 
 class FunctionData;
 class Function;

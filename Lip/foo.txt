@@ -1,4 +1,2 @@
-"Hello, World!
-
-
-bam bam"
+[""hi mom""hi mom""", "", "hi mom""	hi mom""]["[""hi mom""hi mom""", "", "hi mom""	hi mom""]"]"
+"["[""hi mom""hi mom""", "", "hi mom""	hi mom""]["[""hi mom""hi mom""", "", "hi mom""	hi mom""]"]"", """]

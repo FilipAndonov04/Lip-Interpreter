@@ -136,6 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Interpreter\Keywords\Keywords.cpp" />
     <ClCompile Include="src\Expression\FunctionCall\FunctionCall.cpp" />
     <ClCompile Include="src\Expression\Value\ValueExpression.cpp" />
     <ClCompile Include="src\Expression\Variable\VariableExpression.cpp" />
@@ -262,6 +263,7 @@
     <ClInclude Include="src\Interpreter\InputParsing\Tokenizer\Tokenizer.h" />
     <ClInclude Include="src\Interpreter\Environment\Environment.h" />
     <ClInclude Include="src\Interpreter\Init.h" />
+    <ClInclude Include="src\Interpreter\Keywords\Keywords.h" />
     <ClInclude Include="src\Utils\CharUtils.h" />
     <ClInclude Include="src\Utils\StringUtils.h" />
     <ClInclude Include="src\Value\FunctionObject\FunctionObject.h" />

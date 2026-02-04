@@ -1,6 +1,7 @@
 #include "Interpreter.h"
 #include "Interpreter/InputParsing/Tokenizer/Tokenizer.h"
 #include "Interpreter/InputParsing/Factory/ObjectFactory.h"
+#include "Interpreter/Keywords/Keywords.h"
 #include "Expression/Expression.h"
 #include "Value/Value.h"
 
@@ -335,12 +336,6 @@ bool Interpreter::isValidVariableRemoval(const std::vector<Token>& tokens) const
     }
 
     return true;
-}
-
-bool Interpreter::isKeyword(std::string_view word) {
-    return word == KEYWORD_DEFINE_FUNCTION || word == KEYWORD_REDEFINE_FUNCTION || 
-        word == KEYWORD_UNDEFINE_FUNCTION ||  word == KEYWORD_CREATE_VARIABLE || 
-        word == KEYWORD_CREATE_CONST_VARIABLE || word == KEYWORD_REMOVE_VARIABLE;
 }
 
 void Interpreter::pushEnvironment(const Environment& environment) {
