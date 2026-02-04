@@ -8,6 +8,9 @@
 
 #include <iostream>
 
+Interpreter::Interpreter()
+    : environment(std::make_unique<Environment>()) {}
+
 void Interpreter::interpret(std::string_view line) {
     if (line.empty() || line.starts_with("//")) {
         return;
@@ -42,16 +45,16 @@ void Interpreter::interpret(std::string_view line) {
 }
 
 const Environment& Interpreter::getCurrentEnvironment() const {
-    return *currentEnvironment;
+    return *environment;
 }
 
 Environment& Interpreter::getCurrentEnvironment() {
-    return *currentEnvironment;
+    return *environment;
 }
 
 void Interpreter::setCurrentEnvironment(std::unique_ptr<Environment>&& environment) {
-    environment->setPreviousEnvironment(std::move(currentEnvironment));
-    currentEnvironment = std::move(environment);
+    environment->setPreviousEnvironment(std::move(environment));
+    environment = std::move(environment);
 }
 
 void Interpreter::defineFunction(std::vector<Token>&& tokens) {
@@ -64,14 +67,14 @@ void Interpreter::defineFunction(std::vector<Token>&& tokens) {
     size_t argCount = Utils::toSizeType(tokens[3].payload);
     if (isKeyword(funcName)) {
         throw std::invalid_argument("<" + funcName + "> is a language keyword");
-    } if (currentEnvironment->containsFunction(funcName, argCount)) {
+    } if (environment->containsFunction(funcName, argCount)) {
         throw std::invalid_argument("function <" + funcName + "(" + 
                                     std::to_string(argCount) + ")> is already defined");
-    } else if (currentEnvironment->containsVariable(funcName)) {
+    } else if (environment->containsVariable(funcName)) {
         throw std::invalid_argument("there is a variable <" + funcName + ">");
     }
 
-    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*environment);
 
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 6);
     auto func = factory.createFunction(funcName, argCount);
@@ -89,12 +92,12 @@ void Interpreter::redefineFunction(std::vector<Token>&& tokens) {
 
     std::string funcName = std::move(tokens[1].payload);
     size_t argCount = Utils::toSizeType(tokens[3].payload);
-    if (!currentEnvironment->containsFunction(funcName, argCount)) {
+    if (!environment->containsFunction(funcName, argCount)) {
         throw std::invalid_argument("function <" + funcName +
                                     "(" + std::to_string(argCount) + ")> is not defined");
     }
 
-    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*environment);
     if (!nextEnvironment->removeFunction(funcName, argCount)) {
         throw std::invalid_argument("function redefining failed");
     }
@@ -115,12 +118,12 @@ void Interpreter::undefineFunction(std::vector<Token>&& tokens) {
 
     std::string funcName = std::move(tokens[1].payload);
     size_t argCount = Utils::toSizeType(tokens[3].payload);
-    if (!currentEnvironment->containsFunction(funcName, argCount)) {
+    if (!environment->containsFunction(funcName, argCount)) {
         throw std::invalid_argument("function <" + funcName +
                                     "(" + std::to_string(argCount) + ")> was already not defined");
     }
 
-    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*environment);
     if (!nextEnvironment->removeFunction(funcName, argCount)) {
         throw std::invalid_argument("function undefining failed");
     }
@@ -139,16 +142,16 @@ void Interpreter::createVariable(std::vector<Token>&& tokens) {
     std::string varName = std::move(tokens[1].payload);
     if (isKeyword(varName)) {
         throw std::invalid_argument("<" + varName + "> is a language keyword");
-    } else if (currentEnvironment->containsFunction(varName)) {
+    } else if (environment->containsFunction(varName)) {
         throw std::invalid_argument("there exists a function <" + varName + ">");
     }
 
-    auto varData = currentEnvironment->getVariableData(varName);
+    auto varData = environment->getVariableData(varName);
     if (varData && varData->isConst) {
         throw std::invalid_argument("there exists a constant <" + varName + ">");
     }
 
-    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*environment);
 
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 3);
     auto expr = factory.createExpression();
@@ -164,7 +167,7 @@ void Interpreter::createVariable(std::vector<Token>&& tokens) {
     setNextEnvironment(std::move(nextEnvironment));
 
     std::cout << "creating variable <" << varName << "> with value " << 
-        currentEnvironment->getVariable(varName)->toString() << '\n';
+        environment->getVariable(varName)->toString() << '\n';
 }
 
 void Interpreter::createConstVariable(std::vector<Token>&& tokens) {
@@ -176,16 +179,16 @@ void Interpreter::createConstVariable(std::vector<Token>&& tokens) {
     std::string constName = std::move(tokens[1].payload);
     if (isKeyword(constName)) {
         throw std::invalid_argument("<" + constName + "> is a language keyword");
-    } else if (currentEnvironment->containsFunction(constName)) {
+    } else if (environment->containsFunction(constName)) {
         throw std::invalid_argument("there exists a function <" + constName + ">");
     }
 
-    auto varData = currentEnvironment->getVariableData(constName);
+    auto varData = environment->getVariableData(constName);
     if (varData && varData->isConst) {
         throw std::invalid_argument("there exists a constant <" + constName + ">");
     }
 
-    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*environment);
 
     ObjectFactory factory(std::move(tokens), *nextEnvironment, 3);
     auto expr = factory.createExpression();
@@ -201,7 +204,7 @@ void Interpreter::createConstVariable(std::vector<Token>&& tokens) {
     setNextEnvironment(std::move(nextEnvironment));
 
     std::cout << "creating constant <" << constName << "> with value " <<
-        currentEnvironment->getVariable(constName)->toString() << '\n';
+        environment->getVariable(constName)->toString() << '\n';
 }
 
 void Interpreter::removeVariable(std::vector<Token>&& tokens) {
@@ -211,14 +214,14 @@ void Interpreter::removeVariable(std::vector<Token>&& tokens) {
     }
 
     std::string varName = std::move(tokens[1].payload);
-    auto varData = currentEnvironment->getVariableData(varName);
+    auto varData = environment->getVariableData(varName);
     if (varData && varData->isConst) {
         throw std::invalid_argument("cannot remove a constant");
     } else if (!varData) {
         throw std::invalid_argument("variable <" + varName + "> does not exist");
     }
 
-    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*currentEnvironment);
+    std::unique_ptr<Environment> nextEnvironment = std::make_unique<Environment>(*environment);
     if (!nextEnvironment->removeVariable(varName)) {
         throw std::invalid_argument("variable removal failed");
     }
@@ -229,7 +232,7 @@ void Interpreter::removeVariable(std::vector<Token>&& tokens) {
 }
 
 void Interpreter::evaluateExpression(std::vector<Token>&& tokens) const {
-    ObjectFactory factory(std::move(tokens), *currentEnvironment);
+    ObjectFactory factory(std::move(tokens), *environment);
 
     auto expr = factory.createExpression();
     auto res = expr->evaluate();
@@ -345,6 +348,6 @@ bool Interpreter::isKeyword(std::string_view word) {
 }
 
 void Interpreter::setNextEnvironment(std::unique_ptr<Environment>&& next) {
-    next->setPreviousEnvironment(std::move(currentEnvironment));
-    currentEnvironment = std::move(next);
+    next->setPreviousEnvironment(std::move(environment));
+    environment = std::move(next);
 }

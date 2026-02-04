@@ -1,8 +1,3 @@
-(*) add command line args parsing
-(*) add file work mode
-
-(*) make string understand special characters
-
 (*) add Future Value
 (*) add Socket Value
 
@@ -18,6 +13,8 @@
 	)
 
 (*) add help command
+(*) add command line args parsing
+(*) add file work mode
 (*) add warnings
 (*) add check for undef of embedded function
 

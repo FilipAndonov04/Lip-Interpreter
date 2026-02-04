@@ -7,6 +7,11 @@ struct Token;
 
 class Interpreter {
 public:
+	Interpreter();
+	Interpreter(const Interpreter&) = delete;
+	Interpreter& operator=(const Interpreter&) = delete;
+	~Interpreter() = default;
+
 	void interpret(std::string_view line);
 
 	const Environment& getCurrentEnvironment() const;
@@ -44,5 +49,5 @@ private:
 	static constexpr const char KEYWORD_CREATE_CONST_VARIABLE[] = "const";
 	static constexpr const char KEYWORD_REMOVE_VARIABLE[] = "rm";
 
-	std::unique_ptr<Environment> currentEnvironment = std::make_unique<Environment>();
+	std::unique_ptr<Environment> environment;
 };

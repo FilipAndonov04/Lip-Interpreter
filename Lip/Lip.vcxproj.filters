@@ -418,6 +418,7 @@
     <Text Include="my-funcs.lip" />
     <Text Include="notes.txt" />
     <Text Include="skill_issue.lip" />
+    <Text Include="foo.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\Interpreter\EmbeddedFunctions\StringAndList\simple_script.lip" />

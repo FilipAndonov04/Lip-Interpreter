@@ -272,6 +272,7 @@
     <ClInclude Include="src\Value\ValueType.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="foo.txt" />
     <Text Include="my-funcs.lip" />
     <Text Include="notes.txt" />
     <Text Include="skill_issue.lip" />
