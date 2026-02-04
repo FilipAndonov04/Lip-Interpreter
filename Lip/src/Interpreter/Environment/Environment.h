@@ -8,13 +8,6 @@
 
 class Environment {
 public:
-	Environment() = default;
-	Environment(const Environment& other);
-	Environment(Environment&&) noexcept = default;
-	Environment& operator=(const Environment& other);
-	Environment& operator=(Environment&&) noexcept = default;
-	~Environment() = default;
-
 	bool containsFunction(const std::string& name) const;
 	bool containsFunction(const std::string& name, uint8_t argCount) const;
 	bool containsVariable(const std::string& name) const;
@@ -38,13 +31,7 @@ public:
 
 	bool replaceVariable(const std::string& name, std::unique_ptr<VariableData>&& variableData);
 
-	const Environment* getPreviousEnvironment() const;
-	Environment* getPreviousEnvironment();
-	void setPreviousEnvironment(std::unique_ptr<Environment>&& environment);
-
 private:
 	std::unordered_map<std::string, std::vector<std::shared_ptr<const FunctionData>>> functions;
 	std::unordered_map<std::string, std::shared_ptr<const VariableData>> variables;
-
-	std::unique_ptr<Environment> previous;
 };

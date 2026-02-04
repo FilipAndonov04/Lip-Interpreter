@@ -21,7 +21,8 @@ EnvironmentStack::EnvironmentStack(const EnvironmentStack& other) {
 
 EnvironmentStack& EnvironmentStack::operator=(const EnvironmentStack& other) {
     if (this != &other) {
-
+        EnvironmentStack copy(other);
+        *this = std::move(copy);
     }
     return *this;
 }
@@ -39,7 +40,7 @@ Environment& EnvironmentStack::getCurrentEnvironment() {
 }
 
 bool EnvironmentStack::isEmpty() const {
-    return top.get();
+    return !top;
 }
 
 void EnvironmentStack::pushEnvironment(const Environment& environment) {

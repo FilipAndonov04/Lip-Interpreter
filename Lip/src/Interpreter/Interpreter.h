@@ -1,5 +1,5 @@
 #pragma once
-#include "Interpreter/Environment/Environment.h"
+#include "Interpreter/Environment/EnvironmentStack.h"
 
 #include <string_view>
 
@@ -8,15 +8,11 @@ struct Token;
 class Interpreter {
 public:
 	Interpreter();
-	Interpreter(const Interpreter&) = delete;
-	Interpreter& operator=(const Interpreter&) = delete;
-	~Interpreter() = default;
 
 	void interpret(std::string_view line);
 
 	const Environment& getCurrentEnvironment() const;
 	Environment& getCurrentEnvironment();
-	void setCurrentEnvironment(std::unique_ptr<Environment>&& environment);
 
 private:
 	void defineFunction(std::vector<Token>&& tokens);
@@ -27,7 +23,7 @@ private:
 	void createConstVariable(std::vector<Token>&& tokens);
 	void removeVariable(std::vector<Token>&& tokens);
 
-	void evaluateExpression(std::vector<Token>&& tokens) const;
+	void evaluateExpression(std::vector<Token>&& tokens);
 
 	bool isValidFunctionDefinition(const std::vector<Token>& tokens) const;
 	bool isValidFunctionRedefinition(const std::vector<Token>& tokens) const;
@@ -39,7 +35,8 @@ private:
 
 	bool isKeyword(std::string_view word);
 
-	void setNextEnvironment(std::unique_ptr<Environment>&& next);
+	void pushEnvironment(const Environment& environment);
+	void pushEnvironment(Environment&& environment);
 
 	static constexpr const char KEYWORD_DEFINE_FUNCTION[] = "def";
 	static constexpr const char KEYWORD_REDEFINE_FUNCTION[] = "redef";
@@ -49,5 +46,5 @@ private:
 	static constexpr const char KEYWORD_CREATE_CONST_VARIABLE[] = "const";
 	static constexpr const char KEYWORD_REMOVE_VARIABLE[] = "rm";
 
-	std::unique_ptr<Environment> environment;
+	EnvironmentStack environmentStack;
 };

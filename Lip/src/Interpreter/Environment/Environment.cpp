@@ -5,18 +5,6 @@
 #include <stdexcept>
 #include <algorithm>
 
-Environment::Environment(const Environment& other) 
-	: functions(other.functions), variables(other.variables) {}
-
-Environment& Environment::operator=(const Environment& other) {
-	if (this != &other) {
-		functions = other.functions;
-		variables = other.variables;
-		previous.reset();
-	}
-	return *this;
-}
-
 bool Environment::containsFunction(const std::string& name) const {
 	return functions.find(name) != functions.end();
 }
@@ -209,16 +197,4 @@ bool Environment::replaceVariable(const std::string& name, std::unique_ptr<Varia
 
 	varData = std::move(variableData);
 	return true;
-}
-
-const Environment* Environment::getPreviousEnvironment() const {
-	return previous.get();
-}
-
-Environment* Environment::getPreviousEnvironment() {
-	return previous.get();
-}
-
-void Environment::setPreviousEnvironment(std::unique_ptr<Environment>&& environment) {
-	previous = std::move(environment);
 }
