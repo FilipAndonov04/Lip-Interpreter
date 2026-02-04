@@ -43,7 +43,7 @@
 #include "Interpreter/EmbeddedFunctions/StringAndList/FuncAppend.h"
 
 #include "Interpreter/EmbeddedFunctions/Function/FuncCompose.h"
-#include "Interpreter/EmbeddedFunctions/Function/FuncPipe.h"
+#include "Interpreter/EmbeddedFunctions/Function/FuncAndThen.h"
 #include "Interpreter/EmbeddedFunctions/Function/FuncCurry.h"
 
 #include <numbers>
@@ -126,7 +126,7 @@ void initFunctionModule(Interpreter& interpreter) {
 	Environment& env = interpreter.getCurrentEnvironment();
 
 	env.addFunction(FuncCompose::NAME, makeEmbeddedFunction<FuncCompose>(true, 0));
-	env.addFunction(FuncPipe::NAME, makeEmbeddedFunction<FuncPipe>(true, 0));
+	env.addFunction(FuncAndThen::NAME, makeEmbeddedFunction<FuncAndThen>(true, 0));
 	env.addFunction(FuncCurry::NAME, makeEmbeddedFunction<FuncCurry>(true, 0));
 }
 

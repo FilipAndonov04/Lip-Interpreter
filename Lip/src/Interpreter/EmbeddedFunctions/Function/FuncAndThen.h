@@ -7,8 +7,8 @@
 class Expression;
 class Value;
 
-struct FuncPipe {
-	static inline const std::string NAME{"pipe"};
+struct FuncAndThen {
+	static inline const std::string NAME{"and_then"};
 
 	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const;
 };
