@@ -198,6 +198,9 @@
     <ClCompile Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncWrite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Interpreter\Environment\EnvironmentStack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Function\Graph\Node\FunctionNode.h">
@@ -411,6 +414,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Interpreter\EmbeddedFunctions\InputOutput\FuncWrite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Interpreter\Environment\EnvironmentStack.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
