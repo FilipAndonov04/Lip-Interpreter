@@ -28,7 +28,7 @@ Used for arithmetic, comparisons, and boolean-like conditions<br>
 Strings can be written using single or double quotes: `'abc'`, `"hello world"`
 
 Both quote styles are equivalent<br>
-Strings may contain spaces and escaped characters ('\n', '\t', ...)
+Strings may contain spaces and escaped characters (`'\n'`, `'\t'`, ...)
 
 ### Lists
 
@@ -144,7 +144,7 @@ These functions are explained in another section below
 Functions are defined using the `def` keyword:<br>
 `def <func_name>(<arg_count>) = <func_body>`
 
-Function arguments are referenced as $1, $2, $3, ...
+Function arguments are referenced as `$1`, `$2`, `$3`, ...
 
 Examples:
 ```
