@@ -80,7 +80,7 @@ Evaluation follows a call-by-expression model:
 `mul` equivalent to `a * b`<br>
 `div` equivalent to `a / b`<br>
 `mod` equivalent to `a % b`<br>
-`sqrt` equivalent to `sqrt(a)`
+`sqrt` equivalent to `√a`
 
 ### Comparison
 
