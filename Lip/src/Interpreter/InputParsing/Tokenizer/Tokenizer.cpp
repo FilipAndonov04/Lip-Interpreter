@@ -30,7 +30,7 @@ std::vector<Token> Tokenizer::tokenize() const {
         } else if (Utils::isSign(symbol)) {
             tokens.push_back(parseSign(index));
         } else {
-            throw std::runtime_error(std::string("invalid symbol <") + symbol + "> in line");
+            throw std::invalid_argument(std::string("invalid symbol <") + symbol + "> in line");
         }
     }
 
@@ -75,7 +75,7 @@ Token Tokenizer::parseText(size_t& index, bool isSingleQuoted) const {
         ss << line[index++];
     }
 
-    return Token{TokenType::Text, ss.str()};
+    return Token{TokenType::Text, std::move(ss).str()};
 }
 
 Token Tokenizer::parseSign(size_t& index) const {

@@ -16,5 +16,5 @@ struct FuncInput {
 	std::unique_ptr<Value> operator()(const std::vector<const Expression*>& args) const;
 
 private:
-	mutable Interpreter* interpreter;
+	Interpreter* interpreter;
 };

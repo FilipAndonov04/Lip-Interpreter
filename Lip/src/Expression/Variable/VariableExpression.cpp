@@ -13,7 +13,7 @@ std::unique_ptr<Expression> VariableExpression::clone() const {
 }
 
 std::string VariableExpression::toString() const {
-    return "{var}";
+    return variable->toString();
 }
 
 const Value* VariableExpression::getVariable() const {
