@@ -34,7 +34,7 @@ int main(int argc, const char** argv) {
 
 	// load some prewritten functions
 	const bool hasCacheFile = true;
-	const char* cacheFuncFile = "scripts/my-funcs.lip";
+	const char* cacheFuncFile = SCRIPTS_PATH "my-funcs.lip";
 	if (hasCacheFile) {
 		std::ifstream ifs(cacheFuncFile);
 		if (!ifs.is_open()) {
