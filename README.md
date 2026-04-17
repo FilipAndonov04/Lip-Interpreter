@@ -1,8 +1,12 @@
 # Lip Interpreter
 
-Lip is a small functional programming language and interpreter implemented in C++, designed to explore core concepts of functional languages such as first-class functions, lazy evaluation, recursion, higher-order functions, and expression-based control flow.
+Lip is a small functional programming language and interpreter implemented in C++, 
+designed to explore core concepts of functional languages such as first-class functions, 
+lazy evaluation, recursion, higher-order functions, and expression-based control flow.
 
-The interpreter supports both interactive (REPL) execution and file-based execution, and the language is powerful enough to express non-trivial programs such as recursive algorithms, function composition, higher-order list processing, and user-defined control structures.
+The interpreter supports both interactive (REPL) execution and file-based execution, 
+and the language is powerful enough to express non-trivial programs such as recursive algorithms, 
+function composition, higher-order list processing, and user-defined control structures.
 
 ## Language Overview
 
@@ -28,7 +32,7 @@ Used for arithmetic, comparisons, and boolean-like conditions<br>
 Strings can be written using single or double quotes: `'abc'`, `"hello world"`
 
 Both quote styles are equivalent<br>
-Strings may contain spaces and escaped characters ('\n', '\t', ...)
+Strings may contain spaces and escaped characters (`'\n'`, `'\t'`, ...)
 
 ### Lists
 
@@ -120,7 +124,8 @@ Only the selected branch is evaluated
 `head` returns the first element<br>
 `tail` returns the list without the first element<br>
 `concat` joins two lists together<br>
-`list` generates (lazy) lists based on initial element and step, infinite if no element count is provided<br>
+`list` generates (lazy) lists based on initial element and step, 
+infinite if no element count is provided<br>
 `reverse` reverses the elements of the list
 
 ### Function Object
