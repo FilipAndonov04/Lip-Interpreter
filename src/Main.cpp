@@ -7,6 +7,8 @@
 #include <string>
 #include <fstream>
 
+void interpretStream(Interpreter& inter, std::istream& is);
+
 int main(int argc, const char** argv) {
 	if (argc > 2) {
 		std::cerr << "invalid usage, correct format:\n" << argv[0] << " [filename]\n";
@@ -22,12 +24,8 @@ int main(int argc, const char** argv) {
 			return EXIT_FAILURE;
 		}
 
-		std::string line;
-		while (std::getline(ifs, line)) {
-			inter.interpret(line);
-		}
-
-		return 0;
+		interpretStream(inter, ifs);
+		return EXIT_SUCCESS;
 	}
 
 	std::cout << Utils::DEFAULT;
@@ -41,10 +39,7 @@ int main(int argc, const char** argv) {
 			std::cerr << "cached file does not open\n";
 		}
 
-		std::string line;
-		while (std::getline(ifs, line)) {
-			inter.interpret(line);
-		}
+		interpretStream(inter, ifs);
 	}
 
 	while (true) {
@@ -57,6 +52,13 @@ int main(int argc, const char** argv) {
 			break;
 		}
 
+		inter.interpret(line);
+	}
+}
+
+void interpretStream(Interpreter& inter, std::istream& is) {
+	std::string line;
+	while (std::getline(is, line)) {
 		inter.interpret(line);
 	}
 }
