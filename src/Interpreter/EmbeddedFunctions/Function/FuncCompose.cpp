@@ -11,7 +11,7 @@ std::unique_ptr<Value> FuncCompose::operator()(const std::vector<const Expressio
     if (!f1) {
         throw std::invalid_argument(NAME + " takes a function as a first argument");
     }
-    
+
     for (size_t i = 1; i < args.size(); i++) {
         auto arg2 = args[i]->evaluate();
         auto f2 = getFunctionObject(*arg2);

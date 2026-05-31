@@ -11,7 +11,7 @@
 #include <stdexcept>
 
 std::unique_ptr<Value> FuncGenerate::operator()(const std::vector<const Expression*>& args) const {
-   if (args.size() == 2) {
+    if (args.size() == 2) {
         auto arg2 = args[1]->evaluate();
         auto f2 = getFunctionObject(*arg2);
         if (!f2) {
