@@ -12,6 +12,7 @@ void interpretStream(Interpreter& inter, std::istream& is);
 int main(int argc, const char** argv) {
 	if (argc > 2) {
 		std::cerr << "invalid usage, correct format:\n" << argv[0] << " [filename]\n";
+		return EXIT_FAILURE;
 	}
 
 	Interpreter inter;
