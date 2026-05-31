@@ -79,66 +79,65 @@ Evaluation follows a call-by-expression model:
 
 ### Arithmetic
 
-`add` equivalent to `a + b`<br>
-`sub` equivalent to `a - b`<br>
-`mul` equivalent to `a * b`<br>
-`div` equivalent to `a / b`<br>
-`mod` equivalent to `a % b`<br>
-`sqrt` equivalent to `sqrt(a)`
+`add(a, b)` equivalent to `a + b`<br>
+`sub(a, b)` equivalent to `a - b`<br>
+`mul(a, b)` equivalent to `a * b`<br>
+`div(a, b)` equivalent to `a / b`<br>
+`mod(a, b)` equivalent to `a % b`<br>
+`sqrt(a)` equivalent to `sqrt(a)`
 
 ### Comparison
 
-`eq` equivalent to `a == b`<br>
-`ne` equivalent to `a != b`<br>
-`lt` equivalent to `a < b`<br>
-`le` equivalent to `a <= b`<br>
-`gt` equivalent to `a > b`<br>
-`ge` equivalent to `a >= b`
+`eq(a, b)` equivalent to `a == b`<br>
+`ne(a, b)` equivalent to `a != b`<br>
+`lt(a, b)` equivalent to `a < b`<br>
+`le(a, b)` equivalent to `a <= b`<br>
+`gt(a, b)` equivalent to `a > b`<br>
+`ge(a, b)` equivalent to `a >= b`
 
 ### Logic
 
-`not` equivalent to `!(a)`<br>
-`and` equivalent to `a && b`<br>
-`or` equivalent to `a || b`
+`not(a)` equivalent to `!a`<br>
+`and(a, b)` equivalent to `a && b`<br>
+`or(a, b)` equivalent to `a || b`
 
 ### Control Flow
 
 `if(condition, thenExpr, elseExpr)`
-
 Only the selected branch is evaluated
 
 ### Conversion
 
-`int` casts a real number to an integer<br>
-`bool` casts an expression to its boolean interpretation
+`int(a)` casts a real number to an integer<br>
+`bool(a)` casts an expression to its boolean interpretation
 
 ### String
 
-`length` returns the element count<br>
-`concat` joins two lists together<br>
-`reverse` reverses the characters of the string
+`length(s)` returns the element count<br>
+`concat(s1, s2)` joins two strings together<br>
+`reverse(s)` reverses the characters of the string
 
 ### List
 
-`length` returns the element count<br>
-`head` returns the first element<br>
-`tail` returns the list without the first element<br>
-`concat` joins two lists together<br>
-`list` generates (lazy) lists based on initial element and step, 
+`length(l)` returns the element count<br>
+`head(l)` returns the first element<br>
+`tail(l)` returns the list without the first element<br>
+`concat(l1, l2)` joins two lists together<br>
+`list(elem, step, count)` generates (lazy) lists based on initial element and step, 
 infinite if no element count is provided<br>
-`reverse` reverses the elements of the list
+`reverse(l)` reverses the elements of the list
 
 ### Function Object
 
-`compose`<br>
-`and_then`
+`compose(f1, ...)`<br>
+`and_then(f1, ...)`
 
 These functions are explained in another section below
 
 ### I/O
 
 `input()` reads an expression from `stdin`<br>
-`print(<exprs>)` prints the expressions to `stdout` and returns `1`<br>
+`print(<expr>, ...)` prints the expressions to `stdout` and returns `1`<br>
 `read(<filename>)` reads the lines of a file<br>
 `write(<filename>, <expr>, <should_overwrite>)` writes an expression to a file, overrides or appends
 
